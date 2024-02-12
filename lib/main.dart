@@ -1,3 +1,5 @@
+import 'package:closet_app/ui/constants/style_constants.dart';
+import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -22,10 +24,11 @@ class MyApp extends StatelessWidget {
             ),
           ),
           colorScheme: ColorScheme.fromSeed(
+            primary: kAccentColor,
             seedColor: Colors.black,
           ),
           useMaterial3: true,
         ),
-        home: NavigationScreen());
+        home: SignInScreen());
   }
 }

@@ -52,12 +52,12 @@ BoxShadow kHighlightShadow = BoxShadow(
     color: const Color(0xff4898B1).withOpacity(0.75));
 
 const double kSpacingHeight = 8.0;
-const double kBorderRadius = 25.0;
+const double kBorderRadius = 10.0;
 const double kBottomNavbarHeight = 58;
 const Color kSecondaryColor = Color(0xff4898B1);
 const Color kDisabledSecondaryColor = Color(0xffB8DCE7);
 Color kSeperatorColor =
     const Color.fromARGB(255, 142, 142, 142).withOpacity(0.2);
-const Color kAccentColor = Color(0xffFFDB9C);
+const Color kAccentColor = Color.fromARGB(255, 135, 101, 43);
 const Color kPrimaryColor = Color.fromARGB(255, 255, 255, 255);
 const Color kDarkPrimaryColor = Color.fromARGB(255, 7, 7, 7);
