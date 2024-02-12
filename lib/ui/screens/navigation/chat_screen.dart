@@ -59,82 +59,62 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             controller: tabController,
             children: [
               Scaffold(
-                body: NotificationListener<ScrollEndNotification>(
-                  // onNotification: (scrollEndNoti) {
-                  //   if (scrollEndNoti.metrics.atEdge) {
-                  //     setState(() {});
-                  //     bool isTop = scrollEndNoti.metrics.pixels == 0;
-                  //     if (isTop) {
-                  //       setState(() {
-                  //         showTabSwitcher = true;
-                  //       });
-                  //     } else if (scrollEndNoti.metrics.pixels != 0) {
-                  //       setState(() {
-                  //         showTabSwitcher = false;
-                  //       });
-                  //     }
-                  //   }
-                  //   return true;
-                  // },
-                  child: ListView.builder(
-                    controller: _chatController,
-                    itemCount: 11,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            leading: GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Hero(
-                                        tag: index,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(64),
-                                          child: CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                                "https://picsum.photos/300"),
-                                            maxRadius: (MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2) -
-                                                200,
-                                          ),
+                body: ListView.builder(
+                  controller: _chatController,
+                  itemCount: 11,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(
+                          leading: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Hero(
+                                      tag: index,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(64),
+                                        child: CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              "https://picsum.photos/300"),
+                                          maxRadius: (MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2) -
+                                              200,
                                         ),
-                                      );
-                                    });
-                              },
-                              child: Hero(
-                                tag: index,
-                                child: CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage("https://picsum.photos/300"),
-                                  radius:
-                                      MediaQuery.of(context).size.width / 16,
-                                ),
+                                      ),
+                                    );
+                                  });
+                            },
+                            child: Hero(
+                              tag: index,
+                              child: CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage("https://picsum.photos/300"),
+                                radius: MediaQuery.of(context).size.width / 16,
                               ),
                             ),
-                            title: Text('Vaibhav Kukreti'),
-                            subtitle: Text('Hey!'),
-                            trailing: Text('12:00pm'),
                           ),
-                          Container(
-                            height: 1,
-                            margin: EdgeInsets.symmetric(horizontal: 80),
-                            width: MediaQuery.of(context).size.width / 4,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .dividerColor
-                                  .withOpacity(0.1),
-                            ),
+                          title: Text('Vaibhav Kukreti'),
+                          subtitle: Text('Hey!'),
+                          trailing: Text('12:00pm'),
+                        ),
+                        Container(
+                          height: 1,
+                          margin: EdgeInsets.symmetric(horizontal: 80),
+                          width: MediaQuery.of(context).size.width / 4,
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).dividerColor.withOpacity(0.1),
                           ),
-                          SizedBox(height: index == 10 ? 120 : 2),
-                        ],
-                      );
-                    },
-                  ),
+                        ),
+                        SizedBox(height: index == 10 ? 120 : 2),
+                      ],
+                    );
+                  },
                 ),
               ),
               Scaffold(
