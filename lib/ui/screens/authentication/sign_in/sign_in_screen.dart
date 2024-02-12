@@ -1,4 +1,5 @@
 import 'package:closet_app/ui/constants/style_constants.dart';
+import 'package:closet_app/ui/screens/authentication/sign_up/sign_up.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
@@ -13,6 +14,8 @@ class _SignInScreenState extends State<SignInScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,12 @@ class _SignInScreenState extends State<SignInScreen> {
             children: [
               Spacer(),
               Text(
-                'Welcome back!',
+                'Welcome back to',
+                style: TextStyle(
+                    fontSize: 24, color: Colors.black.withOpacity(0.5)),
+              ),
+              Text(
+                'My closet',
                 style: TextStyle(fontSize: 24),
               ),
               Spacer(flex: 4),
@@ -36,6 +44,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(kBorderRadius),
                       child: TextFormField(
+                        focusNode: _emailFocusNode,
                         key: ValueKey('email'),
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) => EmailValidator.validate(value!)
@@ -61,6 +70,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(kBorderRadius),
                       child: TextFormField(
+                        focusNode: _passwordFocusNode,
                         key: ValueKey('password'),
                         obscureText: true,
                         validator: (value) =>
@@ -124,7 +134,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         }
                       },
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 10),
                     ZoomTapAnimation(
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 16),
@@ -152,9 +162,11 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                       onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                        }
+                        // if (_formKey.currentState!.validate()) {
+                        //   _formKey.currentState!.save();
+                        // }
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => SignUpScreen()));
                       },
                     ),
                     SizedBox(height: 4),
