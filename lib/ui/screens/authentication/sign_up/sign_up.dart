@@ -1,4 +1,5 @@
 import 'package:closet_app/ui/constants/style_constants.dart';
+import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
@@ -137,6 +138,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 30),
                       ZoomTapAnimation(
+                        onTap: () {
+                          // if (_formKey.currentState!.validate()) {
+                          //   _formKey.currentState!.save();
+                          // }
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => NavigationScreen(),
+                            ),
+                            (route) => false,
+                          );
+                        },
                         child: Container(
                           padding: EdgeInsets.symmetric(vertical: 16),
                           decoration: BoxDecoration(
@@ -149,14 +162,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
-                                  Icons.lock_outline,
+                                  Icons.person_outline,
                                   size: 16,
                                   color:
                                       Theme.of(context).scaffoldBackgroundColor,
                                 ),
                                 SizedBox(width: 4),
                                 Text(
-                                  "Sign in",
+                                  "Create your account",
                                   style: TextStyle(
                                     color: Theme.of(context)
                                         .scaffoldBackgroundColor,
@@ -166,11 +179,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                         ),
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                          }
-                        },
                       ),
                       SizedBox(height: 4),
                     ],

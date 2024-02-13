@@ -30,7 +30,9 @@ class _SignInScreenState extends State<SignInScreen> {
               Text(
                 'Welcome back to',
                 style: TextStyle(
-                    fontSize: 24, color: Colors.black.withOpacity(0.5)),
+                  fontSize: 20,
+                  color: Colors.black.withOpacity(0.7),
+                ),
               ),
               Text(
                 'My closet',
@@ -97,7 +99,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         child: Text('Forgot Password?'),
                       ),
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 16),
                     ZoomTapAnimation(
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 16),
