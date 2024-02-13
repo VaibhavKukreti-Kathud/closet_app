@@ -27,16 +27,19 @@ class _SignInScreenState extends State<SignInScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Spacer(),
-              Text(
-                'Welcome back to',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black.withOpacity(0.7),
-                ),
-              ),
-              Text(
-                'My closet',
-                style: TextStyle(fontSize: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: double.maxFinite,
+                      height: 32,
+                      child: FlutterLogo(
+                        style: FlutterLogoStyle.horizontal,
+                      ),
+                    ),
+                  ),
+                  Spacer(flex: 2),
+                ],
               ),
               Spacer(flex: 4),
               Form(
