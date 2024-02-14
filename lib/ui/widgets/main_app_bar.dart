@@ -28,7 +28,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   State<CustomAppBar> createState() => _CustomAppBarState();
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size(double.maxFinite, 86);
+  Size get preferredSize => Size(double.maxFinite, 64);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
@@ -53,11 +53,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ),
         ),
         title: Padding(
-          padding: const EdgeInsets.only(left: 8, top: 20, bottom: 8),
+          padding: const EdgeInsets.only(left: 8, top: 12, bottom: 0),
           child: Text(
             widget.title,
             style: TextStyle(
-              fontSize: 32,
+              fontSize: 28,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -87,7 +87,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     child: IconButton(
                       icon: Icon(
                         widget.actionIcon,
-                        size: 27,
+                        size: 24,
                       ),
                       onPressed: widget.onActionPressed,
                     )),

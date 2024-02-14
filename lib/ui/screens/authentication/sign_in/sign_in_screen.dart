@@ -1,5 +1,6 @@
 import 'package:closet_app/ui/constants/style_constants.dart';
-import 'package:closet_app/ui/screens/authentication/sign_up/sign_up.dart';
+import 'package:closet_app/ui/screens/authentication/sign_up/sign_up_screen.dart';
+import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
@@ -104,6 +105,15 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     SizedBox(height: 16),
                     ZoomTapAnimation(
+                      onTap: () {
+                        // if (_formKey.currentState!.validate()) {
+                        //   _formKey.currentState!.save();
+                        // }
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => NavigationScreen()));
+                      },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 16),
                         decoration: BoxDecoration(
@@ -133,11 +143,6 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                         ),
                       ),
-                      onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                        }
-                      },
                     ),
                     SizedBox(height: 10),
                     ZoomTapAnimation(

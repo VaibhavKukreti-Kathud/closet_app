@@ -42,6 +42,7 @@ const TextStyle kDarkSubTitleStyle = TextStyle(
 BoxShadow kSubtleShadow = BoxShadow(
   blurRadius: 32,
   offset: const Offset(0, 8),
+  spreadRadius: -5,
   color: Colors.black.withOpacity(0.07),
 );
 List getSubtleShadow(BuildContext context) => [kSubtleShadow];
