@@ -177,13 +177,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // if (_formKey.currentState!.validate()) {
                       //   _formKey.currentState!.save();
                       // }
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => NavigationScreen(),
-                        ),
-                        (route) => false,
-                      );
+                      // if (_pageController.page == 0) {
+                      //   _pageController.animateToPage(
+                      //     1,
+                      //     duration: Duration(milliseconds: 100),
+                      //     curve: Curves.easeOutCirc,
+                      //   );
+                      // }
+                      switch (_pageController.page) {
+                        case 0:
+                          _pageController.animateToPage(
+                            1,
+                            duration: Duration(milliseconds: 200),
+                            curve: Curves.easeOutCirc,
+                          );
+                          break;
+                        case 1:
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => NavigationScreen(),
+                            ),
+                            (route) => false,
+                          );
+                          break;
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 16),
