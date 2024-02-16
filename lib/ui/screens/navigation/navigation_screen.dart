@@ -4,7 +4,7 @@ import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/navigation/chat_screen.dart';
 import 'package:closet_app/ui/screens/navigation/discover_screen.dart';
 import 'package:closet_app/ui/screens/navigation/favorite_screen.dart';
-import 'package:closet_app/ui/screens/navigation/mycloset_screen.dart';
+import 'package:closet_app/ui/screens/navigation/my_closet/mycloset_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';

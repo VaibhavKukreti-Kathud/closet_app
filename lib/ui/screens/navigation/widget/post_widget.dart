@@ -30,7 +30,7 @@ class PostWidget extends StatelessWidget {
         border: Border.all(color: Colors.grey[100]!),
         borderRadius: BorderRadius.circular(kBorderRadius),
       ),
-      margin: EdgeInsets.all(10.0),
+      margin: EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
