@@ -1,5 +1,6 @@
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
+import 'package:closet_app/ui/screens/navigation/chat/chat_one_screen.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/mycloset_screen.dart';
 import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
 import 'package:closet_app/ui/screens/navigation/startup_screen.dart';
@@ -31,6 +32,6 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: MyClosetScreen());
+        home: NavigationScreen());
   }
 }

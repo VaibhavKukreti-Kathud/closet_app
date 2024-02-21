@@ -5,6 +5,8 @@ import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+import 'chat_one_screen.dart';
+
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -67,6 +69,14 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ChatOneScreen(),
+                              ),
+                            );
+                          },
                           leading: GestureDetector(
                             onTap: () {
                               showDialog(
@@ -126,6 +136,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTile(
+                          onTap: () {},
                           leading: CircleAvatar(
                             backgroundImage:
                                 NetworkImage("https://picsum.photos/300"),

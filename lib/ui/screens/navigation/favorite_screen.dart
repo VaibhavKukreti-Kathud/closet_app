@@ -1,4 +1,5 @@
 import 'package:closet_app/models/cloth_item_model.dart';
+import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -12,7 +13,40 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  List<WardrobeItem> wardrobeItems = [];
+  List<WardrobeItem> wardrobeItems = [
+    WardrobeItem(
+      name: "T-Shirt",
+      imageUrl: "https://picsum.photos/200",
+      id: '1',
+      color: [],
+      price: 300,
+      uploadedBy: 'user',
+    ),
+    WardrobeItem(
+      name: "Shirt",
+      imageUrl: "https://picsum.photos/200",
+      id: '2',
+      color: [],
+      price: 300,
+      uploadedBy: 'user',
+    ),
+    WardrobeItem(
+      name: "Jeans",
+      imageUrl: "https://picsum.photos/200",
+      id: '3',
+      color: [],
+      price: 300,
+      uploadedBy: 'user',
+    ),
+    WardrobeItem(
+      name: "Shoes",
+      imageUrl: "https://picsum.photos/200",
+      id: '4',
+      color: [],
+      price: 300,
+      uploadedBy: 'user',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +85,55 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             },
           );
         },
+      ),
+      body: GridView.count(
+        crossAxisCount: 2,
+        children: wardrobeItems.map((item) {
+          return Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [kSubtleShadow],
+              borderRadius: BorderRadius.circular(kBorderRadius),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: double.maxFinite,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(kBorderRadius - 3),
+                        child: Image.network(
+                          item.imageUrl,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
+                  child: Text(
+                    item.name,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 2, 8, 12),
+                  child: Text(
+                    "₹${item.price}",
+                  ),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
       ),
     );
   }

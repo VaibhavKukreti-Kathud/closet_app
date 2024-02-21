@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:animations/animations.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
-import 'package:closet_app/ui/screens/navigation/chat_screen.dart';
+import 'package:closet_app/ui/screens/navigation/chat/chat_screen.dart';
 import 'package:closet_app/ui/screens/navigation/discover_screen.dart';
 import 'package:closet_app/ui/screens/navigation/favorite_screen.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/mycloset_screen.dart';
