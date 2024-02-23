@@ -1,20 +1,23 @@
 import 'dart:ui';
 
 import 'package:closet_app/ui/constants/style_constants.dart';
+import 'package:closet_app/ui/screens/navigation/chat/contact_search_screen.dart';
+import 'package:closet_app/ui/screens/navigation/chat/group_chat.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 import 'chat_one_screen.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+class ChatsScreen extends StatefulWidget {
+  const ChatsScreen({super.key});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<ChatsScreen> createState() => _ChatsScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
+class _ChatsScreenState extends State<ChatsScreen>
+    with TickerProviderStateMixin {
   ScrollController _chatController = ScrollController();
   ScrollController _groupController = ScrollController();
 
@@ -52,7 +55,10 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         centerTitle: false,
         title: 'Chats',
         actionIcon: Iconsax.search_normal,
-        onActionPressed: () {},
+        onActionPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => ContactSearchScreen()));
+        },
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -136,7 +142,16 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return GroupChatScreen();
+                                },
+                              ),
+                            );
+                          },
                           leading: CircleAvatar(
                             backgroundImage:
                                 NetworkImage("https://picsum.photos/300"),
@@ -166,7 +181,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 400),
             curve: Curves.easeOutCubic,
-            bottom: showTabSwitcher ? 16 : -65,
+            bottom: showTabSwitcher ? 16 : -75,
             right: 100,
             left: 100,
             child: AnimatedContainer(

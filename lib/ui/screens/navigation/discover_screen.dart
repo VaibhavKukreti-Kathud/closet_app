@@ -72,13 +72,16 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           //   ),
           // )
           for (int i = 0; i < 10; i++)
-            PostWidget(
-                username: "username",
-                profilePictureUrl: "https://picsum.photos/80",
-                imageUrl: "https://picsum.photos/400",
-                caption: "Caught in 8k",
-                likes: 12,
-                comments: 11),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: PostWidget(
+                  username: "username",
+                  profilePictureUrl: "https://picsum.photos/80",
+                  imageUrl: "https://picsum.photos/400",
+                  caption: "Caught in 8k",
+                  likes: 12,
+                  comments: 11),
+            ),
         ],
       ),
     );

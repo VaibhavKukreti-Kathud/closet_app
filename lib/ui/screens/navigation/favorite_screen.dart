@@ -60,24 +60,41 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         actionIcon: Iconsax.sort,
         onActionPressed: () {
           showModalBottomSheet(
+            constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height / 2.5),
             context: context,
             builder: (context) {
               return Container(
-                height: 200,
                 color: Theme.of(context).scaffoldBackgroundColor,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        "Sort",
+                        style: getTitleTextStyle(context),
+                      ),
+                    ),
+                    SizedBox(height: 2),
                     RadioListTile(
                       value: 1,
                       groupValue: 1,
                       onChanged: (value) {},
-                      title: Text('Sort by Date'),
+                      title: Text('By Date'),
                     ),
                     RadioListTile(
                       value: 2,
                       groupValue: 1,
                       onChanged: (value) {},
-                      title: Text('Sort by Name'),
+                      title: Text('By Name'),
+                    ),
+                    RadioListTile(
+                      value: 3,
+                      groupValue: 1,
+                      onChanged: (value) {},
+                      title: Text('By Price'),
                     ),
                   ],
                 ),
