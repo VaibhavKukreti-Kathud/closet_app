@@ -36,7 +36,15 @@ class _SignUpOptionsScreenState extends State<SignUpOptionsScreen> {
                     UserLoginSignupMethodTile(organisationIcon: Icons.facebook, organisationName: 'Facebook', methodName: 'Sign Up',organisationIconColor: Colors.blue.shade800,isGoogle: false,),
                     Spacer(),
                     UserLoginSignupMethodTile(organisationIcon: Icons.report_gmailerrorred, organisationName: 'Google', methodName: 'Sign Up',organisationIconColor: Colors.red,isGoogle: true,),
-                    Divider(color: Colors.grey.shade400,thickness: 1.0),
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(child: Divider(color: Colors.grey.shade400,thickness: 1.0)),
+                        Text(' OR ',style: TextStyle(color: Colors.grey.shade800,fontWeight: FontWeight.w600),),
+                        Expanded(child: Divider(color: Colors.grey.shade400,thickness: 1.0)),
+                      ],
+                    ),
                     Spacer(),
                     UserLoginSignupMethodTile(organisationIcon: Icons.email_outlined, organisationName: 'your Email', methodName: 'Sign Up',organisationIconColor: Colors.black,isGoogle: false,),
                     Spacer(flex: 7)
