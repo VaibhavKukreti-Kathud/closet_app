@@ -16,22 +16,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-          scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            surfaceTintColor: Colors.transparent,
-            iconTheme: IconThemeData(
-              color: Colors.black,
-            ),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          surfaceTintColor: Colors.transparent,
+          iconTheme: IconThemeData(
+            color: Colors.black,
           ),
-          colorScheme: ColorScheme.fromSeed(
-            primary: kAccentColor,
-            seedColor: Colors.black,
-          ),
-          useMaterial3: true,
         ),
-        home: NavigationScreen());
+        colorScheme: ColorScheme.fromSeed(
+          primary: kAccentColor,
+          seedColor: Colors.black,
+        ),
+        useMaterial3: true,
+      ),
+      home: SignInScreen(),
+    );
   }
 }

@@ -106,13 +106,14 @@ class _SignInScreenState extends State<SignInScreen> {
                     SizedBox(height: 16),
                     ZoomTapAnimation(
                       onTap: () {
-                        // if (_formKey.currentState!.validate()) {
-                        //   _formKey.currentState!.save();
-                        // }
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => NavigationScreen()));
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                        }
+
+                        // Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (_) => NavigationScreen()));
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 16),
