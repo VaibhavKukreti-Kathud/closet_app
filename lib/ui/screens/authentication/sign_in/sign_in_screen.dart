@@ -7,6 +7,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
+
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
