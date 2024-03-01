@@ -1,11 +1,8 @@
-import 'package:closet_app/ui/constants/style_constants.dart';
-import 'package:closet_app/ui/screens/navigation/widget/post_widget.dart';
-import 'package:closet_app/ui/screens/search/search_screen.dart';
-import 'package:closet_app/ui/widgets/main_app_bar.dart';
+import 'stories_screen.dart';
 import 'package:flutter/cupertino.dart';
+import 'widget/post_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:provider/provider.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class DiscoverScreen extends StatefulWidget {
@@ -17,14 +14,37 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
+  ScrollController _OOTDController = ScrollController();
+
+  bool shouldShowOOTD = true;
+
+  @override
+  void initState() {
+    _OOTDController.addListener(() {
+      if (_OOTDController.position.activity!.isScrolling){
+        setState(() {
+          shouldShowOOTD = false;
+        });
+      }
+      if (_OOTDController.position.atEdge){
+        bool atTop = _OOTDController.position.pixels == 0;
+        if (atTop){
+          setState(() {
+            shouldShowOOTD = true;
+          });
+        } else {}
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: AppBar(
         elevation: 40,
-        toolbarHeight: 64,
+        // toolbarHeight: 64,
         leading: IconButton(
-          padding: EdgeInsets.only(left: 16, top: 15),
           icon: Icon(
             Iconsax.menu_14,
             size: 23,
@@ -35,112 +55,108 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           },
         ),
         centerTitle: false,
-        title: 'Discover',
-        actionIcon: Iconsax.search_normal,
-        onActionPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return SearchScreen();
-              },
-            ),
-          );
-        },
+        title: Text('Discover'),
       ),
-      body: ListView(
+      body: Column(
         children: [
-          SizedBox(height: 16),
-          _buildFollowingStoriesList(context),
-          // Container(
-          //   decoration: BoxDecoration(
-          //     color: Theme.of(context).scaffoldBackgroundColor,
-          //     boxShadow: [kSubtleShadow],
-          //     borderRadius: BorderRadius.only(
-          //       topLeft: Radius.circular(40),
-          //       topRight: Radius.circular(40),
-          //     ),
-          //   ),
-          //   child: Column(
-          //     children: [
-          //       Row(
-          //         children: [
-          //           Text("username1"),
-          //         ],
-          //       ),
-          //     ],
-          //   ),
-          // )
-          for (int i = 0; i < 10; i++)
-            PostWidget(
-                username: "username",
-                profilePictureUrl: "https://picsum.photos/80",
-                imageUrl: "https://picsum.photos/400",
-                caption: "Caught in 8k",
-                likes: 12,
-                comments: 11),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFollowingStoriesList(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: 100,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          SizedBox(width: 16),
-          for (int i = 0; i < 9; i++)
-            Padding(
-              padding: const EdgeInsets.only(right: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ZoomTapAnimation(
-                    onTap: () {},
-                    child: Container(
-                      margin: EdgeInsets.only(right: 4, left: 4),
-                      height: 65,
-                      width: 65,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color.fromARGB(255, 187, 152, 91),
-                            Theme.of(context).colorScheme.primary,
-                          ],
-                        ),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                        padding: EdgeInsets.all(2),
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            "https://picsum.photos/200",
+          if (shouldShowOOTD)
+            Column(
+              children: [
+                Text('Outfit of the day',style: TextStyle(fontSize: 28.0,fontFamily: 'Philosopher'),),
+                SizedBox(height: 4.0,),
+                ZoomTapAnimation(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => StoriesScreen()));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+                    width: double.infinity,
+                    height: 200.0,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(30.0)
+                    ),
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(30.0),bottomLeft: Radius.circular(30.0)),
+                          child: Image(
+                            image: NetworkImage('https://picsum.photos/400'),
+                            fit: BoxFit.fitWidth,
                           ),
                         ),
-                      ),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: NetworkImage('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'),
+                                    radius: MediaQuery.of(context).size.width/25,
+                                  ),
+                                  SizedBox(width: 12.0,),
+                                  SizedBox(
+                                      width: 100,
+                                      child: Text('username',style: TextStyle(fontSize: 16.0),maxLines : 2,overflow: TextOverflow.ellipsis,)
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(Iconsax.heart),
+                                  SizedBox(width: 8.0,),
+                                  Text('12'),
+                                  SizedBox(width: 16.0,),
+                                  Icon(Iconsax.message),
+                                  SizedBox(width: 8.0,),
+                                  Text('11'),
+                                ],
+                              ),
+                              Text('Explore more!',style: TextStyle(fontSize: 17.0))
+                            ],
+                          ),
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ZoomTapAnimation(
+                              onTap: (){
+                                // print('Going to stories page');
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => StoriesScreen()));
+                              },
+                              child: Icon(Icons.arrow_forward_ios)
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    width: 60,
-                    child: Text(
-                      "username",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
+                )
+              ],
             ),
+          SizedBox(height: 12.0,),
+          Divider(color: Colors.black,),
+          SizedBox(height: 12.0,),
+          Expanded(
+            child: ListView(
+              controller: _OOTDController,
+              children: [
+                for (int i = 0; i < 10; i++)
+                  PostWidget(
+                      username: "username",
+                      profilePictureUrl: "https://picsum.photos/80",
+                      imageUrl: "https://picsum.photos/400",
+                      caption: "Caught in 8k",
+                      likes: 12,
+                      comments: 11),
+              ],
+            ),
+          ),
         ],
       ),
     );
