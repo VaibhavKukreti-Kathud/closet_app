@@ -1,3 +1,4 @@
+import 'package:closet_app/ui/screens/search/search_screen.dart';
 import 'stories_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'widget/post_widget.dart';
@@ -42,20 +43,22 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 40,
-        // toolbarHeight: 64,
-        leading: IconButton(
-          icon: Icon(
-            Iconsax.menu_14,
-            size: 23,
-          ),
-          splashColor: Colors.transparent,
-          onPressed: () {
-            widget.scaffoldKey!.currentState!.openDrawer();
-          },
-        ),
         centerTitle: false,
         title: Text('Discover'),
+        actions: [
+          GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: 8.0),
+                child: Icon(Iconsax.search_normal),
+              )
+          )
+        ],
+      ),
+      drawer: Drawer(
+        backgroundColor: Colors.blue,
       ),
       body: Column(
         children: [
