@@ -47,7 +47,59 @@ class PostWidget extends StatelessWidget {
                 SizedBox(width: 16),
                 Text(username),
                 Spacer(),
-                Icon(Iconsax.more),
+                GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            height: 500,
+                            color: Colors.white,
+                            child: ListView(
+                              children: [
+                                ListTile(
+                                  leading: Icon(Iconsax.bookmark),
+                                  title: Text('Save'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Iconsax.flag),
+                                  title: Text('Report'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Iconsax.link),
+                                  title: Text('Copy Link'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Iconsax.send),
+                                  title: Text('Share to...'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Iconsax.close_square),
+                                  title: Text('Unfollow'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Iconsax.volume_cross),
+                                  title: Text('Mute'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Iconsax.reserve),
+                                  title: Text('Restrict'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Iconsax.text_block),
+                                  title: Text('Block'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Iconsax.close_circle),
+                                  title: Text('Delete'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Icon(Iconsax.more)),
               ],
             ),
           ),
@@ -90,6 +142,13 @@ class PostWidget extends StatelessWidget {
                   ),
                   Text(comments.toString()),
                 ],
+              ),
+              Spacer(),
+              IconButton(
+                icon: Icon(
+                  Icons.bookmark_outline,
+                ),
+                onPressed: () {},
               ),
             ],
           ),
