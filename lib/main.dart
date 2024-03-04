@@ -38,11 +38,18 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => UserProvider()),
-        ],
-        child: SignInScreen(),
-      ),
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) => UserProvider(),
+            )
+          ],
+          child: Consumer(
+            builder: (context, UserProvider userProvider, child) {
+              return userProvider.isSignedIn
+                  ? const SignInOptionsScreen()
+                  : const SignInScreen();
+            },
+          )),
     );
   }
 }

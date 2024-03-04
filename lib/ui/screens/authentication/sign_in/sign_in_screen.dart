@@ -115,7 +115,12 @@ class _SignInScreenState extends State<SignInScreen> {
                           context
                               .read<UserProvider>()
                               .signInMail(_email, _password)
-                              .whenComplete(() => null);
+                              .whenComplete(() => Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => NavigationScreen()),
+                                    (route) => false,
+                                  ));
                         }
                       },
                       child: Container(
