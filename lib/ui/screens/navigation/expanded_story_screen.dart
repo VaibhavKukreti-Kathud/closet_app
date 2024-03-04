@@ -43,7 +43,12 @@ class _ExpandedStoryScreenState extends State<ExpandedStoryScreen> {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 8.0),
-            child: Icon(Icons.close,size: 30.0,),
+            child: GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Icon(Icons.close,size: 30.0,)
+            ),
           )
         ],
       ),

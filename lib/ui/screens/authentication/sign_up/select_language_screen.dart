@@ -1,3 +1,4 @@
+import 'package:closet_app/ui/screens/authentication/sign_up/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:closet_app/ui/widgets/language_tile.dart';
 import 'package:closet_app/ui/constants/geography_constants.dart';
@@ -45,7 +46,7 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
           ),
           GestureDetector(
             onTap: (){
-
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
             },
             child: Container(
               color: Colors.black,

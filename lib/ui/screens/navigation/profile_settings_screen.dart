@@ -1,3 +1,4 @@
+import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_options_screen.dart';
 import 'package:flutter/material.dart';
 import 'widget/profile_entry_tile.dart';
 
@@ -20,6 +21,14 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
           style: TextStyle(
               fontFamily: 'Philosopher',
               fontSize: 40.0
+          ),
+        ),
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SignInOptionsScreen()));
+          },
+          child: Icon(Icons.power_settings_new,
+            color: Colors.red,
           ),
         ),
       ),

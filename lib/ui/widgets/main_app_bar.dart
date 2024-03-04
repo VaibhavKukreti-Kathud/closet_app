@@ -88,6 +88,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       icon: Icon(
                         widget.actionIcon,
                         size: 24,
+                        color: Colors.black,
                       ),
                       onPressed: widget.onActionPressed,
                     )),

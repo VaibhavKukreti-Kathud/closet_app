@@ -1,3 +1,4 @@
+import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:closet_app/ui/widgets/user_signin_signup_method_tile.dart';
 import 'package:closet_app/ui/screens/authentication/sign_up/sign_up_options_screen.dart';
@@ -47,7 +48,12 @@ class _SignInOptionsScreenState extends State<SignInOptionsScreen> {
                       ],
                     ),
                     Spacer(),
-                    UserLoginSignupMethodTile(organisationIcon: Icons.email_outlined, organisationName: 'your Email', methodName: 'Sign In',organisationIconColor: Colors.black,isGoogle: false,),
+                    GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+                        },
+                        child: UserLoginSignupMethodTile(organisationIcon: Icons.email_outlined, organisationName: 'your Email', methodName: 'Sign In',organisationIconColor: Colors.black,isGoogle: false,)
+                    ),
                     Spacer(flex: 7),
                     GestureDetector(
                         onTap: (){

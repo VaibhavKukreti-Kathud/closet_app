@@ -1,4 +1,4 @@
-import 'package:closet_app/ui/screens/navigation/widget/post_widget.dart';
+import 'package:closet_app/ui/screens/navigation/expanded_story_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyPostsList extends StatelessWidget {
@@ -16,7 +16,12 @@ class MyPostsList extends StatelessWidget {
       mainAxisSpacing: 2,
       physics: NeverScrollableScrollPhysics(),
       children: List.generate(13, (index) {
-        return Image.network("https://picsum.photos/300");
+        return GestureDetector(
+            onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ExpandedStoryScreen(username: 'vklightning', userImageURL: 'https://picsum.photos/300', storyImageURL: 'https://picsum.photos/300', likes: 20, comments: 7)));
+            },
+            child: Image.network("https://picsum.photos/300")
+        );
       }),
     );
   }

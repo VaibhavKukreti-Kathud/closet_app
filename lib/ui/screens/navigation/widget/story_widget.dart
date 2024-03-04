@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../expanded_story_screen.dart';
+
 class StoryWidget extends StatelessWidget {
   final String username;
   final String profilePictureUrl;
@@ -23,7 +25,9 @@ class StoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return GestureDetector(
-        onTap: (){},
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ExpandedStoryScreen(username: username, userImageURL: profilePictureUrl, storyImageURL: imageUrl, likes: likes, comments: comments)));
+        },
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,

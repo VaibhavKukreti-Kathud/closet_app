@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
-
+import 'package:closet_app/ui/screens/navigation/category_posts_screen.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/mycloset_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -20,7 +20,9 @@ class CategoriesGrid extends StatelessWidget {
       crossAxisSpacing: 20,
       children: MyClosetScreen.categories.map((category) {
         return ZoomTapAnimation(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryPostsScreen(categoryName: category.name)));
+          },
           child: Container(
             decoration: BoxDecoration(
               boxShadow: [

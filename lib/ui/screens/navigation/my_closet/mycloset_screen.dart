@@ -5,6 +5,7 @@ import 'package:closet_app/models/wardrobe_category_model.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/categories_grid.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/posts_list.dart';
+import 'package:closet_app/ui/screens/navigation/profile_settings_screen.dart';
 import 'package:closet_app/ui/screens/navigation/widget/post_widget.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -83,6 +84,10 @@ class _MyClosetScreenState extends State<MyClosetScreen>
         toolbarHeight: 86,
         centerTitle: false,
         title: 'My Closet',
+        actionIcon: Icons.settings,
+        onActionPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettingsScreen()));
+        },
       ),
       body: ListView(
         children: [

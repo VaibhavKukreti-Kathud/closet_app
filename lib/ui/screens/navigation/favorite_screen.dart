@@ -1,5 +1,6 @@
 import 'package:closet_app/models/cloth_item_model.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
+import 'package:closet_app/ui/screens/navigation/expanded_story_screen.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -106,48 +107,53 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       body: GridView.count(
         crossAxisCount: 2,
         children: wardrobeItems.map((item) {
-          return Container(
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [kSubtleShadow],
-              borderRadius: BorderRadius.circular(kBorderRadius),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: double.maxFinite,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(kBorderRadius - 3),
-                        child: Image.network(
-                          item.imageUrl,
-                          fit: BoxFit.cover,
+          return GestureDetector(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ExpandedStoryScreen(username: 'vkukreti07', userImageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5PkW4fJsvhTn3s9hnv2nSU7a5jkGYsUH9Zl7YOHZKeA&s', storyImageURL: item.imageUrl, likes: 10, comments: 5)));
+            },
+            child: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [kSubtleShadow],
+                borderRadius: BorderRadius.circular(kBorderRadius),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: double.maxFinite,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(kBorderRadius - 3),
+                          child: Image.network(
+                            item.imageUrl,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-                  child: Text(
-                    item.name,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
+                    child: Text(
+                      item.name,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 2, 8, 12),
-                  child: Text(
-                    "₹${item.price}",
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 2, 8, 12),
+                    child: Text(
+                      "₹${item.price}",
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }).toList(),

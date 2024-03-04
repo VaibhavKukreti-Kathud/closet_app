@@ -1,4 +1,6 @@
 import 'package:closet_app/ui/screens/search/search_screen.dart';
+import 'package:closet_app/ui/screens/social/followers_screen.dart';
+import 'package:closet_app/ui/screens/social/following_screen.dart';
 import 'stories_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'widget/post_widget.dart';
@@ -58,7 +60,34 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         ],
       ),
       drawer: Drawer(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'),
+              ),
+              title: Text('vklightning',style: TextStyle(fontSize: 24.0),),
+            ),
+            TextButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FollowersScreen()));
+              },
+              child: ListTile(
+                title: Text('Followers'),
+              ),
+            ),
+            TextButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FollowingScreen()));
+              },
+              child: ListTile(
+                title: Text('Following'),
+              ),
+            )
+          ],
+        ),
       ),
       body: Column(
         children: [

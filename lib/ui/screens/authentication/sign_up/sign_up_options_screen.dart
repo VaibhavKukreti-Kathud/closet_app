@@ -1,3 +1,4 @@
+import 'package:closet_app/ui/screens/authentication/sign_up/select_country_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:closet_app/ui/widgets/user_signin_signup_method_tile.dart';
 
@@ -46,7 +47,12 @@ class _SignUpOptionsScreenState extends State<SignUpOptionsScreen> {
                       ],
                     ),
                     Spacer(),
-                    UserLoginSignupMethodTile(organisationIcon: Icons.email_outlined, organisationName: 'your Email', methodName: 'Sign Up',organisationIconColor: Colors.black,isGoogle: false,),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SelectCountryScreen()));
+                      },
+                        child: UserLoginSignupMethodTile(organisationIcon: Icons.email_outlined, organisationName: 'your Email', methodName: 'Sign Up',organisationIconColor: Colors.black,isGoogle: false,)
+                    ),
                     Spacer(flex: 7)
                   ],
                 ),
