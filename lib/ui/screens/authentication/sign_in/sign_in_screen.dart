@@ -1,9 +1,11 @@
+import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/authentication/sign_up/sign_up_screen.dart';
 import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:provider/provider.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -110,10 +112,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => NavigationScreen()));
+                          context
+                              .read<UserProvider>()
+                              .signInMail(_email, _password)
+                              .whenComplete(() => null);
                         }
                       },
                       child: Container(
