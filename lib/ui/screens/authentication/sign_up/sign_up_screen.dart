@@ -356,9 +356,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 30),
                   ZoomTapAnimation(
                     onTap: () {
-                      // if (_formKey.currentState!.validate()) {
-                      //   _formKey.currentState!.save();
-                      // }
+                      if (_secondFormKey.currentState!.validate()) {
+                        _secondFormKey.currentState!.save();
+                      }
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(

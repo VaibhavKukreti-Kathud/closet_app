@@ -3,6 +3,7 @@ import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_options_screen.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
+import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
           child: Consumer(
             builder: (context, UserProvider userProvider, child) {
               return userProvider.isSignedIn
-                  ? const SignInOptionsScreen()
+                  ? const NavigationScreen()
                   : const SignInScreen();
             },
           )),
