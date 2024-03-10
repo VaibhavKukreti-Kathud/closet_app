@@ -377,7 +377,6 @@ class _SignUpScreenState extends State<SignUpScreen>
                             .createUserWithEmailAndPassword(
                                 email: _emailController.text,
                                 password: _passwordController.text)
-                            .catchError((e) => print(e))
                             .whenComplete(
                               () => Navigator.pop(context),
                             );
