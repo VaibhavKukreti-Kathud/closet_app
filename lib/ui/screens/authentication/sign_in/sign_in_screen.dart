@@ -21,6 +21,8 @@ class _SignInScreenState extends State<SignInScreen> {
   String _password = '';
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +59,10 @@ class _SignInScreenState extends State<SignInScreen> {
                         focusNode: _emailFocusNode,
                         key: ValueKey('email'),
                         keyboardType: TextInputType.emailAddress,
+                        controller: _emailController,
                         validator: (value) => EmailValidator.validate(value!)
                             ? null
                             : 'Invalid email',
-                        onSaved: (value) => _email = value!,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: 24, vertical: 12),
@@ -83,9 +85,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         focusNode: _passwordFocusNode,
                         key: ValueKey('password'),
                         obscureText: true,
+                        controller: _passwordController,
                         validator: (value) =>
                             value!.isEmpty ? 'Password cannot be empty' : null,
-                        onSaved: (value) => _password = value!,
                         decoration: InputDecoration(
                             labelText: 'Password',
                             filled: true,
@@ -181,11 +183,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                       onTap: () {
-                        // if (_formKey.currentState!.validate()) {
-                        //   _formKey.currentState!.save();
-                        // }
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => SignUpScreen()));
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                        }
                       },
                     ),
                     SizedBox(height: 4),
