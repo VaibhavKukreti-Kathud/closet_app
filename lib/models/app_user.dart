@@ -25,4 +25,15 @@ class AppUser {
       approxLocation: json['approxLocation'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'fullName': fullName,
+      'email': email,
+      'gender': gender,
+      'dob': dob,
+      'exactLocation': exactLocation,
+      'approxLocation': approxLocation,
+    };
+  }
 }
