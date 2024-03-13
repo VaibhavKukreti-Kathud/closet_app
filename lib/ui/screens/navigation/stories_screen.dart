@@ -34,8 +34,6 @@ class _StoriesScreenState extends State<StoriesScreen> {
                         username: "username",
                         profilePictureUrl: "https://picsum.photos/80",
                         imageUrl: "https://picsum.photos/800",
-                        likes: 50,
-                        comments: 12,
                       )
                   ],
                 ),

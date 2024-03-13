@@ -1,72 +1,158 @@
-import 'dart:math';
+// import 'dart:math';
 import 'dart:ui';
-
-import 'package:closet_app/models/wardrobe_category_model.dart';
+// import 'package:closet_app/models/wardrobe_category_model.dart';
+import 'package:closet_app/ui/screens/navigation/my_closet/all_posts_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
-import 'package:closet_app/ui/screens/navigation/my_closet/categories_grid.dart';
+// import 'package:closet_app/ui/screens/navigation/my_closet/categories_grid.dart';
+import 'package:closet_app/ui/screens/navigation/my_closet/categories_screen.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/posts_list.dart';
 import 'package:closet_app/ui/screens/navigation/profile_settings_screen.dart';
-import 'package:closet_app/ui/screens/navigation/widget/post_widget.dart';
+// import 'package:closet_app/ui/screens/navigation/widget/post_widget.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
+final _firestore = FirebaseFirestore.instance;
+
 class MyClosetScreen extends StatefulWidget {
   const MyClosetScreen({super.key});
-
-  static List<WardrobeCategory> categories = [
-    WardrobeCategory(
-        name: "Tops",
-        image:
-            "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-    WardrobeCategory(
-        name: "Bottoms",
-        image:
-            "https://images.unsplash.com/photo-1634564235572-cd6f37694266?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-    WardrobeCategory(
-        name: "Footwear",
-        image:
-            "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-    WardrobeCategory(
-        name: "Accessories",
-        image:
-            "https://images.unsplash.com/photo-1585856331426-d7a22437d4bb?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-    WardrobeCategory(
-        name: "Outerwear",
-        image:
-            "https://images.unsplash.com/photo-1533230464445-e01ef07c65c5?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-    WardrobeCategory(
-        name: "Jumpsuits",
-        image:
-            "https://images.unsplash.com/photo-1600689482725-bc3f308be252?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-    WardrobeCategory(
-        name: "Others",
-        image:
-            "https://images.unsplash.com/photo-1627511306341-f9d96646b91d?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-  ];
 
   @override
   State<MyClosetScreen> createState() => _MyClosetScreenState();
 }
 
-class _MyClosetScreenState extends State<MyClosetScreen>
-    with TickerProviderStateMixin {
+class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStateMixin {
   TabController? tabController;
   ValueNotifier<int> _currentScreen = ValueNotifier<int>(0);
   int _previousScreen = 0;
+  XFile? selectedCategoryFile;
+  String? categoryImageURL;
+  bool shouldSpin = false;
 
   _returnTab(int screen) {
     switch (screen) {
       case 1:
-        return CategoriesGrid(
+        return CategoriesScreen(
           key: ValueKey<int>(1),
         );
       case 0:
-        return MyPostsList(
+        return AllPostsScreen(
           key: ValueKey<int>(0),
         );
     }
+  }
+
+  void showDialogWithFields(BuildContext context,ThemeData currTheme) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        var categoryController = TextEditingController();
+        return AlertDialog(
+          backgroundColor: currTheme.dialogTheme.backgroundColor,
+          title: Text('Add Category',
+            style: TextStyle(
+              color: currTheme.textTheme.bodyMedium!.color,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: categoryController,
+                  style: TextStyle(
+                      color: currTheme.textTheme.bodyMedium!.color
+                  ),
+                  decoration: InputDecoration(
+                      hintText: 'Enter a new category of clothing',
+                      hintStyle: TextStyle(
+                          color: currTheme.textTheme.bodyMedium!.color
+                      )
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                TextButton(
+                    onPressed: () async{
+                      selectedCategoryFile = (await ImagePicker.platform.getImageFromSource(source: ImageSource.gallery));
+                      setState(() {
+
+                      });
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith((states) => currTheme.dialogTheme.backgroundColor ?? Colors.teal)
+                    ),
+                    child: Text(
+                      'Choose Image',
+                      style: TextStyle(fontSize: 20.0,color: currTheme.textTheme.bodyMedium!.color),
+                    )
+                )
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                'Cancel',
+                style:TextStyle(
+                    color: currTheme.textTheme.bodyMedium!.color
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () async{
+                String cat = categoryController.text;
+                categoryController.clear();
+                Navigator.pop(context);
+                setState(() {
+                  shouldSpin = true;
+                });
+                // WardrobeCategory wardrobeCat = WardrobeCategory(name: cat, image: imgUrl);
+                // add it to database
+                String fileName = DateTime.now().microsecondsSinceEpoch.toString() + 'eashanbhardwaj02@gmail.com';
+
+                Reference referenceRoot = FirebaseStorage.instance.ref();
+                Reference referencePostImages = referenceRoot.child('categories');
+
+                Reference referenceCurrentPost = referencePostImages.child(fileName);
+
+                try{
+                  // await referenceCurrentPost.putFile(File(selectedImageFile!.path));
+                  await referenceCurrentPost.putData(await selectedCategoryFile!.readAsBytes());
+                  categoryImageURL = await referenceCurrentPost.getDownloadURL();
+                  // print('debug statement here : $imageURL');
+                  _firestore.collection('Categories').add({
+                    'user': 'eashanbhardwaj02@gmail.com',
+                    'category': cat,
+                    'categoryUrl' : categoryImageURL,
+                    'numItems': 0.0,
+                    'timestamp': DateTime.now().microsecondsSinceEpoch
+                  });
+                  setState(() {
+                    shouldSpin = false;
+                  });
+
+                } catch (e) {
+                  print('Error occured : $e');
+                }
+              },
+              child: Text(
+                'Add',
+                style:TextStyle(
+                    color: currTheme.textTheme.bodyMedium!.color
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -200,6 +286,7 @@ class _MyClosetScreenState extends State<MyClosetScreen>
   }
 
   Container _buildHeaderProfileInfo(BuildContext context) {
+    var currTheme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
       height: MediaQuery.of(context).size.width / 3,
@@ -247,7 +334,9 @@ class _MyClosetScreenState extends State<MyClosetScreen>
                 ),
                 SizedBox(height: 16),
                 ZoomTapAnimation(
-                  onTap: () {},
+                  onTap: () {
+                    showDialogWithFields(context, currTheme);
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -268,7 +357,7 @@ class _MyClosetScreenState extends State<MyClosetScreen>
                           ),
                           SizedBox(width: 2),
                           Text(
-                            "Add to Closet",
+                            "Add a Category",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,

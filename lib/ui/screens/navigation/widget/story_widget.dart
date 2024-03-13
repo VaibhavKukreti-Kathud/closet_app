@@ -9,16 +9,12 @@ class StoryWidget extends StatelessWidget {
   final String username;
   final String profilePictureUrl;
   final String imageUrl;
-  final int likes;
-  final int comments;
 
   const StoryWidget({
     Key? key,
     required this.username,
     required this.profilePictureUrl,
     required this.imageUrl,
-    required this.likes,
-    required this.comments,
   });
 
   @override
@@ -26,7 +22,7 @@ class StoryWidget extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return GestureDetector(
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ExpandedStoryScreen(username: username, userImageURL: profilePictureUrl, storyImageURL: imageUrl, likes: likes, comments: comments)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ExpandedStoryScreen(username: username, userImageURL: profilePictureUrl, storyImageURL: imageUrl)));
         },
         child: Container(
           decoration: BoxDecoration(
@@ -65,35 +61,6 @@ class StoryWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 12.0,),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(Iconsax.heart),
-                              onPressed: () {},
-                            ),
-                            Text(likes.toString()),
-                          ]
-                      ),
-                      SizedBox(
-                        width: 20.0,
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(Iconsax.message),
-                            onPressed: () {},
-                          ),
-                          Text(comments.toString()),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
               ]
           ),
         )

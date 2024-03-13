@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/navigation/expanded_story_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,6 +25,7 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (context) => ExpandedStoryScreen(username: username, userImageURL: profilePictureUrl, storyImageURL: imageUrl, likes: likes, comments: comments)));
@@ -113,16 +115,20 @@ class PostWidget extends StatelessWidget {
             AspectRatio(
               aspectRatio: 1,
               child: Container(
-                  child: Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Center(
-                    child: CupertinoActivityIndicator(),
-                  );
-                },
-              )),
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    fit: BoxFit.cover,
+                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                        Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress,
+                              strokeWidth: 2.0,
+                              color: currTheme.textTheme.bodyMedium!.color
+                          ),
+                        ),
+                    errorWidget: (context, url, error) => Icon(Icons.error,color: currTheme.iconTheme.color),
+                  )
+              ),
             ),
             // Actions
             SizedBox(height: 8),

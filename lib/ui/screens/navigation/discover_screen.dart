@@ -94,10 +94,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           if (shouldShowOOTD)
             Column(
               children: [
-                Text(
-                  'Outfit of the day',
-                  style: TextStyle(fontSize: 28.0, fontFamily: 'Philosopher'),
-                ),
                 SizedBox(
                   height: 4.0,
                 ),
@@ -110,87 +106,25 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: EdgeInsets.symmetric(horizontal: 5.0),
                     width: double.infinity,
                     height: 200.0,
                     decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
+                        // color: Colors.grey.shade200,
+                        gradient: LinearGradient(
+                            colors: [Colors.lightGreenAccent,Colors.lightBlueAccent],
+                        ),
                         borderRadius: BorderRadius.circular(30.0)),
                     child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.0),
-                              bottomLeft: Radius.circular(30.0)),
-                          child: Image(
-                            image: NetworkImage('https://picsum.photos/400'),
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'),
-                                    radius:
-                                        MediaQuery.of(context).size.width / 25,
-                                  ),
-                                  SizedBox(
-                                    width: 12.0,
-                                  ),
-                                  SizedBox(
-                                      width: 100,
-                                      child: Text(
-                                        'username',
-                                        style: TextStyle(fontSize: 16.0),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ))
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(Iconsax.heart),
-                                  SizedBox(
-                                    width: 8.0,
-                                  ),
-                                  Text('12'),
-                                  SizedBox(
-                                    width: 16.0,
-                                  ),
-                                  Icon(Iconsax.message),
-                                  SizedBox(
-                                    width: 8.0,
-                                  ),
-                                  Text('11'),
-                                ],
-                              ),
-                              Text('Explore more!',
-                                  style: TextStyle(fontSize: 17.0))
-                            ],
-                          ),
+                        Spacer(),
+                        Text(
+                          'Outfit of the day',
+                          style: TextStyle(fontSize: 28.0, fontFamily: 'Philosopher',fontWeight: FontWeight.w500),
                         ),
                         Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ZoomTapAnimation(
-                              onTap: () {
-                                // print('Going to stories page');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => StoriesScreen()));
-                              },
-                              child: Icon(Icons.arrow_forward_ios)),
-                        )
+                        Icon(Icons.arrow_forward_ios)
                       ],
                     ),
                   ),

@@ -23,14 +23,19 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               fontSize: 40.0
           ),
         ),
-        leading: GestureDetector(
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SignInOptionsScreen()));
-          },
-          child: Icon(Icons.power_settings_new,
-            color: Colors.red,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SignInOptionsScreen()));
+              },
+              child: Icon(Icons.power_settings_new,
+                color: Colors.red,size: 28.0,
+              ),
+            ),
           ),
-        ),
+        ]
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 12.0,left: 12.0,right: 12.0),
