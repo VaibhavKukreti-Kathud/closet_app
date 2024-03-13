@@ -1,12 +1,10 @@
 import 'dart:ui';
-
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/navigation/chat/contact_search_screen.dart';
 import 'package:closet_app/ui/screens/navigation/chat/group_chat.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-
 import 'chat_one_screen.dart';
 
 class ChatsScreen extends StatefulWidget {
@@ -45,20 +43,26 @@ class _ChatsScreenState extends State<ChatsScreen>
 
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     TabController tabController = TabController(
         length: 2, vsync: this, animationDuration: Duration(milliseconds: 400));
     return Scaffold(
-      appBar: CustomAppBar(
-        surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 40,
-        toolbarHeight: 86,
-        centerTitle: false,
-        title: 'Chats',
-        actionIcon: Iconsax.search_normal,
-        onActionPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (_) => ContactSearchScreen()));
-        },
+      backgroundColor: currTheme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        iconTheme: currTheme.iconTheme,
+        backgroundColor: currTheme.appBarTheme.backgroundColor,
+        title: Text('Chats',style: TextStyle(fontSize: 30.0,color: currTheme.textTheme.titleLarge!.color),),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ContactSearchScreen()));
+                  },
+                child: Icon(Iconsax.search_normal,)
+            ),
+          )
+        ],
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -76,12 +80,7 @@ class _ChatsScreenState extends State<ChatsScreen>
                       children: [
                         ListTile(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ChatOneScreen(),
-                              ),
-                            );
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatOneScreen()));
                           },
                           leading: GestureDetector(
                             onTap: () {
@@ -114,17 +113,22 @@ class _ChatsScreenState extends State<ChatsScreen>
                               ),
                             ),
                           ),
-                          title: Text('Vaibhav Kukreti'),
-                          subtitle: Text('Hey!'),
-                          trailing: Text('12:00pm'),
+                          title: Text('Vaibhav Kukreti',
+                          style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                          ),
+                          subtitle: Text('Hey!',
+                            style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                          ),
+                          trailing: Text('12:00pm',
+                            style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                          ),
                         ),
                         Container(
                           height: 1,
-                          margin: EdgeInsets.symmetric(horizontal: 80),
-                          width: MediaQuery.of(context).size.width / 4,
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          // width: MediaQuery.of(context).size.width / 4,
                           decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).dividerColor.withOpacity(0.1),
+                            color: currTheme.textTheme.bodyMedium!.color
                           ),
                         ),
                         SizedBox(height: index == 10 ? 120 : 2),
@@ -143,31 +147,29 @@ class _ChatsScreenState extends State<ChatsScreen>
                       children: [
                         ListTile(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return GroupChatScreen();
-                                },
-                              ),
-                            );
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => GroupChatScreen()));
                           },
                           leading: CircleAvatar(
                             backgroundImage:
                                 NetworkImage("https://picsum.photos/300"),
                             radius: MediaQuery.of(context).size.width / 16,
                           ),
-                          title: Text('Birthday party 🎊'),
-                          subtitle: Text('Vaibhav: Hey!'),
-                          trailing: Text('12:00pm'),
+                          title: Text('Birthday party 🎊',
+                            style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                          ),
+                          subtitle: Text('Vaibhav: Hey!',
+                            style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                          ),
+                          trailing: Text('12:00pm',
+                            style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                          ),
                         ),
                         Container(
                           height: 1,
-                          margin: EdgeInsets.symmetric(horizontal: 80),
-                          width: MediaQuery.of(context).size.width / 4,
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          // width: MediaQuery.of(context).size.width / 4,
                           decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).dividerColor.withOpacity(0.1),
+                            color: currTheme.textTheme.bodyMedium!.color
                           ),
                         ),
                         SizedBox(height: 2),
@@ -190,16 +192,14 @@ class _ChatsScreenState extends State<ChatsScreen>
                 boxShadow: [
                   BoxShadow(
                     color: showTabSwitcher
-                        ? Theme.of(context).iconTheme.color!.withOpacity(0.2)
+                        ? currTheme.textTheme.bodyMedium!.color?.withOpacity(0.5) ?? Colors.black.withOpacity(0.5)
                         : Colors.transparent,
-                    blurRadius: 30,
+                    blurRadius: 50,
                     spreadRadius: -10,
                     offset: const Offset(0, 10),
                   ),
                   BoxShadow(
-                    color: Theme.of(context)
-                        .scaffoldBackgroundColor
-                        .withOpacity(0.8),
+                    color: currTheme.scaffoldBackgroundColor.withOpacity(0.8),
                     blurRadius: 0,
                     offset: const Offset(0, 0),
                   )
@@ -212,26 +212,23 @@ class _ChatsScreenState extends State<ChatsScreen>
                   filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .scaffoldBackgroundColor
-                          .withOpacity(0),
+                      color: currTheme.scaffoldBackgroundColor.withOpacity(0),
                     ),
                     child: TabBar(
                       labelStyle:
                           getSubtitleTextStyle(context).copyWith(fontSize: 12),
-                      unselectedLabelColor:
-                          Theme.of(context).iconTheme.color!.withOpacity(0.3),
+                      labelColor: currTheme.textTheme.bodyMedium!.color,
+                      unselectedLabelColor: currTheme.textTheme.bodyMedium!.color,
                       splashBorderRadius: BorderRadius.circular(30),
-                      dividerColor:
-                          Theme.of(context).dividerColor.withOpacity(0),
+                      // dividerColor: currTheme.textTheme.bodyMedium!.color,
                       controller: tabController,
                       tabs: [
                         Tab(
-                          icon: Icon(Iconsax.message),
+                          icon: Icon(Iconsax.message,color: currTheme.iconTheme.color,),
                           text: "Chats",
                         ),
                         Tab(
-                          icon: Icon(Iconsax.messages),
+                          icon: Icon(Iconsax.messages,color: currTheme.iconTheme.color,),
                           text: "Groups",
                         ),
                       ],

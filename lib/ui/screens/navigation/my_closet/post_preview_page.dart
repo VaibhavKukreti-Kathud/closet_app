@@ -45,7 +45,7 @@ class _PostPreviewPageState extends State<PostPreviewPage> {
           shrinkWrap: true,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: EdgeInsets.only(left: 8.0,right: 8.0,top: 16.0),
               child: Row(
                 children: [
                   CircleAvatar(

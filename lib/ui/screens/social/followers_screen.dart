@@ -11,15 +11,18 @@ class FollowersScreen extends StatefulWidget {
 class _FollowersScreenState extends State<FollowersScreen> {
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: currTheme.scaffoldBackgroundColor,
         appBar: AppBar(
+          iconTheme: currTheme.iconTheme,
           scrolledUnderElevation: 0.0,
-          backgroundColor: Colors.white,
+          backgroundColor: currTheme.appBarTheme.backgroundColor,
           title: Text('Followers',
             style: TextStyle(
                 fontSize: 40.0,
-                fontFamily: 'Philosopher'
+                fontFamily: 'Philosopher',
+                color: currTheme.textTheme.titleLarge!.color
             ),
           ),
         ),

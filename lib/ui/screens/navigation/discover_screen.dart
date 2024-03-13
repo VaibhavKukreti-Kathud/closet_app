@@ -43,10 +43,12 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        iconTheme: currTheme.iconTheme,
         centerTitle: false,
-        title: Text('Discover'),
+        title: Text('Discover',style: TextStyle(color: currTheme.textTheme.titleLarge!.color),),
         actions: [
           GestureDetector(
               onTap: () {
@@ -60,7 +62,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         ],
       ),
       drawer: Drawer(
-        backgroundColor: Colors.white,
+        backgroundColor: currTheme.scaffoldBackgroundColor,
         child: ListView(
           shrinkWrap: true,
           children: [
@@ -68,14 +70,14 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               leading: CircleAvatar(
                 backgroundImage: NetworkImage('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'),
               ),
-              title: Text('vklightning',style: TextStyle(fontSize: 24.0),),
+              title: Text('vklightning',style: TextStyle(fontSize: 24.0,color: currTheme.textTheme.bodyMedium!.color),),
             ),
             TextButton(
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => FollowersScreen()));
               },
               child: ListTile(
-                title: Text('Followers'),
+                title: Text('Followers',style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),),
               ),
             ),
             TextButton(
@@ -83,7 +85,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => FollowingScreen()));
               },
               child: ListTile(
-                title: Text('Following'),
+                title: Text('Following',style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),),
               ),
             )
           ],
@@ -121,10 +123,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         Spacer(),
                         Text(
                           'Outfit of the day',
-                          style: TextStyle(fontSize: 28.0, fontFamily: 'Philosopher',fontWeight: FontWeight.w500),
+                          style: TextStyle(fontSize: 28.0, fontFamily: 'Philosopher',fontWeight: FontWeight.w500,color: Colors.black),
                         ),
                         Spacer(),
-                        Icon(Icons.arrow_forward_ios)
+                        Icon(Icons.arrow_forward_ios,color: Colors.black,)
                       ],
                     ),
                   ),
@@ -135,7 +137,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             height: 12.0,
           ),
           Divider(
-            color: Colors.black,
+            color: currTheme.dividerColor,
           ),
           SizedBox(
             height: 12.0,

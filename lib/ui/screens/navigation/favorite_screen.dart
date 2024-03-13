@@ -14,6 +14,7 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
+
   List<WardrobeItem> wardrobeItems = [
     WardrobeItem(
       name: "T-Shirt",
@@ -51,59 +52,137 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     return Scaffold(
-      appBar: CustomAppBar(
-        surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 40,
-        toolbarHeight: 86,
-        centerTitle: false,
-        title: 'Favorites',
-        actionIcon: Iconsax.sort,
-        onActionPressed: () {
-          showModalBottomSheet(
-            constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height / 2.5),
-            context: context,
-            builder: (context) {
-              return Container(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 16),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        "Sort",
-                        style: getTitleTextStyle(context),
-                      ),
-                    ),
-                    SizedBox(height: 2),
-                    RadioListTile(
-                      value: 1,
-                      groupValue: 1,
-                      onChanged: (value) {},
-                      title: Text('By Date'),
-                    ),
-                    RadioListTile(
-                      value: 2,
-                      groupValue: 1,
-                      onChanged: (value) {},
-                      title: Text('By Name'),
-                    ),
-                    RadioListTile(
-                      value: 3,
-                      groupValue: 1,
-                      onChanged: (value) {},
-                      title: Text('By Price'),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
+      appBar: AppBar(
+        iconTheme: currTheme.iconTheme,
+        backgroundColor: currTheme.appBarTheme.backgroundColor,
+        title: Text('Favorites',
+        style: TextStyle(
+          fontSize: 30.0,
+          color: currTheme.textTheme.titleLarge!.color
+        ),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    constraints: BoxConstraints(maxHeight: MediaQuery
+                        .of(context)
+                        .size
+                        .height / 2.5),
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        color: Theme
+                            .of(context)
+                            .scaffoldBackgroundColor,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 16),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16),
+                              child: Text(
+                                "Sort",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.normal,
+                                  color: currTheme.textTheme.bodyMedium!.color?.withOpacity(0.9),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            RadioListTile(
+                              value: 1,
+                              groupValue: 1,
+                              onChanged: (value) {},
+                              title: Text('By Date',
+                              style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                              ),
+                            ),
+                            RadioListTile(
+                              value: 2,
+                              groupValue: 1,
+                              onChanged: (value) {},
+                              title: Text('By Name',
+                                style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                              ),
+                            ),
+                            RadioListTile(
+                              value: 3,
+                              groupValue: 1,
+                              onChanged: (value) {},
+                              title: Text('By Price',
+                                style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Icon(Iconsax.sort)
+              ),
+            ),
+        ],
       ),
+      // appBar: CustomAppBar(
+      //   surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+      //   elevation: 40,
+      //   toolbarHeight: 86,
+      //   centerTitle: false,
+      //   title: 'Favorites',
+      //   actionIcon: Iconsax.sort,
+      //   onActionPressed: () {
+      //     showModalBottomSheet(
+      //       constraints: BoxConstraints(
+      //           maxHeight: MediaQuery.of(context).size.height / 2.5),
+      //       context: context,
+      //       builder: (context) {
+      //         return Container(
+      //           color: Theme.of(context).scaffoldBackgroundColor,
+      //           child: Column(
+      //             crossAxisAlignment: CrossAxisAlignment.start,
+      //             children: [
+      //               SizedBox(height: 16),
+      //               Padding(
+      //                 padding: const EdgeInsets.symmetric(horizontal: 16),
+      //                 child: Text(
+      //                   "Sort",
+      //                   style: getTitleTextStyle(context),
+      //                 ),
+      //               ),
+      //               SizedBox(height: 2),
+      //               RadioListTile(
+      //                 value: 1,
+      //                 groupValue: 1,
+      //                 onChanged: (value) {},
+      //                 title: Text('By Date'),
+      //               ),
+      //               RadioListTile(
+      //                 value: 2,
+      //                 groupValue: 1,
+      //                 onChanged: (value) {},
+      //                 title: Text('By Name'),
+      //               ),
+      //               RadioListTile(
+      //                 value: 3,
+      //                 groupValue: 1,
+      //                 onChanged: (value) {},
+      //                 title: Text('By Price'),
+      //               ),
+      //             ],
+      //           ),
+      //         );
+      //       },
+      //     );
+      //   },
+      // ),
       body: GridView.count(
         crossAxisCount: 2,
         children: wardrobeItems.map((item) {

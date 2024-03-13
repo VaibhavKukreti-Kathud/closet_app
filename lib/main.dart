@@ -3,6 +3,7 @@ import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_options_screen.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
+import 'package:closet_app/ui/screens/navigation/theme_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (_) => ThemeNotifier(),
+      child: MyApp())
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -28,23 +32,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
-      theme: ThemeData(
-        scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          surfaceTintColor: Colors.transparent,
-          iconTheme: IconThemeData(
-            color: Colors.black,
-          ),
-        ),
-        colorScheme: ColorScheme.fromSeed(
-          primary: kAccentColor,
-          seedColor: Colors.black,
-        ),
-        useMaterial3: true,
-      ),
+      theme: theme.getTheme(),
       home: MultiProvider(
           providers: [
             ChangeNotifierProvider(

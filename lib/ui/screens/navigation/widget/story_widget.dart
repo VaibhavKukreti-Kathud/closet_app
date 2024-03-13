@@ -19,6 +19,7 @@ class StoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     final width = MediaQuery.of(context).size.width;
     return GestureDetector(
         onTap: (){
@@ -26,9 +27,9 @@ class StoryWidget extends StatelessWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: currTheme.scaffoldBackgroundColor,
             boxShadow: [kSubtleShadow],
-            border: Border.all(color: Colors.grey[100]!),
+            border: Border.all(color: currTheme.textTheme.bodyMedium!.color ?? Colors.grey.shade100),
             borderRadius: BorderRadius.circular(kBorderRadius),
           ),
           margin: EdgeInsets.all(10.0),

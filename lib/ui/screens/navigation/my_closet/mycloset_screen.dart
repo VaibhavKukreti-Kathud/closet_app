@@ -163,17 +163,30 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     return Scaffold(
-      appBar: CustomAppBar(
-        surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 40,
-        toolbarHeight: 86,
-        centerTitle: false,
-        title: 'My Closet',
-        actionIcon: Icons.settings,
-        onActionPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettingsScreen()));
-        },
+      backgroundColor: currTheme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        iconTheme: currTheme.iconTheme,
+        backgroundColor: currTheme.appBarTheme.backgroundColor,
+        title: Text(
+          'My Closet',
+          style: TextStyle(
+              fontSize: 30.0,
+              color: currTheme.textTheme.titleLarge!.color
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettingsScreen()));
+              },
+              child: Icon(Icons.settings,),
+            ),
+          )
+        ],
       ),
       body: ListView(
         children: [
@@ -185,10 +198,14 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
                 _currentScreen.value = value;
               },
               indicatorSize: TabBarIndicatorSize.tab,
+              labelColor: currTheme.textTheme.bodyMedium!.color,
+              unselectedLabelColor: currTheme.textTheme.bodyMedium!.color,
+              // dividerColor: Colors.redAccent,
+              dividerColor: currTheme.textTheme.bodyMedium!.color,
               indicator: BoxDecoration(
                   border: Border(
                       bottom: BorderSide(
-                color: Theme.of(context).colorScheme.primary,
+                color: currTheme.textTheme.bodyMedium!.color ?? Colors.black,
                 width: 2,
               ))),
               tabs: [
@@ -200,16 +217,6 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
                 ),
               ],
               controller: tabController),
-          // SizedBox(height: 100,
-          //   child: TabBarView(
-          //     controller: tabController,
-
-          //     children: [
-          //
-          //       Container(),
-          //     ],
-          //   ),
-          // ),
 
           ValueListenableBuilder<int>(
               valueListenable: _currentScreen,
@@ -238,31 +245,6 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
                         child: child,
                       ),
                     );
-
-                    //// Transition for two screens
-                    //                    if (child.key == ValueKey<int>(1)) {
-                    //                      print(_previousScreen);
-                    ////                    if (_previousScreen < screen) {
-                    //                      return ClipRect(
-                    //                        child: SlideTransition(
-                    //                          position: inAnimation,
-                    //                          child: Padding(
-                    //                            padding: const EdgeInsets.all(8.0),
-                    //                            child: child,
-                    //                          ),
-                    //                        ),
-                    //                      );
-                    //                    } else {
-                    //                      return ClipRect(
-                    //                        child: SlideTransition(
-                    //                          position: outAnimation,
-                    //                          child: Padding(
-                    //                            padding: const EdgeInsets.all(8.0),
-                    //                            child: child,
-                    //                          ),
-                    //                        ),
-                    //                      );
-                    //                    }
 
                     // Transition for three screens
                     if (child.key == ValueKey<int>(1)) {
@@ -312,7 +294,7 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
                       color: Theme.of(context).colorScheme.secondary,
                     ),
                     padding: EdgeInsets.all(6),
-                    child: Icon(Iconsax.edit_2, size: 18, color: Colors.white),
+                    child: Icon(Iconsax.edit_2, size: 18, color: currTheme.iconTheme.color),
                   )
                 ],
               ),
@@ -326,11 +308,19 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
               children: [
                 Text(
                   'Vaibhav Kukreti',
-                  style: getTitleTextStyle(context),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                    color: currTheme.textTheme.bodyMedium!.color,
+                  ),
                 ),
                 Text(
                   '@vklightning',
-                  style: getSubtitleTextStyle(context),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                    color: currTheme.textTheme.bodyMedium!.color?.withOpacity(0.9),
+                  ),
                 ),
                 SizedBox(height: 16),
                 ZoomTapAnimation(
@@ -340,7 +330,7 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Theme.of(context).colorScheme.surfaceTint,
+                      color: currTheme.dialogBackgroundColor,
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 64, vertical: 10),
                     child: Center(
@@ -352,14 +342,14 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
                             child: Icon(
                               Iconsax.add,
                               size: 18,
-                              color: Colors.white,
+                              color: currTheme.iconTheme.color,
                             ),
                           ),
                           SizedBox(width: 2),
                           Text(
                             "Add a Category",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: currTheme.textTheme.bodyMedium!.color,
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),

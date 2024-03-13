@@ -8,15 +8,21 @@ class GroupChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        iconTheme: currTheme.iconTheme,
         automaticallyImplyLeading: true,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               "Group Name",
-              style: getSubHeadTextStyle(context),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                color: currTheme.textTheme.titleLarge!.color,
+              ),
             ),
             SizedBox(width: 4),
             Icon(CupertinoIcons.chevron_forward, size: 16),
@@ -42,7 +48,7 @@ class GroupChatScreen extends StatelessWidget {
                         SizedBox(width: 4),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey[100],
+                            color: currTheme.textTheme.bodyLarge!.color,
                             borderRadius: BorderRadius.circular(kBorderRadius),
                           ),
                           padding:
@@ -51,6 +57,7 @@ class GroupChatScreen extends StatelessWidget {
                             'Hello',
                             style: TextStyle(
                               fontSize: 15,
+                              color: currTheme.textTheme.bodyMedium!.color,
                             ),
                           ),
                         )
@@ -70,14 +77,16 @@ class GroupChatScreen extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: TextField(
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          filled: true,
-                          fillColor: Colors.grey[100],
-                          border: InputBorder.none,
-                          hintText: "Type a message",
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            filled: true,
+                            fillColor: Colors.grey[100],
+                            border: InputBorder.none,
+                            hintText: "Type a message",
+                            hintStyle: TextStyle(color: Colors.black)
                         ),
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -88,12 +97,11 @@ class GroupChatScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(left: 8),
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.send,
-                        color: Colors.white,
+                        color: currTheme.iconTheme.color,
                       ),
                     ),
                   ),

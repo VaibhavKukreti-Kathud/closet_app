@@ -14,10 +14,11 @@ class ProfileEntryTile extends StatefulWidget {
 class _ProfileEntryTileState extends State<ProfileEntryTile> {
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.heading,style: TextStyle(color: Colors.grey.shade600,fontSize: 15.0),),
+        Text(widget.heading,style: TextStyle(color: currTheme.textTheme.bodyMedium!.color,fontSize: 15.0),),
         SizedBox(
           height: 6.0,
         ),
