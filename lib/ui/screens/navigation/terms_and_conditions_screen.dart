@@ -1,3 +1,4 @@
+import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_options_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:closet_app/ui/constants/terms_and_condition_constants.dart';
 
@@ -64,7 +65,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                 SizedBox(height: 20.0),
                 GestureDetector(
                   onTap: (){
-                    _termsAccepted ? print('Aage Badhega') : null;
+                    _termsAccepted ? Navigator.push(context, MaterialPageRoute(builder: (context) => SignInOptionsScreen())) : null;
                   },
                   child: Container(
                     color: Colors.black,

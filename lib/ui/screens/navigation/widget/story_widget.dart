@@ -3,32 +3,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../expanded_story_screen.dart';
+
 class StoryWidget extends StatelessWidget {
   final String username;
   final String profilePictureUrl;
   final String imageUrl;
-  final int likes;
-  final int comments;
 
   const StoryWidget({
     Key? key,
     required this.username,
     required this.profilePictureUrl,
     required this.imageUrl,
-    required this.likes,
-    required this.comments,
   });
 
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     final width = MediaQuery.of(context).size.width;
     return GestureDetector(
-        onTap: (){},
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ExpandedStoryScreen(username: username, userImageURL: profilePictureUrl, storyImageURL: imageUrl)));
+        },
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: currTheme.scaffoldBackgroundColor,
             boxShadow: [kSubtleShadow],
-            border: Border.all(color: Colors.grey[100]!),
+            border: Border.all(color: currTheme.textTheme.bodyMedium!.color ?? Colors.grey.shade100),
             borderRadius: BorderRadius.circular(kBorderRadius),
           ),
           margin: EdgeInsets.all(10.0),
@@ -61,35 +62,6 @@ class StoryWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 12.0,),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(Iconsax.heart),
-                              onPressed: () {},
-                            ),
-                            Text(likes.toString()),
-                          ]
-                      ),
-                      SizedBox(
-                        width: 20.0,
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(Iconsax.message),
-                            onPressed: () {},
-                          ),
-                          Text(comments.toString()),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
               ]
           ),
         )

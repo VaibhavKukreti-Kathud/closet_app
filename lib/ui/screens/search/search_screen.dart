@@ -17,6 +17,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -26,7 +27,7 @@ class _SearchScreenState extends State<SearchScreen> {
               Navigator.pop(context);
             },
           ),
-          title: Text('Search'),
+          title: Text('Search',style: TextStyle(color: currTheme.textTheme.titleLarge!.color),),
         ),
         body: Column(
           children: [
@@ -35,14 +36,17 @@ class _SearchScreenState extends State<SearchScreen> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
+                color: currTheme.textTheme.bodyLarge!.color,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: 'Search for items',
-                  prefixIcon: Icon(Iconsax.search_normal),
+                  prefixIcon: Icon(Iconsax.search_normal,color: currTheme.iconTheme.color,),
                   border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: currTheme.textTheme.bodyMedium!.color
+                  )
                 ),
                 onChanged: (value) {},
                 onSubmitted: (value) {},

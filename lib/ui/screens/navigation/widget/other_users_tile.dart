@@ -15,6 +15,7 @@ class OtherUsersTile extends StatefulWidget {
 class _OtherUsersTileState extends State<OtherUsersTile> {
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6.0),
       margin: EdgeInsets.symmetric(horizontal: 10.0,vertical: 20.0),
@@ -22,11 +23,11 @@ class _OtherUsersTileState extends State<OtherUsersTile> {
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(30.0),
-          border: Border.all(color: Colors.grey.withOpacity(0.5)),
+          border: Border.all(color: currTheme.textTheme.bodyMedium!.color?.withOpacity(0.5) ?? Colors.grey.withOpacity(0.5)),
           boxShadow: [
             BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5.0,
+                color: currTheme.dialogBackgroundColor,
+                spreadRadius: 2.0,
                 blurRadius: 17.0,
                 offset: Offset(0, 2)
             )
@@ -46,8 +47,8 @@ class _OtherUsersTileState extends State<OtherUsersTile> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.username,style: TextStyle(fontSize: 23.0),),
-              Text(widget.emailID,style: TextStyle(fontSize: 18.0),),
+              Text(widget.username,style: TextStyle(fontSize: 23.0,color: Colors.black),),
+              Text(widget.emailID,style: TextStyle(fontSize: 18.0,color: Colors.black),),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

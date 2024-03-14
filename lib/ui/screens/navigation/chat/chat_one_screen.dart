@@ -7,13 +7,18 @@ class ChatOneScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     return Scaffold(
+      backgroundColor: currTheme.scaffoldBackgroundColor,
       appBar: AppBar(
+        iconTheme: currTheme.iconTheme,
+        scrolledUnderElevation: 0.0,
+        backgroundColor: currTheme.appBarTheme.backgroundColor,
         automaticallyImplyLeading: true,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("UserName"),
+            Text("UserName",style: TextStyle(color: currTheme.textTheme.titleLarge!.color),),
             SizedBox(width: 4),
             Icon(CupertinoIcons.chevron_forward, size: 16),
           ],
@@ -37,13 +42,13 @@ class ChatOneScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: currTheme.textTheme.bodyLarge!.color,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Text(
                           "Hello",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: currTheme.textTheme.bodyMedium!.color,
                           ),
                         ),
                       ),
@@ -63,13 +68,14 @@ class ChatOneScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       child: TextField(
                         decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           filled: true,
-                          fillColor: Colors.grey[200],
+                          fillColor: Colors.grey.shade100,
                           border: InputBorder.none,
                           hintText: "Type a message",
+                          hintStyle: TextStyle(color: Colors.black)
                         ),
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -80,12 +86,11 @@ class ChatOneScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(left: 8),
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.send,
-                        color: Colors.white,
+                        color: currTheme.iconTheme.color,
                       ),
                     ),
                   ),

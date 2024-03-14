@@ -1,4 +1,6 @@
 import 'package:closet_app/ui/screens/search/search_screen.dart';
+import 'package:closet_app/ui/screens/social/followers_screen.dart';
+import 'package:closet_app/ui/screens/social/following_screen.dart';
 import 'stories_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'widget/post_widget.dart';
@@ -41,10 +43,12 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var currTheme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        iconTheme: currTheme.iconTheme,
         centerTitle: false,
-        title: Text('Discover'),
+        title: Text('Discover',style: TextStyle(color: currTheme.textTheme.titleLarge!.color),),
         actions: [
           GestureDetector(
               onTap: () {
@@ -58,17 +62,40 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         ],
       ),
       drawer: Drawer(
-        backgroundColor: Colors.blue,
+        backgroundColor: currTheme.scaffoldBackgroundColor,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'),
+              ),
+              title: Text('vklightning',style: TextStyle(fontSize: 24.0,color: currTheme.textTheme.bodyMedium!.color),),
+            ),
+            TextButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FollowersScreen()));
+              },
+              child: ListTile(
+                title: Text('Followers',style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),),
+              ),
+            ),
+            TextButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FollowingScreen()));
+              },
+              child: ListTile(
+                title: Text('Following',style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),),
+              ),
+            )
+          ],
+        ),
       ),
       body: Column(
         children: [
           if (shouldShowOOTD)
             Column(
               children: [
-                Text(
-                  'Outfit of the day',
-                  style: TextStyle(fontSize: 28.0, fontFamily: 'Philosopher'),
-                ),
                 SizedBox(
                   height: 4.0,
                 ),
@@ -81,87 +108,25 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: EdgeInsets.symmetric(horizontal: 5.0),
                     width: double.infinity,
                     height: 200.0,
                     decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
+                        // color: Colors.grey.shade200,
+                        gradient: LinearGradient(
+                            colors: [Colors.lightGreenAccent,Colors.lightBlueAccent],
+                        ),
                         borderRadius: BorderRadius.circular(30.0)),
                     child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.0),
-                              bottomLeft: Radius.circular(30.0)),
-                          child: Image(
-                            image: NetworkImage('https://picsum.photos/400'),
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'),
-                                    radius:
-                                        MediaQuery.of(context).size.width / 25,
-                                  ),
-                                  SizedBox(
-                                    width: 12.0,
-                                  ),
-                                  SizedBox(
-                                      width: 100,
-                                      child: Text(
-                                        'username',
-                                        style: TextStyle(fontSize: 16.0),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ))
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(Iconsax.heart),
-                                  SizedBox(
-                                    width: 8.0,
-                                  ),
-                                  Text('12'),
-                                  SizedBox(
-                                    width: 16.0,
-                                  ),
-                                  Icon(Iconsax.message),
-                                  SizedBox(
-                                    width: 8.0,
-                                  ),
-                                  Text('11'),
-                                ],
-                              ),
-                              Text('Explore more!',
-                                  style: TextStyle(fontSize: 17.0))
-                            ],
-                          ),
+                        Spacer(),
+                        Text(
+                          'Outfit of the day',
+                          style: TextStyle(fontSize: 28.0, fontFamily: 'Philosopher',fontWeight: FontWeight.w500,color: Colors.black),
                         ),
                         Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ZoomTapAnimation(
-                              onTap: () {
-                                // print('Going to stories page');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => StoriesScreen()));
-                              },
-                              child: Icon(Icons.arrow_forward_ios)),
-                        )
+                        Icon(Icons.arrow_forward_ios,color: Colors.black,)
                       ],
                     ),
                   ),
@@ -172,7 +137,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             height: 12.0,
           ),
           Divider(
-            color: Colors.black,
+            color: currTheme.dividerColor,
           ),
           SizedBox(
             height: 12.0,

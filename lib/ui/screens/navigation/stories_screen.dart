@@ -13,14 +13,16 @@ class _StoriesScreenState extends State<StoriesScreen> {
   Widget build(BuildContext context) {
     final itemWidth = MediaQuery.of(context).size.width/2 - 20.0;
     final itemHeight = MediaQuery.of(context).size.height/3 - 40.0;
-    print('Aspect ratio is : ${itemWidth/itemHeight}');
+    // print('Aspect ratio is : ${itemWidth/itemHeight}');
+    var currTheme = Theme.of(context);
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: currTheme.scaffoldBackgroundColor,
         appBar: AppBar(
+          iconTheme: currTheme.iconTheme,
           scrolledUnderElevation: 0.0,
           centerTitle: true,
-          title: Text('Stories',style: TextStyle(fontSize: 40.0,fontFamily: 'Philosopher'),),
-          backgroundColor: Colors.white,
+          title: Text('Stories',style: TextStyle(fontSize: 40.0,fontFamily: 'Philosopher',color: currTheme.textTheme.titleLarge!.color),),
+          backgroundColor: currTheme.appBarTheme.backgroundColor,
         ),
         body: Column(
             children: [
@@ -34,8 +36,6 @@ class _StoriesScreenState extends State<StoriesScreen> {
                         username: "username",
                         profilePictureUrl: "https://picsum.photos/80",
                         imageUrl: "https://picsum.photos/800",
-                        likes: 50,
-                        comments: 12,
                       )
                   ],
                 ),
