@@ -1,3 +1,4 @@
+import 'package:closet_app/main.dart';
 import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/authentication/sign_up/sign_up_screen.dart';
@@ -116,13 +117,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           _formKey.currentState!.save();
                           context
                               .read<UserProvider>()
-                              .signInMail(_email, _password)
-                              .whenComplete(() => Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => NavigationScreen()),
-                                    (route) => false,
-                                  ));
+                              .signInMail(_email, _password);
                         }
                       },
                       child: Container(
@@ -183,9 +178,11 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                       onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                        }
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SignUpScreen(),
+                          ),
+                        );
                       },
                     ),
                     SizedBox(height: 4),

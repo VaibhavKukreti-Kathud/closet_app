@@ -1,8 +1,8 @@
+import 'package:closet_app/app.dart';
 import 'package:closet_app/firebase_options.dart';
 import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
-import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,34 +45,11 @@ class MyApp extends StatelessWidget {
           ],
           child: Consumer(
             builder: (context, UserProvider userProvider, child) {
-              return userProvider.isSignedIn ? App() : const SignInScreen();
+              return userProvider.isSignedIn
+                  ? const App()
+                  : const SignInScreen();
             },
           )),
     );
-  }
-}
-
-class App extends StatefulWidget {
-  const App({
-    super.key,
-  });
-
-  @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  @override
-  void initState() {
-    context.read<UserProvider>().getCurrentAppUser();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, userProvider, child) {
-      bool dataExists = userProvider.currentAppUser != null;
-      return dataExists ? NavigationScreen() : Scaffold();
-    });
   }
 }
