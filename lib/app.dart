@@ -16,14 +16,13 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   void initState() {
-    context.read<UserProvider>().getCurrentAppUser();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, userProvider, child) {
-      bool dataExists = userProvider.currentAppUser != null;
+      bool dataExists = userProvider.appUser != null;
       return dataExists ? NavigationScreen() : AddUserDetailsScreen();
     });
   }

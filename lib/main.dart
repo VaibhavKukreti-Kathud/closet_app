@@ -4,6 +4,7 @@ import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:closet_app/ui/screens/navigation/theme_manager.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,16 +16,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(ChangeNotifierProvider(
-      create: (_) => ThemeNotifier(),
-      child: MyApp())
-  );
+  runApp(
+      ChangeNotifierProvider(create: (_) => ThemeNotifier(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -39,11 +37,12 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(
               create: (context) => UserProvider(),
-            )
+            ),
+            Provider.value(value: (context) => FirebaseAuth.instance),
           ],
           child: Consumer(
             builder: (context, UserProvider userProvider, child) {
-              return userProvider.isSignedIn
+              return FirebaseAuth.instance.currentUser != null
                   ? const App()
                   : const SignInScreen();
             },

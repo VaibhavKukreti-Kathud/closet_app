@@ -1,63 +1,70 @@
+import 'package:closet_app/constants.dart';
 import 'package:closet_app/models/app_user.dart';
+import 'package:closet_app/services/auth/auth_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fAuth;
 import 'package:flutter/foundation.dart';
 
 class UserProvider with ChangeNotifier {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  bool get isSignedIn => firebaseAuth.currentUser != null;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final AuthProvider _authProvider =
+      AuthProvider(firebaseAuth: fAuth.FirebaseAuth.instance);
 
-  User? get user => firebaseAuth.currentUser;
-  AppUser? currentAppUser;
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  AppUser? _appUser;
 
-  Future<void> signInMail(String email, String password) async {
-    try {
-      await firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      notifyListeners();
-    } on FirebaseAuthException catch (e) {
-      print(e.message);
+  AppUser? get appUser => _appUser;
+
+  bool get isSignedIn => fAuth.FirebaseAuth.instance.currentUser != null;
+
+  Future<void> signUpWithMailAndPassword({
+    required String password,
+    required String email,
+    String? username,
+  }) async {
+    fAuth.User? firebaseUser = await _authProvider.signUpWithMailAndPassword(
+      password: password,
+      email: email,
+      username: username,
+    );
+    if (firebaseUser != null) {
+      final QuerySnapshot<Map<String, dynamic>> result = await _firestore
+          .collection(FirestoreConstants.USER_COLLECTION)
+          .where(FirestoreConstants.UID, isEqualTo: firebaseUser.uid)
+          .get();
+      final List<DocumentSnapshot> documents = result.docs;
+      if (documents.isNotEmpty) {
+        _appUser =
+            AppUser.fromJson(documents.first.data() as Map<String, dynamic>);
+        notifyListeners();
+      }
+    }
+  }
+
+  Future<void> signInWithMailAndPassword({
+    required String password,
+    required String email,
+  }) async {
+    fAuth.User? firebaseUser = await _authProvider.handleSignIn(
+      email,
+      password,
+    );
+    if (firebaseUser != null) {
+      final QuerySnapshot<Map<String, dynamic>> result = await _firestore
+          .collection(FirestoreConstants.USER_COLLECTION)
+          .where(FirestoreConstants.UID, isEqualTo: firebaseUser.uid)
+          .get();
+      final List<DocumentSnapshot> documents = result.docs;
+      if (documents.isNotEmpty) {
+        _appUser =
+            AppUser.fromJson(documents.first.data() as Map<String, dynamic>);
+        notifyListeners();
+      }
     }
   }
 
   Future<void> signOut() async {
-    await firebaseAuth.signOut();
+    await _authProvider.signOut();
+    _appUser = null;
     notifyListeners();
-  }
-
-  Future<void> signUpMail(String email, String password) async {
-    try {
-      await firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      notifyListeners();
-    } on FirebaseAuthException catch (e) {
-      print(e.message);
-    }
-  }
-
-  Future<void> updateAppUser(AppUser appUser) async {
-    notifyListeners();
-  }
-
-  Future<AppUser?> getCurrentAppUser() async {
-    final user = firebaseAuth.currentUser;
-    final userData = await users.doc(user!.uid).get();
-    currentAppUser = userData.data() == null
-        ? null
-        : AppUser.fromJson(userData.data() as Map<String, dynamic>);
-    notifyListeners();
-    return currentAppUser;
-  }
-
-  Future<AppUser> fetchAppUserFromUserId(String userId) async {
-    final userData = await users.doc(userId).get();
-    return AppUser.fromJson(userData.data() as Map<String, dynamic>);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:closet_app/main.dart';
 import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
@@ -115,9 +117,21 @@ class _SignInScreenState extends State<SignInScreen> {
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          context
-                              .read<UserProvider>()
-                              .signInMail(_email, _password);
+                          try {
+                            context
+                                .read<UserProvider>()
+                                .signInWithMailAndPassword(
+                                  email: _email,
+                                  password: _password,
+                                )
+                                .whenComplete(() => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            NavigationScreen())));
+                          } catch (e) {
+                            log(e.toString());
+                          }
                         }
                       },
                       child: Container(
