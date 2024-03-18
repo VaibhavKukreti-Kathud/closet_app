@@ -3,6 +3,7 @@ import 'package:closet_app/firebase_options.dart';
 import 'package:closet_app/services/auth/auth_functions.dart' as af;
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
+import 'package:closet_app/ui/screens/navigation/theme_manager.dart';
 import 'package:closet_app/ui/screens/navigation/theme_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -42,12 +43,17 @@ class MyApp extends StatelessWidget {
               value: FirebaseAuth.instance.authStateChanges(),
               initialData: null),
           Provider<SharedPreferences>.value(value: prefs),
+          Provider<af.AuthProvider>.value(value: authProvider),
+          ChangeNotifierProvider(create: (context) => ThemeNotifier()),
         ],
-        child: MaterialApp(
-          theme: ThemeModel().lightTheme,
-          debugShowCheckedModeBanner: false,
-          home: const AuthGate(),
-        ));
+        child:
+            Consumer<ThemeNotifier>(builder: (context, themeNotifier, child) {
+          return MaterialApp(
+            theme: themeNotifier.getTheme(),
+            debugShowCheckedModeBanner: false,
+            home: const AuthGate(),
+          );
+        }));
   }
 }
 
