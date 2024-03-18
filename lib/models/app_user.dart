@@ -1,4 +1,6 @@
 class AppUser {
+  final String uid;
+  final pfpUrl;
   final String fullName;
   final String email;
   final String gender;
@@ -7,6 +9,8 @@ class AppUser {
   final String approxLocation;
 
   const AppUser({
+    required this.uid,
+    required this.pfpUrl,
     required this.fullName,
     required this.email,
     required this.gender,
@@ -17,6 +21,8 @@ class AppUser {
 
   factory AppUser.fromJson(Map<String, dynamic> json) {
     return AppUser(
+      uid: json['uid'],
+      pfpUrl: json['pfpUrl'],
       fullName: json['fullName'],
       email: json['email'],
       gender: json['gender'],
@@ -28,6 +34,8 @@ class AppUser {
 
   Map<String, dynamic> toJson() {
     return {
+      'uid': uid,
+      'pfpUrl': pfpUrl,
       'fullName': fullName,
       'email': email,
       'gender': gender,

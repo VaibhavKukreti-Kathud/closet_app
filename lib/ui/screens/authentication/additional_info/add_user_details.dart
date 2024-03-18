@@ -10,9 +10,7 @@ class AddUserDetailsScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: ElevatedButton(
-          onPressed: () {
-            context.read<UserProvider>().signOut();
-          },
+          onPressed: () {},
           child: const Text('Sign Out'),
         ),
       ),

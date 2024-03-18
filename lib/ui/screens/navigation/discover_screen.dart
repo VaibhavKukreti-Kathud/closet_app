@@ -1,6 +1,7 @@
 import 'package:closet_app/ui/screens/search/search_screen.dart';
 import 'package:closet_app/ui/screens/social/followers_screen.dart';
 import 'package:closet_app/ui/screens/social/following_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'stories_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'widget/post_widget.dart';
@@ -48,7 +49,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       appBar: AppBar(
         iconTheme: currTheme.iconTheme,
         centerTitle: false,
-        title: Text('Discover',style: TextStyle(color: currTheme.textTheme.titleLarge!.color),),
+        title: Text(
+          FirebaseAuth.instance.currentUser!.email.toString() ?? 'Discover',
+          style: TextStyle(color: currTheme.textTheme.titleLarge!.color),
+        ),
         actions: [
           GestureDetector(
               onTap: () {
@@ -68,24 +72,40 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           children: [
             ListTile(
               leading: CircleAvatar(
-                backgroundImage: NetworkImage('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'),
+                backgroundImage: NetworkImage(
+                    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'),
               ),
-              title: Text('vklightning',style: TextStyle(fontSize: 24.0,color: currTheme.textTheme.bodyMedium!.color),),
-            ),
-            TextButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => FollowersScreen()));
-              },
-              child: ListTile(
-                title: Text('Followers',style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),),
+              title: Text(
+                'vklightning',
+                style: TextStyle(
+                    fontSize: 24.0,
+                    color: currTheme.textTheme.bodyMedium!.color),
               ),
             ),
             TextButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => FollowingScreen()));
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FollowersScreen()));
               },
               child: ListTile(
-                title: Text('Following',style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),),
+                title: Text(
+                  'Followers',
+                  style:
+                      TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FollowingScreen()));
+              },
+              child: ListTile(
+                title: Text(
+                  'Following',
+                  style:
+                      TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                ),
               ),
             )
           ],
@@ -114,7 +134,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     decoration: BoxDecoration(
                         // color: Colors.grey.shade200,
                         gradient: LinearGradient(
-                            colors: [Colors.lightGreenAccent,Colors.lightBlueAccent],
+                          colors: [
+                            Colors.lightGreenAccent,
+                            Colors.lightBlueAccent
+                          ],
                         ),
                         borderRadius: BorderRadius.circular(30.0)),
                     child: Row(
@@ -123,10 +146,17 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         Spacer(),
                         Text(
                           'Outfit of the day',
-                          style: TextStyle(fontSize: 28.0, fontFamily: 'Philosopher',fontWeight: FontWeight.w500,color: Colors.black),
+                          style: TextStyle(
+                              fontSize: 28.0,
+                              fontFamily: 'Philosopher',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
                         ),
                         Spacer(),
-                        Icon(Icons.arrow_forward_ios,color: Colors.black,)
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.black,
+                        )
                       ],
                     ),
                   ),

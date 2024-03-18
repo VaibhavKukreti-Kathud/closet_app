@@ -1,52 +1,69 @@
-import 'package:closet_app/app.dart';
+import 'dart:developer';
 import 'package:closet_app/firebase_options.dart';
-import 'package:closet_app/providers/user_provider.dart';
-import 'package:closet_app/ui/constants/style_constants.dart';
+import 'package:closet_app/services/auth/auth_functions.dart' as af;
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
-import 'package:closet_app/ui/screens/navigation/theme_manager.dart';
+import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
+import 'package:closet_app/ui/screens/navigation/theme_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(
-      ChangeNotifierProvider(create: (_) => ThemeNotifier(), child: MyApp()));
+  // runApp(MyApp(
+  //   prefs: await SharedPreferences.getInstance(),
+  // ));
+  runApp(MyApp(
+    prefs: await SharedPreferences.getInstance(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({Key? key, required this.prefs}) : super(key: key);
+
+  final SharedPreferences prefs;
+  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
-    var theme = Provider.of<ThemeNotifier>(context);
-    return MaterialApp(
-      theme: theme.getTheme(),
-      home: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (context) => UserProvider(),
-            ),
-            Provider.value(value: (context) => FirebaseAuth.instance),
-          ],
-          child: Consumer(
-            builder: (context, UserProvider userProvider, child) {
-              return FirebaseAuth.instance.currentUser != null
-                  ? const App()
-                  : const SignInScreen();
-            },
-          )),
+    af.AuthProvider authProvider = af.AuthProvider(
+      firebaseAuth: FirebaseAuth.instance,
+      prefs: prefs,
+    );
+    return MultiProvider(
+        providers: [
+          StreamProvider<User?>.value(
+              value: FirebaseAuth.instance.authStateChanges(),
+              initialData: null),
+          Provider<SharedPreferences>.value(value: prefs),
+        ],
+        child: MaterialApp(
+          theme: ThemeModel().lightTheme,
+          debugShowCheckedModeBanner: false,
+          home: const AuthGate(),
+        ));
+  }
+}
+
+class AuthGate extends StatelessWidget {
+  const AuthGate({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    User? firebaseUser = Provider.of<User?>(context);
+    bool loggedIn = firebaseUser != null;
+    log('User is logged in: $loggedIn');
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: loggedIn ? const NavigationScreen() : const SignInScreen(),
     );
   }
 }
