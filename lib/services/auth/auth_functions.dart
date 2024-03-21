@@ -1,14 +1,14 @@
 import 'package:closet_app/constants.dart';
-import 'package:closet_app/models/app_user.dart';
+import 'package:closet_app/models/app_user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthProvider {
+class AuthFunctions {
   final FirebaseAuth firebaseAuth;
   final SharedPreferences prefs;
 
-  AuthProvider({
+  AuthFunctions({
     required this.firebaseAuth,
     required this.prefs,
   });
@@ -93,9 +93,30 @@ class AuthProvider {
     }
   }
 
+  Future<String> signInPhoneWithOTP(String phone, String otp) async {
+    try {
+      await firebaseAuth.signInWithPhoneNumber(phone).then((value) {
+        print(value);
+      });
+      return FUNCTION_SUCCESSFUL;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
   Future<String> sendPasswordResetLinkMail(String email) async {
     try {
       await firebaseAuth.sendPasswordResetEmail(email: email);
+      return FUNCTION_SUCCESSFUL;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  Future<String> signOut() async {
+    try {
+      await firebaseAuth.signOut();
+      await prefs.clear();
       return FUNCTION_SUCCESSFUL;
     } catch (e) {
       return e.toString();

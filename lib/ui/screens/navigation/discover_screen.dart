@@ -1,7 +1,10 @@
+import 'package:closet_app/providers/user_provider.dart';
+import 'package:closet_app/services/auth/auth_functions.dart';
 import 'package:closet_app/ui/screens/search/search_screen.dart';
 import 'package:closet_app/ui/screens/social/followers_screen.dart';
 import 'package:closet_app/ui/screens/social/following_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 import 'stories_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'widget/post_widget.dart';
@@ -49,9 +52,14 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       appBar: AppBar(
         iconTheme: currTheme.iconTheme,
         centerTitle: false,
-        title: Text(
-          FirebaseAuth.instance.currentUser!.email.toString() ?? 'Discover',
-          style: TextStyle(color: currTheme.textTheme.titleLarge!.color),
+        title: InkWell(
+          onTap: () {
+            context.read<AuthFunctions>().signOut();
+          },
+          child: Text(
+            FirebaseAuth.instance.currentUser!.email.toString() ?? 'Discover',
+            style: TextStyle(color: currTheme.textTheme.titleLarge!.color),
+          ),
         ),
         actions: [
           GestureDetector(

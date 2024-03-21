@@ -15,7 +15,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
-import 'package:closet_app/services/auth/auth_functions.dart' as af;
+import 'package:closet_app/services/auth/auth_functions.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -287,7 +287,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           } else if (_passwordController.text == '') {
                             showSnackbar(context, 'Please enter the password');
                           } else {
-                            String res = await af.AuthProvider(
+                            String res = await AuthFunctions(
                                     firebaseAuth: FirebaseAuth.instance,
                                     prefs: Provider.of<SharedPreferences>(
                                         context,

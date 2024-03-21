@@ -1,5 +1,5 @@
 import 'package:closet_app/constants.dart';
-import 'package:closet_app/models/app_user.dart';
+import 'package:closet_app/models/app_user_model.dart';
 import 'package:closet_app/services/auth/auth_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fAuth;

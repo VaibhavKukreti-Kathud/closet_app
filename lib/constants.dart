@@ -15,4 +15,5 @@ class FirestoreConstants {
   static const UID = "id";
   static const TIMESTAMP = "timestamp";
   static const EMAIL = "email";
+  static const POSTS_COLLECTION = "posts";
 }

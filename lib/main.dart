@@ -1,6 +1,7 @@
 import 'dart:developer';
+import 'package:closet_app/app.dart';
 import 'package:closet_app/firebase_options.dart';
-import 'package:closet_app/services/auth/auth_functions.dart' as af;
+import 'package:closet_app/services/auth/auth_functions.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
 import 'package:closet_app/ui/screens/navigation/theme_manager.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    af.AuthProvider authProvider = af.AuthProvider(
+    AuthFunctions authFunction = AuthFunctions(
       firebaseAuth: FirebaseAuth.instance,
       prefs: prefs,
     );
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
               value: FirebaseAuth.instance.authStateChanges(),
               initialData: null),
           Provider<SharedPreferences>.value(value: prefs),
-          Provider<af.AuthProvider>.value(value: authProvider),
+          Provider<AuthFunctions>.value(value: authFunction),
           ChangeNotifierProvider(create: (context) => ThemeNotifier()),
         ],
         child:
@@ -69,7 +70,7 @@ class AuthGate extends StatelessWidget {
     log('User is logged in: $loggedIn');
     return Scaffold(
       backgroundColor: Colors.white,
-      body: loggedIn ? const NavigationScreen() : const SignInScreen(),
+      body: loggedIn ? const App() : const SignInScreen(),
     );
   }
 }
