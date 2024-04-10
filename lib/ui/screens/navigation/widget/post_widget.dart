@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:closet_app/constants.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/navigation/expanded_story_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,8 +28,16 @@ class PostWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var currTheme = Theme.of(context);
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ExpandedStoryScreen(username: username, userImageURL: profilePictureUrl, storyImageURL: imageUrl, likes: likes, comments: comments)));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ExpandedStoryScreen(
+                    username: username,
+                    userImageURL: profilePictureUrl,
+                    storyImageURL: imageUrl,
+                    likes: likes,
+                    comments: comments)));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -116,19 +125,18 @@ class PostWidget extends StatelessWidget {
               aspectRatio: 1,
               child: Container(
                   child: CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    fit: BoxFit.cover,
-                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                        Center(
-                          child: CircularProgressIndicator(
-                              value: downloadProgress.progress,
-                              strokeWidth: 2.0,
-                              color: currTheme.textTheme.bodyMedium!.color
-                          ),
-                        ),
-                    errorWidget: (context, url, error) => Icon(Icons.error,color: currTheme.iconTheme.color),
-                  )
-              ),
+                imageUrl: imageUrl,
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Center(
+                  child: CircularProgressIndicator(
+                      value: downloadProgress.progress,
+                      strokeWidth: 2.0,
+                      color: currTheme.textTheme.bodyMedium!.color),
+                ),
+                errorWidget: (context, url, error) =>
+                    Icon(Icons.error, color: currTheme.iconTheme.color),
+              )),
             ),
             // Actions
             SizedBox(height: 8),

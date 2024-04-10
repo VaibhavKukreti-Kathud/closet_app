@@ -219,7 +219,6 @@ class _SignInScreenState extends State<SignInScreen> {
     //   ),
     // );
     return Scaffold(
-      backgroundColor: kBackgroundColor,
       body: Stack(
         children: [
           Container(
@@ -388,7 +387,9 @@ class CustomButton extends StatelessWidget {
                       color: kButtonShadowColor,
                     )
                   ],
-            color: disabled ? kDiabledButtonColor : kButtonPColor,
+            color: disabled
+                ? Theme.of(context).disabledColor
+                : Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(10)),
         width: MediaQuery.of(context).size.width - 64,
         child: Center(

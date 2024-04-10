@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:animations/animations.dart';
-import 'package:closet_app/ui/constants/style_constants.dart';
+import 'package:closet_app/constants.dart';
+import 'package:closet_app/ui/constants/style_constants.dart' as s;
 import 'package:closet_app/ui/screens/navigation/chat/chats_screen.dart';
 import 'package:closet_app/ui/screens/navigation/discover_screen.dart';
 import 'package:closet_app/ui/screens/navigation/favorite_screen.dart';
@@ -25,6 +26,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   static const double _iconSize = 27.0;
 
+  get kBottomNavbarHeight => 58;
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> _pages = [
@@ -35,9 +38,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
       FavoriteScreen(),
       MyClosetScreen(),
     ];
-    final Color selectedColor = Theme.of(context).iconTheme.color!;
-    final Color unselectedColor =
-        Theme.of(context).iconTheme.color!.withOpacity(0.3);
+    final Color selectedColor = kButtonShadowColor.withOpacity(0.8);
+    final Color unselectedColor = kDisabledColor.withOpacity(0.9);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -91,7 +93,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             : EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 7.2),
         decoration: BoxDecoration(
-          boxShadow: [kSubtleShadow],
+          boxShadow: [s.kSubtleShadow],
           border: Border(top: BorderSide.none),
           color: Theme.of(context).scaffoldBackgroundColor,
         ),

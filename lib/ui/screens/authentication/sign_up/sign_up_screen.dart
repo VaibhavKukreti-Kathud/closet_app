@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:closet_app/constants.dart';
 import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
@@ -146,7 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
-                        color: kAccentColor,
+                        color: kSecondaryColor,
                         borderRadius: BorderRadius.circular(kBorderRadius),
                       ),
                       child: Center(

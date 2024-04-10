@@ -27,7 +27,10 @@ class _SearchScreenState extends State<SearchScreen> {
               Navigator.pop(context);
             },
           ),
-          title: Text('Search',style: TextStyle(color: currTheme.textTheme.titleLarge!.color),),
+          title: Text(
+            'Search',
+            style: TextStyle(color: currTheme.textTheme.titleLarge!.color),
+          ),
         ),
         body: Column(
           children: [
@@ -36,18 +39,19 @@ class _SearchScreenState extends State<SearchScreen> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                color: currTheme.textTheme.bodyLarge!.color,
+                color: currTheme.iconTheme.color!.withOpacity(0.05),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Search for items',
-                  prefixIcon: Icon(Iconsax.search_normal,color: currTheme.iconTheme.color,),
-                  border: InputBorder.none,
-                  hintStyle: TextStyle(
-                    color: currTheme.textTheme.bodyMedium!.color
-                  )
-                ),
+                    hintText: 'Search for items',
+                    prefixIcon: Icon(
+                      Iconsax.search_normal,
+                      color: currTheme.iconTheme.color,
+                    ),
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(
+                        color: currTheme.textTheme.bodyMedium!.color)),
                 onChanged: (value) {},
                 onSubmitted: (value) {},
               ),

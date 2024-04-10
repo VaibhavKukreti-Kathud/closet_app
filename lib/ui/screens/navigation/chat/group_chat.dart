@@ -1,4 +1,4 @@
-import 'package:closet_app/ui/constants/style_constants.dart';
+import 'package:closet_app/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -77,15 +77,14 @@ class GroupChatScreen extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: TextField(
-                          decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
                             filled: true,
                             fillColor: Colors.grey[100],
                             border: InputBorder.none,
                             hintText: "Type a message",
-                            hintStyle: TextStyle(color: Colors.black)
-                        ),
+                            hintStyle: TextStyle(color: Colors.black)),
                         style: TextStyle(color: Colors.black),
                       ),
                     ),

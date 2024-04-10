@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 const double kBorderRadius = 20;
-const Color kBackgroundColor = Color.fromARGB(255, 255, 255, 255);
-const Color kButtonShadowColor = Color.fromARGB(255, 24, 151, 255);
-const Color kButtonPColor = Color(0xFF6BBCFF);
-const Color kDiabledButtonColor = Color.fromARGB(255, 203, 232, 255);
+const Color kPrimaryColor = Color.fromARGB(255, 255, 255, 255);
+const Color kButtonShadowColor = Color.fromARGB(255, 236, 128, 70);
+const Color kSecondaryColor = Color(0xFFedbea2);
+const Color kDisabledColor = Color(0xffd9c7bd);
 const Color kBGFieldColor = Color.fromARGB(255, 239, 247, 255);
 const String FUNCTION_SUCCESSFUL = 'Success';
 

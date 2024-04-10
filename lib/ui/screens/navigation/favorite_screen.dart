@@ -1,3 +1,4 @@
+import 'package:closet_app/constants.dart';
 import 'package:closet_app/models/cloth_item_model.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/navigation/expanded_story_screen.dart';
@@ -14,7 +15,6 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-
   List<WardrobeItem> wardrobeItems = [
     WardrobeItem(
       name: "T-Shirt",
@@ -57,11 +57,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       appBar: AppBar(
         iconTheme: currTheme.iconTheme,
         backgroundColor: currTheme.appBarTheme.backgroundColor,
-        title: Text('Favorites',
-        style: TextStyle(
-          fontSize: 30.0,
-          color: currTheme.textTheme.titleLarge!.color
-        ),
+        title: Text(
+          'Favorites',
+          style: TextStyle(
+              fontSize: 30.0, color: currTheme.textTheme.titleLarge!.color),
         ),
         actions: [
           Padding(
@@ -69,29 +68,26 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             child: GestureDetector(
                 onTap: () {
                   showModalBottomSheet(
-                    constraints: BoxConstraints(maxHeight: MediaQuery
-                        .of(context)
-                        .size
-                        .height / 2.5),
+                    constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height / 2.5),
                     context: context,
                     builder: (context) {
                       return Container(
-                        color: Theme
-                            .of(context)
-                            .scaffoldBackgroundColor,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 16),
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               child: Text(
                                 "Sort",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.normal,
-                                  color: currTheme.textTheme.bodyMedium!.color?.withOpacity(0.9),
+                                  color: currTheme.textTheme.bodyMedium!.color
+                                      ?.withOpacity(0.9),
                                 ),
                               ),
                             ),
@@ -100,24 +96,33 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               value: 1,
                               groupValue: 1,
                               onChanged: (value) {},
-                              title: Text('By Date',
-                              style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                              title: Text(
+                                'By Date',
+                                style: TextStyle(
+                                    color:
+                                        currTheme.textTheme.bodyMedium!.color),
                               ),
                             ),
                             RadioListTile(
                               value: 2,
                               groupValue: 1,
                               onChanged: (value) {},
-                              title: Text('By Name',
-                                style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                              title: Text(
+                                'By Name',
+                                style: TextStyle(
+                                    color:
+                                        currTheme.textTheme.bodyMedium!.color),
                               ),
                             ),
                             RadioListTile(
                               value: 3,
                               groupValue: 1,
                               onChanged: (value) {},
-                              title: Text('By Price',
-                                style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
+                              title: Text(
+                                'By Price',
+                                style: TextStyle(
+                                    color:
+                                        currTheme.textTheme.bodyMedium!.color),
                               ),
                             ),
                           ],
@@ -126,9 +131,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     },
                   );
                 },
-                child: Icon(Iconsax.sort)
-              ),
-            ),
+                child: Icon(Iconsax.sort)),
+          ),
         ],
       ),
       // appBar: CustomAppBar(
@@ -187,8 +191,17 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         crossAxisCount: 2,
         children: wardrobeItems.map((item) {
           return GestureDetector(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ExpandedStoryScreen(username: 'vkukreti07', userImageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5PkW4fJsvhTn3s9hnv2nSU7a5jkGYsUH9Zl7YOHZKeA&s', storyImageURL: item.imageUrl, likes: 10, comments: 5)));
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ExpandedStoryScreen(
+                          username: 'vkukreti07',
+                          userImageURL:
+                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5PkW4fJsvhTn3s9hnv2nSU7a5jkGYsUH9Zl7YOHZKeA&s',
+                          storyImageURL: item.imageUrl,
+                          likes: 10,
+                          comments: 5)));
             },
             child: Container(
               margin: const EdgeInsets.all(8),
@@ -206,7 +219,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       child: SizedBox(
                         width: double.maxFinite,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(kBorderRadius - 3),
+                          borderRadius:
+                              BorderRadius.circular(kBorderRadius - 3),
                           child: Image.network(
                             item.imageUrl,
                             fit: BoxFit.cover,

@@ -1,3 +1,4 @@
+import 'package:closet_app/constants.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';

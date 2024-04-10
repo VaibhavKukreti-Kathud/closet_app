@@ -1,3 +1,4 @@
+import 'package:closet_app/constants.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,49 +23,56 @@ class StoryWidget extends StatelessWidget {
     var currTheme = Theme.of(context);
     final width = MediaQuery.of(context).size.width;
     return GestureDetector(
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ExpandedStoryScreen(username: username, userImageURL: profilePictureUrl, storyImageURL: imageUrl)));
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ExpandedStoryScreen(
+                      username: username,
+                      userImageURL: profilePictureUrl,
+                      storyImageURL: imageUrl)));
         },
         child: Container(
           decoration: BoxDecoration(
             color: currTheme.scaffoldBackgroundColor,
             boxShadow: [kSubtleShadow],
-            border: Border.all(color: currTheme.textTheme.bodyMedium!.color ?? Colors.grey.shade100),
+            border: Border.all(
+                color: currTheme.textTheme.bodyMedium!.color ??
+                    Colors.grey.shade100),
             borderRadius: BorderRadius.circular(kBorderRadius),
           ),
           margin: EdgeInsets.all(10.0),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 12),
-                // Header
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(profilePictureUrl),
-                        radius: 20.0,
-                      ),
-                      SizedBox(width: 10),
-                      Text(username),
-                      Spacer(),
-                      Icon(Iconsax.more),
-                    ],
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(height: 12),
+            // Header
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 6),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(profilePictureUrl),
+                    radius: 20.0,
                   ),
-                ),
-                // Image
-                SizedBox(height: 12),
-                Container(
-                  child: Image(
-                    image: NetworkImage('${imageUrl}'),
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                SizedBox(height: 12.0,),
-              ]
-          ),
-        )
-    );
+                  SizedBox(width: 10),
+                  Text(username),
+                  Spacer(),
+                  Icon(Iconsax.more),
+                ],
+              ),
+            ),
+            // Image
+            SizedBox(height: 12),
+            Container(
+              child: Image(
+                image: NetworkImage('${imageUrl}'),
+                fit: BoxFit.contain,
+              ),
+            ),
+            SizedBox(
+              height: 12.0,
+            ),
+          ]),
+        ));
   }
 }

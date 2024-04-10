@@ -25,7 +25,8 @@ class MyClosetScreen extends StatefulWidget {
   State<MyClosetScreen> createState() => _MyClosetScreenState();
 }
 
-class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStateMixin {
+class _MyClosetScreenState extends State<MyClosetScreen>
+    with TickerProviderStateMixin {
   TabController? tabController;
   ValueNotifier<int> _currentScreen = ValueNotifier<int>(0);
   int _previousScreen = 0;
@@ -46,14 +47,15 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
     }
   }
 
-  void showDialogWithFields(BuildContext context,ThemeData currTheme) {
+  void showDialogWithFields(BuildContext context, ThemeData currTheme) {
     showDialog(
       context: context,
       builder: (_) {
         var categoryController = TextEditingController();
         return AlertDialog(
           backgroundColor: currTheme.dialogTheme.backgroundColor,
-          title: Text('Add Category',
+          title: Text(
+            'Add Category',
             style: TextStyle(
               color: currTheme.textTheme.bodyMedium!.color,
             ),
@@ -64,34 +66,33 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
               children: [
                 TextFormField(
                   controller: categoryController,
-                  style: TextStyle(
-                      color: currTheme.textTheme.bodyMedium!.color
-                  ),
+                  style:
+                      TextStyle(color: currTheme.textTheme.bodyMedium!.color),
                   decoration: InputDecoration(
                       hintText: 'Enter a new category of clothing',
                       hintStyle: TextStyle(
-                          color: currTheme.textTheme.bodyMedium!.color
-                      )
-                  ),
+                          color: currTheme.textTheme.bodyMedium!.color)),
                 ),
                 SizedBox(
                   height: 20.0,
                 ),
                 TextButton(
-                    onPressed: () async{
-                      selectedCategoryFile = (await ImagePicker.platform.getImageFromSource(source: ImageSource.gallery));
-                      setState(() {
-
-                      });
+                    onPressed: () async {
+                      selectedCategoryFile = (await ImagePicker.platform
+                          .getImageFromSource(source: ImageSource.gallery));
+                      setState(() {});
                     },
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateColor.resolveWith((states) => currTheme.dialogTheme.backgroundColor ?? Colors.teal)
-                    ),
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) =>
+                                currTheme.dialogTheme.backgroundColor ??
+                                Colors.teal)),
                     child: Text(
                       'Choose Image',
-                      style: TextStyle(fontSize: 20.0,color: currTheme.textTheme.bodyMedium!.color),
-                    )
-                )
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          color: currTheme.textTheme.bodyMedium!.color),
+                    ))
               ],
             ),
           ),
@@ -100,13 +101,11 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
               onPressed: () => Navigator.pop(context),
               child: Text(
                 'Cancel',
-                style:TextStyle(
-                    color: currTheme.textTheme.bodyMedium!.color
-                ),
+                style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
               ),
             ),
             TextButton(
-              onPressed: () async{
+              onPressed: () async {
                 String cat = categoryController.text;
                 categoryController.clear();
                 Navigator.pop(context);
@@ -115,38 +114,41 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
                 });
                 // WardrobeCategory wardrobeCat = WardrobeCategory(name: cat, image: imgUrl);
                 // add it to database
-                String fileName = DateTime.now().microsecondsSinceEpoch.toString() + 'eashanbhardwaj02@gmail.com';
+                String fileName =
+                    DateTime.now().microsecondsSinceEpoch.toString() +
+                        'eashanbhardwaj02@gmail.com';
 
                 Reference referenceRoot = FirebaseStorage.instance.ref();
-                Reference referencePostImages = referenceRoot.child('categories');
+                Reference referencePostImages =
+                    referenceRoot.child('categories');
 
-                Reference referenceCurrentPost = referencePostImages.child(fileName);
+                Reference referenceCurrentPost =
+                    referencePostImages.child(fileName);
 
-                try{
+                try {
                   // await referenceCurrentPost.putFile(File(selectedImageFile!.path));
-                  await referenceCurrentPost.putData(await selectedCategoryFile!.readAsBytes());
-                  categoryImageURL = await referenceCurrentPost.getDownloadURL();
+                  await referenceCurrentPost
+                      .putData(await selectedCategoryFile!.readAsBytes());
+                  categoryImageURL =
+                      await referenceCurrentPost.getDownloadURL();
                   // print('debug statement here : $imageURL');
                   _firestore.collection('Categories').add({
                     'user': 'eashanbhardwaj02@gmail.com',
                     'category': cat,
-                    'categoryUrl' : categoryImageURL,
+                    'categoryUrl': categoryImageURL,
                     'numItems': 0.0,
                     'timestamp': DateTime.now().microsecondsSinceEpoch
                   });
                   setState(() {
                     shouldSpin = false;
                   });
-
                 } catch (e) {
                   print('Error occured : $e');
                 }
               },
               child: Text(
                 'Add',
-                style:TextStyle(
-                    color: currTheme.textTheme.bodyMedium!.color
-                ),
+                style: TextStyle(color: currTheme.textTheme.bodyMedium!.color),
               ),
             ),
           ],
@@ -172,18 +174,21 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
         title: Text(
           'My Closet',
           style: TextStyle(
-              fontSize: 30.0,
-              color: currTheme.textTheme.titleLarge!.color
-          ),
+              fontSize: 30.0, color: currTheme.textTheme.titleLarge!.color),
         ),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 8.0),
             child: GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettingsScreen()));
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfileSettingsScreen()));
               },
-              child: Icon(Icons.settings,),
+              child: Icon(
+                Icons.settings,
+              ),
             ),
           )
         ],
@@ -201,11 +206,11 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
               labelColor: currTheme.textTheme.bodyMedium!.color,
               unselectedLabelColor: currTheme.textTheme.bodyMedium!.color,
               // dividerColor: Colors.redAccent,
-              dividerColor: currTheme.textTheme.bodyMedium!.color,
+              dividerColor: currTheme.dividerColor,
               indicator: BoxDecoration(
                   border: Border(
                       bottom: BorderSide(
-                color: currTheme.textTheme.bodyMedium!.color ?? Colors.black,
+                color: currTheme.colorScheme.secondary,
                 width: 2,
               ))),
               tabs: [
@@ -217,7 +222,6 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
                 ),
               ],
               controller: tabController),
-
           ValueListenableBuilder<int>(
               valueListenable: _currentScreen,
               builder: (context, screen, child) {
@@ -294,7 +298,8 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
                       color: Theme.of(context).colorScheme.secondary,
                     ),
                     padding: EdgeInsets.all(6),
-                    child: Icon(Iconsax.edit_2, size: 18, color: currTheme.iconTheme.color),
+                    child: Icon(Iconsax.edit_2,
+                        size: 18, color: currTheme.iconTheme.color),
                   )
                 ],
               ),
@@ -319,7 +324,8 @@ class _MyClosetScreenState extends State<MyClosetScreen> with TickerProviderStat
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.normal,
-                    color: currTheme.textTheme.bodyMedium!.color?.withOpacity(0.9),
+                    color:
+                        currTheme.textTheme.bodyMedium!.color?.withOpacity(0.9),
                   ),
                 ),
                 SizedBox(height: 16),

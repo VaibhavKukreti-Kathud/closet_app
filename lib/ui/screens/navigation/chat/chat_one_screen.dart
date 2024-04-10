@@ -1,5 +1,8 @@
+import 'package:closet_app/constants.dart';
+import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class ChatOneScreen extends StatelessWidget {
@@ -18,7 +21,12 @@ class ChatOneScreen extends StatelessWidget {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("UserName",style: TextStyle(color: currTheme.textTheme.titleLarge!.color),),
+            Text(
+              "UserName",
+              style: TextStyle(
+                color: currTheme.textTheme.headlineMedium!.color,
+              ),
+            ),
             SizedBox(width: 4),
             Icon(CupertinoIcons.chevron_forward, size: 16),
           ],
@@ -68,13 +76,13 @@ class ChatOneScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       child: TextField(
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          filled: true,
-                          fillColor: Colors.grey.shade100,
-                          border: InputBorder.none,
-                          hintText: "Type a message",
-                          hintStyle: TextStyle(color: Colors.black)
-                        ),
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            filled: true,
+                            fillColor: Colors.grey.shade100,
+                            border: InputBorder.none,
+                            hintText: "Type a message",
+                            hintStyle: TextStyle(color: Colors.black)),
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
@@ -87,9 +95,10 @@ class ChatOneScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
+                        color: kSecondaryColor,
                       ),
                       child: Icon(
-                        Icons.send,
+                        Iconsax.send_1,
                         color: currTheme.iconTheme.color,
                       ),
                     ),

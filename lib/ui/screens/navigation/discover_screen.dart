@@ -1,10 +1,13 @@
+import 'package:closet_app/constants.dart';
 import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/services/auth/auth_functions.dart';
 import 'package:closet_app/ui/screens/search/search_screen.dart';
 import 'package:closet_app/ui/screens/social/followers_screen.dart';
 import 'package:closet_app/ui/screens/social/following_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:svg_flutter/svg.dart';
 import 'stories_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'widget/post_widget.dart';
@@ -56,10 +59,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           onTap: () {
             context.read<AuthFunctions>().signOut();
           },
-          child: Text(
-            FirebaseAuth.instance.currentUser!.email.toString() ?? 'Discover',
-            style: TextStyle(color: currTheme.textTheme.titleLarge!.color),
-          ),
+          child:
+              SvgPicture.asset('assets/logo_peach.svg', width: 100, height: 30),
         ),
         actions: [
           GestureDetector(
@@ -121,77 +122,74 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       ),
       body: Column(
         children: [
-          if (shouldShowOOTD)
-            Column(
-              children: [
-                SizedBox(
-                  height: 4.0,
-                ),
-                ZoomTapAnimation(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => StoriesScreen()));
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10.0),
-                    padding: EdgeInsets.symmetric(horizontal: 5.0),
-                    width: double.infinity,
-                    height: 200.0,
-                    decoration: BoxDecoration(
-                        // color: Colors.grey.shade200,
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.lightGreenAccent,
-                            Colors.lightBlueAccent
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(30.0)),
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Spacer(),
-                        Text(
-                          'Outfit of the day',
-                          style: TextStyle(
-                              fontSize: 28.0,
-                              fontFamily: 'Philosopher',
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.black,
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          SizedBox(
-            height: 12.0,
-          ),
-          Divider(
-            color: currTheme.dividerColor,
-          ),
-          SizedBox(
-            height: 12.0,
-          ),
           Expanded(
             child: ListView(
               controller: _OOTDController,
               children: [
                 for (int i = 0; i < 10; i++)
-                  PostWidget(
-                      username: "username",
-                      profilePictureUrl: "https://picsum.photos/80",
-                      imageUrl: "https://picsum.photos/400",
-                      caption: "Caught in 8k",
-                      likes: 12,
-                      comments: 11),
+                  Column(
+                    children: [
+                      i == 0
+                          ? ZoomTapAnimation(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => StoriesScreen()));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 16),
+                                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                                width: double.infinity,
+                                height: 150.0,
+                                decoration: BoxDecoration(
+                                    // color: Colors.grey.shade200,
+
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        kSecondaryColor,
+                                        kDisabledColor,
+                                      ],
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.circular(kBorderRadius)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Outfit of the day',
+                                      style: TextStyle(
+                                          fontSize: 28.0,
+                                          fontFamily: 'Philosopher',
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : SizedBox(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 0),
+                        child: PostWidget(
+                            username: "username",
+                            profilePictureUrl: "https://picsum.photos/80",
+                            imageUrl: "https://picsum.photos/400",
+                            caption: "Caught in 8k",
+                            likes: 12,
+                            comments: 11),
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
