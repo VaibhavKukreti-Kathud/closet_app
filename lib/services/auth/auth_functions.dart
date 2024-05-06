@@ -82,10 +82,10 @@ class AuthFunctions {
         AppUser userChat =
             AppUser.fromJson(documentSnapshot as Map<String, dynamic>);
         // Write data to local
-        await prefs.setString(FirestoreConstants.UID, userChat.uid);
-        await prefs.setString(
-            FirestoreConstants.USERNAME, userChat.fullName.split(' ').first);
-        await prefs.setString(FirestoreConstants.PFP_URL, userChat.pfpUrl);
+        await prefs.setString(FirestoreConstants.UID, userChat.id);
+        await prefs.setString(FirestoreConstants.USERNAME,
+            userChat.fullName ?? 'Example User'.split(' ').first);
+        await prefs.setString(FirestoreConstants.PFP_URL, userChat.pfpUrl!);
       }
       return FUNCTION_SUCCESSFUL;
     } else {

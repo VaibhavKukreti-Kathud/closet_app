@@ -58,3 +58,6 @@ const Color kDisabledSecondaryColor = Color(0xffB8DCE7);
 Color kSeperatorColor =
     const Color.fromARGB(255, 142, 142, 142).withOpacity(0.2);
 const Color kDarkPrimaryColor = Color.fromARGB(255, 7, 7, 7);
+const Duration kDurationMedium = Duration(milliseconds: 300);
+const Duration kDurationFast = Duration(milliseconds: 150);
+const Duration kDurationSlow = Duration(milliseconds: 500);

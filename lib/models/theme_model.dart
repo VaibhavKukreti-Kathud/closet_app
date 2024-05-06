@@ -21,15 +21,7 @@ class ThemeModel {
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey,
     ),
-    textTheme: TextTheme(
-      titleLarge: TextStyle(color: Colors.grey.shade100),
-      titleMedium: TextStyle(color: Colors.grey.shade100),
-      bodyLarge: TextStyle(color: Colors.grey.shade600),
-      bodyMedium: TextStyle(color: Colors.grey.shade100),
-      // bodySmall: TextStyle(
-      //   color: Colors.grey.shade600
-      // )
-    ),
+    textTheme: GoogleFonts.poppinsTextTheme(),
     iconTheme: IconThemeData(color: Colors.white),
     colorScheme:
         ColorScheme.fromSwatch(primarySwatch: Colors.blueGrey).copyWith(
@@ -39,6 +31,7 @@ class ThemeModel {
   );
 
   final lightTheme = ThemeData(
+    primarySwatch: Colors.orange,
     primaryColor: Colors.white,
     dialogBackgroundColor: Color.fromARGB(255, 244, 228, 218),
     buttonTheme: ButtonThemeData(
@@ -46,10 +39,13 @@ class ThemeModel {
     textTheme: GoogleFonts.poppinsTextTheme(),
     dividerColor: Colors.grey.shade200,
     appBarTheme: AppBarTheme(
-      systemOverlayStyle: SystemUiOverlayStyle.dark,
-      backgroundColor: kPrimaryColor,
-      surfaceTintColor: kSecondaryColor,
-    ),
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
+        backgroundColor: kPrimaryColor,
+        surfaceTintColor: kSecondaryColor,
+        titleTextStyle: TextStyle(
+          fontSize: 20,
+          color: Colors.black,
+        )),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: kPrimaryColor,
       selectedItemColor: kSecondaryColor,

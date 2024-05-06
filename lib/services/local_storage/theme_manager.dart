@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'storage_manager.dart';
-import 'theme_model.dart';
+import '../../models/theme_model.dart';
 
 class ThemeNotifier with ChangeNotifier {
   ThemeData _themeData = ThemeModel().lightTheme;

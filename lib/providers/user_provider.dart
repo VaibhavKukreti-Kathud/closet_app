@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:closet_app/constants.dart';
 import 'package:closet_app/models/app_user_model.dart';
 import 'package:closet_app/services/auth/auth_functions.dart';
@@ -14,55 +16,23 @@ class UserProvider with ChangeNotifier {
 
   bool get isSignedIn => fAuth.FirebaseAuth.instance.currentUser != null;
 
-  // Future<void> signUpWithMailAndPassword({
-  //   required String password,
-  //   required String email,
-  //   String? username,
-  // }) async {
-  //   fAuth.User? firebaseUser = await _authProvider.signUpWithMailAndPassword(
-  //     password: password,
-  //     email: email,
-  //     username: username,
-  //   );
-  //   if (firebaseUser != null) {
-  //     final QuerySnapshot<Map<String, dynamic>> result = await _firestore
-  //         .collection(FirestoreConstants.USER_COLLECTION)
-  //         .where(FirestoreConstants.UID, isEqualTo: firebaseUser.uid)
-  //         .get();
-  //     final List<DocumentSnapshot> documents = result.docs;
-  //     if (documents.isNotEmpty) {
-  //       _appUser =
-  //           AppUser.fromJson(documents.first.data() as Map<String, dynamic>);
-  //       notifyListeners();
-  //     }
-  //   }
-  // }
+  Future<void> fetchUser() async {
+    if (isSignedIn) {
+      final fAuth.User? firebaseUser = fAuth.FirebaseAuth.instance.currentUser;
+      final DocumentSnapshot userDoc = await _firestore
+          .collection(FirestoreConstants.USER_COLLECTION)
+          .doc(firebaseUser!.uid)
+          .get();
+      _appUser = AppUser.fromJson(userDoc.data() as Map<String, dynamic>);
+      notifyListeners();
+    }
+  }
 
-  // Future<void> signInWithMailAndPassword({
-  //   required String password,
-  //   required String email,
-  // }) async {
-  //   fAuth.User? firebaseUser = await _authProvider.handleSignIn(
-  //     email,
-  //     password,
-  //   );
-  //   if (firebaseUser != null) {
-  //     final QuerySnapshot<Map<String, dynamic>> result = await _firestore
-  //         .collection(FirestoreConstants.USER_COLLECTION)
-  //         .where(FirestoreConstants.UID, isEqualTo: firebaseUser.uid)
-  //         .get();
-  //     final List<DocumentSnapshot> documents = result.docs;
-  //     if (documents.isNotEmpty) {
-  //       _appUser =
-  //           AppUser.fromJson(documents.first.data() as Map<String, dynamic>);
-  //       notifyListeners();
-  //     }
-  //   }
-  // }
-
-  // Future<void> signOut() async {
-  //   await _authProvider.signOut();
-  //   _appUser = null;
-  //   notifyListeners();
-  // }
+  Future<AppUser> fetchUserById(String id) async {
+    final DocumentSnapshot userDoc = await _firestore
+        .collection(FirestoreConstants.USER_COLLECTION)
+        .doc(id)
+        .get();
+    return AppUser.fromJson(userDoc.data() as Map<String, dynamic>? ?? {});
+  }
 }

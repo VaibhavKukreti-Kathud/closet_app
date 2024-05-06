@@ -1,8 +1,13 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:closet_app/constants.dart';
+import 'package:closet_app/models/app_user_model.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/navigation/chat/contact_search_screen.dart';
 import 'package:closet_app/ui/screens/navigation/chat/group_chat.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'chat_one_screen.dart';
@@ -44,6 +49,7 @@ class _ChatsScreenState extends State<ChatsScreen>
   @override
   Widget build(BuildContext context) {
     var currTheme = Theme.of(context);
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
     TabController tabController = TabController(
         length: 2, vsync: this, animationDuration: Duration(milliseconds: 400));
     return Scaffold(
@@ -53,8 +59,6 @@ class _ChatsScreenState extends State<ChatsScreen>
         backgroundColor: currTheme.appBarTheme.backgroundColor,
         title: Text(
           'Chats',
-          style: TextStyle(
-              fontSize: 30.0, color: currTheme.textTheme.titleLarge!.color),
         ),
         actions: [
           Padding(
@@ -78,83 +82,72 @@ class _ChatsScreenState extends State<ChatsScreen>
           TabBarView(
             controller: tabController,
             children: [
-              Scaffold(
-                body: ListView.builder(
-                  controller: _chatController,
-                  itemCount: 11,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ChatOneScreen()));
-                          },
-                          leading: GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return Hero(
-                                      tag: index,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(64),
-                                        child: CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              "https://picsum.photos/300"),
-                                          maxRadius: (MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2) -
-                                              200,
-                                        ),
-                                      ),
-                                    );
-                                  });
-                            },
-                            child: Hero(
-                              tag: index,
-                              child: CircleAvatar(
-                                backgroundImage:
-                                    NetworkImage("https://picsum.photos/300"),
+              StreamBuilder(
+                  stream: _firestore
+                      .collection(FirestoreConstants.USER_COLLECTION)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData ||
+                        snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    return ListView.builder(
+                      controller: _chatController,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final AppUser user = AppUser.fromJson(
+                            snapshot.data!.docs[index].data()
+                                as Map<String, dynamic>);
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ChatOneScreen(user: user)));
+                              },
+                              leading: CircleAvatar(
+                                backgroundImage: CachedNetworkImageProvider(
+                                    user.pfpUrl ?? 'https://picsum.photos/60'),
                                 radius: MediaQuery.of(context).size.width / 16,
                               ),
+                              title: Text(
+                                user.fullName ?? 'User',
+                                style: TextStyle(
+                                    color:
+                                        currTheme.textTheme.bodyMedium!.color),
+                              ),
+                              subtitle: Text(
+                                'Hey!',
+                                style: TextStyle(
+                                    color:
+                                        currTheme.textTheme.bodyMedium!.color),
+                              ),
+                              trailing: Text(
+                                '12:00pm',
+                                style: TextStyle(
+                                    color:
+                                        currTheme.textTheme.bodyMedium!.color),
+                              ),
                             ),
-                          ),
-                          title: Text(
-                            'Vaibhav Kukreti',
-                            style: TextStyle(
-                                color: currTheme.textTheme.bodyMedium!.color),
-                          ),
-                          subtitle: Text(
-                            'Hey!',
-                            style: TextStyle(
-                                color: currTheme.textTheme.bodyMedium!.color),
-                          ),
-                          trailing: Text(
-                            '12:00pm',
-                            style: TextStyle(
-                                color: currTheme.textTheme.bodyMedium!.color),
-                          ),
-                        ),
-                        Container(
-                          height: 0.5,
-                          margin: EdgeInsets.symmetric(horizontal: 80),
-                          width: MediaQuery.of(context).size.width / 4,
-                          decoration: BoxDecoration(
-                              color: currTheme.textTheme.bodyMedium!.color!
-                                  .withOpacity(0.2)),
-                        ),
-                        SizedBox(height: index == 10 ? 120 : 2),
-                      ],
+                            Container(
+                              height: 0.5,
+                              margin: EdgeInsets.symmetric(horizontal: 80),
+                              width: MediaQuery.of(context).size.width / 4,
+                              decoration: BoxDecoration(
+                                  color: currTheme.textTheme.bodyMedium!.color!
+                                      .withOpacity(0.2)),
+                            ),
+                            SizedBox(height: index == 10 ? 120 : 2),
+                          ],
+                        );
+                      },
                     );
-                  },
-                ),
-              ),
+                  }),
               Scaffold(
                 body: ListView.builder(
                   itemCount: 8,

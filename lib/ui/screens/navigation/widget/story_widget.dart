@@ -1,10 +1,9 @@
 import 'package:closet_app/constants.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
+import 'package:closet_app/ui/post/full_post_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-
-import '../expanded_story_screen.dart';
 
 class StoryWidget extends StatelessWidget {
   final String username;
@@ -25,12 +24,7 @@ class StoryWidget extends StatelessWidget {
     return GestureDetector(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ExpandedStoryScreen(
-                      username: username,
-                      userImageURL: profilePictureUrl,
-                      storyImageURL: imageUrl)));
+              context, MaterialPageRoute(builder: (context) => Scaffold()));
         },
         child: Container(
           decoration: BoxDecoration(

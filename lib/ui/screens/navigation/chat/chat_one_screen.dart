@@ -1,13 +1,18 @@
 import 'package:closet_app/constants.dart';
-import 'package:closet_app/ui/constants/style_constants.dart';
+import 'package:closet_app/models/app_user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
-class ChatOneScreen extends StatelessWidget {
-  const ChatOneScreen({super.key});
+class ChatOneScreen extends StatefulWidget {
+  const ChatOneScreen({super.key, required this.user});
+  final AppUser user;
+  @override
+  State<ChatOneScreen> createState() => _ChatOneScreenState();
+}
 
+class _ChatOneScreenState extends State<ChatOneScreen> {
   @override
   Widget build(BuildContext context) {
     var currTheme = Theme.of(context);
@@ -50,7 +55,18 @@ class ChatOneScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
                         decoration: BoxDecoration(
-                          color: currTheme.textTheme.bodyLarge!.color,
+                          color: currTheme.scaffoldBackgroundColor,
+                          border: Border.all(
+                            color: currTheme.textTheme.bodyMedium!.color!
+                                .withOpacity(0.03),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 10,
+                              offset: const Offset(0, 3),
+                              color: Colors.black.withOpacity(0.03),
+                            ),
+                          ],
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Text(
@@ -99,7 +115,7 @@ class ChatOneScreen extends StatelessWidget {
                       ),
                       child: Icon(
                         Iconsax.send_1,
-                        color: currTheme.iconTheme.color,
+                        color: currTheme.scaffoldBackgroundColor,
                       ),
                     ),
                   ),

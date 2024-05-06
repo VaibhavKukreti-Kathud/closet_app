@@ -16,4 +16,8 @@ class FirestoreConstants {
   static const TIMESTAMP = "timestamp";
   static const EMAIL = "email";
   static const POSTS_COLLECTION = "posts";
+  static const LIKES_COLLECTION = "likedBy";
+  static const LIKES_COUNT = "likes";
+  static const COMMENTS_COLLECTION = "comments";
+  static const FAVORITES = "favorites";
 }

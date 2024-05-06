@@ -1,9 +1,11 @@
 import 'dart:developer';
 import 'package:closet_app/app.dart';
 import 'package:closet_app/firebase_options.dart';
+import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/services/auth/auth_functions.dart';
+import 'package:closet_app/services/favorites/favorites_provider.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
-import 'package:closet_app/ui/screens/navigation/theme_manager.dart';
+import 'package:closet_app/services/local_storage/theme_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +43,8 @@ class MyApp extends StatelessWidget {
           StreamProvider<User?>.value(
               value: FirebaseAuth.instance.authStateChanges(),
               initialData: null),
+          ChangeNotifierProvider(create: (context) => UserProvider()),
+          ChangeNotifierProvider(create: (context) => FavoritesProvider()),
           Provider<SharedPreferences>.value(value: prefs),
           Provider<AuthFunctions>.value(value: authFunction),
           ChangeNotifierProvider(create: (context) => ThemeNotifier()),
@@ -65,10 +69,6 @@ class AuthGate extends StatelessWidget {
   Widget build(BuildContext context) {
     User? firebaseUser = Provider.of<User?>(context);
     bool loggedIn = firebaseUser != null;
-    log('User is logged in: $loggedIn');
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: loggedIn ? const App() : const SignInScreen(),
-    );
+    return loggedIn ? const App() : const SignInScreen();
   }
 }

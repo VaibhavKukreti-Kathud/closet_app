@@ -1,19 +1,28 @@
 // import 'dart:math';
+import 'dart:io';
 import 'dart:ui';
 // import 'package:closet_app/models/wardrobe_category_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:closet_app/models/app_user_model.dart';
+import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/all_posts_screen.dart';
+import 'package:closet_app/ui/post/add_post_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 // import 'package:closet_app/ui/screens/navigation/my_closet/categories_grid.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/categories_screen.dart';
-import 'package:closet_app/ui/screens/navigation/my_closet/posts_list.dart';
-import 'package:closet_app/ui/screens/navigation/profile_settings_screen.dart';
+import 'package:closet_app/ui/screens/navigation/my_closet/widgets/posts_list.dart';
+import 'package:closet_app/ui/screens/settings/profile_settings_screen.dart';
 // import 'package:closet_app/ui/screens/navigation/widget/post_widget.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -33,6 +42,7 @@ class _MyClosetScreenState extends State<MyClosetScreen>
   XFile? selectedCategoryFile;
   String? categoryImageURL;
   bool shouldSpin = false;
+  AppUser? currentAppUser;
 
   _returnTab(int screen) {
     switch (screen) {
@@ -159,6 +169,7 @@ class _MyClosetScreenState extends State<MyClosetScreen>
 
   @override
   void initState() {
+    currentAppUser = context.read<UserProvider>().appUser;
     tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
@@ -169,12 +180,9 @@ class _MyClosetScreenState extends State<MyClosetScreen>
     return Scaffold(
       backgroundColor: currTheme.scaffoldBackgroundColor,
       appBar: AppBar(
-        iconTheme: currTheme.iconTheme,
         backgroundColor: currTheme.appBarTheme.backgroundColor,
         title: Text(
           'My Closet',
-          style: TextStyle(
-              fontSize: 30.0, color: currTheme.textTheme.titleLarge!.color),
         ),
         actions: [
           Padding(
@@ -195,6 +203,7 @@ class _MyClosetScreenState extends State<MyClosetScreen>
       ),
       body: ListView(
         children: [
+          SizedBox(height: 16),
           _buildHeaderProfileInfo(context),
           SizedBox(height: 4),
           TabBar(
@@ -275,97 +284,117 @@ class _MyClosetScreenState extends State<MyClosetScreen>
     var currTheme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
-      height: MediaQuery.of(context).size.width / 3,
       child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
-            flex: 9,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage("https://picsum.photos/300"),
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    XFile? image = await ImagePicker()
+                        .pickImage(source: ImageSource.gallery);
+                    if (image != null) {}
+                  },
+                  child: CircleAvatar(
+                    backgroundImage: CachedNetworkImageProvider(
+                        context.read<UserProvider>().appUser!.pfpUrl ??
+                            'https://www.picsum.photos/300'),
                     radius: MediaQuery.of(context).size.width / 8,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    padding: EdgeInsets.all(6),
-                    child: Icon(Iconsax.edit_2,
-                        size: 18, color: currTheme.iconTheme.color),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 20,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Vaibhav Kukreti',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                    color: currTheme.textTheme.bodyMedium!.color,
-                  ),
                 ),
-                Text(
-                  '@vklightning',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color:
-                        currTheme.textTheme.bodyMedium!.color?.withOpacity(0.9),
-                  ),
-                ),
-                SizedBox(height: 16),
-                ZoomTapAnimation(
-                  onTap: () {
-                    showDialogWithFields(context, currTheme);
+                GestureDetector(
+                  onTap: () async {
+                    await ImagePicker().pickImage(source: ImageSource.gallery);
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: currTheme.dialogBackgroundColor,
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 64, vertical: 10),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 0.5),
-                            child: Icon(
-                              Iconsax.add,
-                              size: 18,
-                              color: currTheme.iconTheme.color,
-                            ),
-                          ),
-                          SizedBox(width: 2),
-                          Text(
-                            "Add a Category",
-                            style: TextStyle(
-                              color: currTheme.textTheme.bodyMedium!.color,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).colorScheme.secondary,
+                      border: Border.all(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        width: 3,
                       ),
                     ),
+                    padding: EdgeInsets.all(6),
+                    child: Icon(Iconsax.edit_2, size: 14, color: Colors.white),
                   ),
                 )
               ],
+            ),
+          ),
+          Expanded(
+            child: Skeletonizer(
+              enabled: currentAppUser == null,
+              textBoneBorderRadius:
+                  TextBoneBorderRadius(BorderRadius.circular(5)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    currentAppUser!.fullName ?? 'User',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      color: currTheme.textTheme.bodyMedium!.color,
+                    ),
+                  ),
+                  Text(
+                    currentAppUser!.email,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                      color: currTheme.textTheme.bodyMedium!.color
+                          ?.withOpacity(0.6),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  ZoomTapAnimation(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const AddPostScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: currTheme.dialogBackgroundColor,
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 0.5),
+                              child: Icon(
+                                Iconsax.add,
+                                size: 18,
+                                color: currTheme.iconTheme.color,
+                              ),
+                            ),
+                            SizedBox(width: 2),
+                            Text(
+                              "Add post",
+                              style: TextStyle(
+                                color: currTheme.textTheme.bodyMedium!.color,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ],

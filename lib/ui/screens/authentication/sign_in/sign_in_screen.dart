@@ -12,8 +12,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:svg_flutter/svg.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import 'package:closet_app/services/auth/auth_functions.dart';
 
@@ -221,16 +223,18 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            padding: const EdgeInsets.only(left: 32, top: 80),
-            child: const Text(
-              "Welcome\nBack",
-              style: TextStyle(
-                  color: Color.fromARGB(255, 99, 185, 255), fontSize: 40),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: SafeArea(
+              child: SvgPicture.asset(
+                'assets/logo_black.svg',
+                fit: BoxFit.cover,
+                height: 40,
+              ),
             ),
           ),
           Container(
-            padding: EdgeInsets.only(right: 32, left: 32),
+            padding: EdgeInsets.only(right: 16, left: 16),
             child: Column(
               children: [
                 Spacer(),
@@ -391,7 +395,6 @@ class CustomButton extends StatelessWidget {
                 ? Theme.of(context).disabledColor
                 : Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(10)),
-        width: MediaQuery.of(context).size.width - 64,
         child: Center(
             child: icon ??
                 Text(

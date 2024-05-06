@@ -18,32 +18,50 @@ class _FollowingScreenState extends State<FollowingScreen> {
           iconTheme: currTheme.iconTheme,
           scrolledUnderElevation: 0.0,
           backgroundColor: currTheme.appBarTheme.backgroundColor,
-          title: Text('Following',
-            style: TextStyle(
-                fontSize: 40.0,
-                fontFamily: 'Philosopher',
-                color: currTheme.textTheme.titleLarge!.color
-            ),
+          title: Text(
+            'Following',
           ),
         ),
         body: Column(
           children: [
             Expanded(
-                child:  ListView(
-                  children: [
-                    OtherUsersTile(username: 'vkukreti07', emailID: 'vkukreti18@gmail.com', alreadyFollowing: true),
-                    OtherUsersTile(username: 'itsMeShashwat', emailID: 'saxena06@gmail.com', alreadyFollowing: true),
-                    OtherUsersTile(username: 'anu1roy', emailID: 'itsArunRoy13@gmail.com', alreadyFollowing: true),
-                    OtherUsersTile(username: 'saluja_vaibhav', emailID: 'vaibhavsaluja48@gmail.com', alreadyFollowing: true),
-                    OtherUsersTile(username: 'vkukreti07', emailID: 'vkukreti18@gmail.com', alreadyFollowing: true),
-                    OtherUsersTile(username: 'itsMeShashwat', emailID: 'saxena06@gmail.com', alreadyFollowing: true),
-                    OtherUsersTile(username: 'anu1roy', emailID: 'itsArunRoy13@gmail.com', alreadyFollowing: true),
-                    OtherUsersTile(username: 'saluja_vaibhav', emailID: 'vaibhavsaluja48@gmail.com', alreadyFollowing: true),
-                  ],
-                )
-            )
+                child: ListView(
+              children: [
+                OtherUsersTile(
+                    username: 'vkukreti07',
+                    emailID: 'vkukreti18@gmail.com',
+                    alreadyFollowing: true),
+                OtherUsersTile(
+                    username: 'itsMeShashwat',
+                    emailID: 'saxena06@gmail.com',
+                    alreadyFollowing: true),
+                OtherUsersTile(
+                    username: 'anu1roy',
+                    emailID: 'itsArunRoy13@gmail.com',
+                    alreadyFollowing: true),
+                OtherUsersTile(
+                    username: 'saluja_vaibhav',
+                    emailID: 'vaibhavsaluja48@gmail.com',
+                    alreadyFollowing: true),
+                OtherUsersTile(
+                    username: 'vkukreti07',
+                    emailID: 'vkukreti18@gmail.com',
+                    alreadyFollowing: true),
+                OtherUsersTile(
+                    username: 'itsMeShashwat',
+                    emailID: 'saxena06@gmail.com',
+                    alreadyFollowing: true),
+                OtherUsersTile(
+                    username: 'anu1roy',
+                    emailID: 'itsArunRoy13@gmail.com',
+                    alreadyFollowing: true),
+                OtherUsersTile(
+                    username: 'saluja_vaibhav',
+                    emailID: 'vaibhavsaluja48@gmail.com',
+                    alreadyFollowing: true),
+              ],
+            ))
           ],
-        )
-    );
+        ));
   }
 }

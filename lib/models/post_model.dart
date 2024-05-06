@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Post {
   final String postId;
-  final String caption;
+  final String? caption;
   final String imageUrl;
-  final DateTime postedAt;
+  final Timestamp postedAt;
   final String postedById;
   final String postedByName;
+  final String? category;
+  final String profilePfp;
   final List<dynamic>? likedBy;
   final List<dynamic>? comments;
 
@@ -15,20 +19,39 @@ class Post {
     required this.postedAt,
     required this.postedById,
     required this.postedByName,
+    required this.category,
+    required this.profilePfp,
     this.likedBy,
     this.comments,
   });
 
   factory Post.fromMap(Map<String, dynamic> data) {
     return Post(
-      caption: data['caption'],
+      postId: data['postId'],
+      caption: data['caption'] ?? '',
       imageUrl: data['imageUrl'],
       postedAt: data['postedAt'],
       postedById: data['postedById'],
       postedByName: data['postedByName'],
-      postId: data['postId'],
-      likedBy: data['likedBy'],
-      comments: data['comments'],
+      profilePfp: data['profilePfp'],
+      likedBy: data['likedBy'] ?? [],
+      comments: data['comments'] ?? [],
+      category: data['category'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'postId': postId,
+      'caption': caption,
+      'imageUrl': imageUrl,
+      'postedAt': postedAt,
+      'postedById': postedById,
+      'postedByName': postedByName,
+      'profilePfp': profilePfp,
+      'likedBy': likedBy,
+      'comments': comments,
+      'category': category,
+    };
   }
 }

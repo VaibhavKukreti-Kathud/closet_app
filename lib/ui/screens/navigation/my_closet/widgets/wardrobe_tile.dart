@@ -1,14 +1,17 @@
 import 'dart:ui';
-import 'package:closet_app/ui/screens/navigation/my_closet/specific_posts_screen.dart';
+import 'package:closet_app/ui/screens/navigation/my_closet/categoric_posts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-
 class WardrobeTile extends StatelessWidget {
-  WardrobeTile({required this.wardrobeCategory,required this.imgUrl,required this.numItems,required this.categoryID});
+  WardrobeTile(
+      {required this.wardrobeCategory,
+      required this.imgUrl,
+      required this.numItems,
+      required this.categoryID});
 
   final String wardrobeCategory;
-  final String imgUrl ;
+  final String imgUrl;
   final double numItems;
   final String categoryID;
 
@@ -16,7 +19,13 @@ class WardrobeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SpecificPostsScreen(category: wardrobeCategory,categoryID: categoryID,)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CategoricPostsScreen(
+                      category: wardrobeCategory,
+                      categoryID: categoryID,
+                    )));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -61,19 +70,18 @@ class WardrobeTile extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                             color: Colors.grey[700]!.withOpacity(0.3)),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         child: Text(
                           wardrobeCategory,
-                          style: TextStyle(
-                              fontSize: 18.0, color: Colors.white),
+                          style: TextStyle(fontSize: 18.0, color: Colors.white),
                         ),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     child: Text("${numItems.toInt()} Items",
                         style: TextStyle(
                             fontSize: 12.0,
@@ -85,6 +93,7 @@ class WardrobeTile extends StatelessWidget {
           ),
         ),
       ),
-    );;
+    );
+    ;
   }
 }
