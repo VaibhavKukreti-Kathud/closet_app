@@ -8,7 +8,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class AddPostScreen extends StatefulWidget {
@@ -33,6 +35,69 @@ class _AddPostScreenState extends State<AddPostScreen> {
       pickedFile == null ? _image = null : _image = File(pickedFile.path);
       postingEnabled = _image != null;
     });
+  }
+
+  Future openCamera() async {
+    await Permission.camera.request();
+    final XFile? pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    setState(() {
+      pickedFile == null ? _image = null : _image = File(pickedFile.path);
+      postingEnabled = _image != null;
+    });
+  }
+
+  void showSelectMediaDialog() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return CupertinoActionSheet(
+          actions: [
+            CupertinoActionSheetAction(
+              onPressed: () async {
+                await pickImage();
+                Navigator.pop(context);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    CupertinoIcons.photo,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(width: 12),
+                  Text("Select from gallery"),
+                ],
+              ),
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () async {
+                await openCamera();
+                Navigator.pop(context);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    CupertinoIcons.camera,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(width: 12),
+                  Text("Take a picture"),
+                ],
+              ),
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("Cancel"),
+            isDestructiveAction: true,
+          ),
+        );
+      },
+    );
   }
 
   Future<void> sendPost() async {
@@ -112,7 +177,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                                   Icons.add_a_photo,
                                   color: Colors.grey.shade600,
                                 ),
-                                onPressed: pickImage,
+                                onPressed: showSelectMediaDialog,
                               ),
                               Text("Add photo",
                                   style: TextStyle(

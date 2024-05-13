@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:closet_app/constants.dart';
+import 'package:closet_app/models/app_user_model.dart';
 import 'package:closet_app/models/post_model.dart';
 import 'package:closet_app/providers/user_provider.dart';
+import 'package:closet_app/services/auth/auth_functions.dart';
 import 'package:closet_app/services/favorites/favorites_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/post/full_post_screen.dart';
@@ -80,12 +82,15 @@ class _PostWidgetState extends State<PostWidget> {
             child: Row(
               children: [
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    AppUser user = await context
+                        .read<UserProvider>()
+                        .fetchUserById(widget.post.postedById);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            OtherUserProfileScreen(alreadyFollowing: false),
+                            OtherUserProfileScreen(user: user),
                       ),
                     );
                   },

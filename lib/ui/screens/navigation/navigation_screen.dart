@@ -2,16 +2,18 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:animations/animations.dart';
 import 'package:closet_app/constants.dart';
+import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart' as s;
 import 'package:closet_app/ui/screens/navigation/chat/chats_screen.dart';
 import 'package:closet_app/ui/screens/navigation/discover/discover_screen.dart';
-import 'package:closet_app/ui/screens/navigation/favorite_screen.dart';
+import 'package:closet_app/ui/screens/navigation/favorites/favorite_screen.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/mycloset_screen.dart';
 import 'package:closet_app/ui/screens/social/followers_screen.dart';
 import 'package:closet_app/ui/screens/social/following_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../constants/style_constants.dart';
 
@@ -35,6 +37,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool loggedin = context.watch<UserProvider>().appUser != null;
     final List<Widget> _pages = [
       DiscoverScreen(),
       ChatsScreen(),
@@ -123,68 +126,71 @@ class _NavigationScreenState extends State<NavigationScreen> {
         ),
       ),
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: Container(
-        height: Platform.isIOS ? 84 : kBottomNavbarHeight,
-        padding: Platform.isIOS
-            ? EdgeInsets.only(
-                left: MediaQuery.of(context).size.width / 7.7,
-                right: MediaQuery.of(context).size.width / 7.7,
-                bottom: 20)
-            : EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width / 7.2),
-        decoration: BoxDecoration(
-          boxShadow: [s.kSubtleShadow],
-          border: Border(top: BorderSide.none),
-          color: Theme.of(context).scaffoldBackgroundColor,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () => setState(() {
-                reverse = false;
-                _selectedIndex = 0;
-              }),
-              child: Icon(
-                Iconsax.discover,
-                size: _iconSize,
-                color: _selectedIndex == 0 ? selectedColor : unselectedColor,
+      bottomNavigationBar: Skeletonizer(
+        enabled: !loggedin,
+        child: Container(
+          height: Platform.isIOS ? 84 : kBottomNavbarHeight,
+          padding: Platform.isIOS
+              ? EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width / 7.7,
+                  right: MediaQuery.of(context).size.width / 7.7,
+                  bottom: 20)
+              : EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 7.2),
+          decoration: BoxDecoration(
+            boxShadow: [s.kSubtleShadow],
+            border: Border(top: BorderSide.none),
+            color: Theme.of(context).scaffoldBackgroundColor,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () => setState(() {
+                  reverse = false;
+                  _selectedIndex = 0;
+                }),
+                child: Icon(
+                  Iconsax.discover,
+                  size: _iconSize,
+                  color: _selectedIndex == 0 ? selectedColor : unselectedColor,
+                ),
               ),
-            ),
-            GestureDetector(
-              onTap: () => setState(() {
-                reverse = _selectedIndex < 1 ? true : false;
-                _selectedIndex = 1;
-              }),
-              child: Icon(
-                Iconsax.messages,
-                size: _iconSize,
-                color: _selectedIndex == 1 ? selectedColor : unselectedColor,
+              GestureDetector(
+                onTap: () => setState(() {
+                  reverse = _selectedIndex < 1 ? true : false;
+                  _selectedIndex = 1;
+                }),
+                child: Icon(
+                  Iconsax.messages,
+                  size: _iconSize,
+                  color: _selectedIndex == 1 ? selectedColor : unselectedColor,
+                ),
               ),
-            ),
-            GestureDetector(
-              onTap: () => setState(() {
-                reverse = _selectedIndex < 2 ? true : false;
-                _selectedIndex = 2;
-              }),
-              child: Icon(
-                Iconsax.heart,
-                size: _iconSize,
-                color: _selectedIndex == 2 ? selectedColor : unselectedColor,
+              GestureDetector(
+                onTap: () => setState(() {
+                  reverse = _selectedIndex < 2 ? true : false;
+                  _selectedIndex = 2;
+                }),
+                child: Icon(
+                  Iconsax.heart,
+                  size: _iconSize,
+                  color: _selectedIndex == 2 ? selectedColor : unselectedColor,
+                ),
               ),
-            ),
-            GestureDetector(
-              onTap: () => setState(() {
-                reverse = _selectedIndex < 3 ? true : false;
-                _selectedIndex = 3;
-              }),
-              child: Icon(
-                Iconsax.profile_circle,
-                size: _iconSize,
-                color: _selectedIndex == 3 ? selectedColor : unselectedColor,
+              GestureDetector(
+                onTap: () => setState(() {
+                  reverse = _selectedIndex < 3 ? true : false;
+                  _selectedIndex = 3;
+                }),
+                child: Icon(
+                  Iconsax.profile_circle,
+                  size: _iconSize,
+                  color: _selectedIndex == 3 ? selectedColor : unselectedColor,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       body: Stack(

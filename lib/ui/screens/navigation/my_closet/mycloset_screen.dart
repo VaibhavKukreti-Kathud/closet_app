@@ -21,6 +21,7 @@ import 'package:closet_app/ui/screens/settings/profile_settings_screen.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -352,7 +353,7 @@ class _MyClosetScreenState extends State<MyClosetScreen>
                   ),
                   SizedBox(height: 16),
                   ZoomTapAnimation(
-                    onTap: () {
+                    onTap: () async {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

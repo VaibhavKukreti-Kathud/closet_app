@@ -5,6 +5,7 @@ import 'package:closet_app/ui/screens/authentication/additional_info/add_user_de
 import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,14 +20,21 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   AppUser? appUser;
+  Permission locationPermission = Permission.location;
   @override
   void initState() {
     fetchAppUser();
+
+    requestLocationPermission();
     super.initState();
   }
 
   void fetchAppUser() async {
     await context.read<UserProvider>().fetchUser();
+  }
+
+  void requestLocationPermission() async {
+    await locationPermission.request();
   }
 
   // void fetchAppUser() async {
@@ -49,12 +57,6 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return context.watch<UserProvider>().appUser != null
-        ? NavigationScreen()
-        : Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+    return NavigationScreen();
   }
 }

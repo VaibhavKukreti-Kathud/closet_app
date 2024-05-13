@@ -4,7 +4,7 @@ import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/services/auth/auth_functions.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
-import 'package:closet_app/ui/screens/search/search_screen.dart';
+import 'package:closet_app/ui/screens/navigation/search/search_screen.dart';
 import 'package:closet_app/ui/screens/social/followers_screen.dart';
 import 'package:closet_app/ui/screens/social/following_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

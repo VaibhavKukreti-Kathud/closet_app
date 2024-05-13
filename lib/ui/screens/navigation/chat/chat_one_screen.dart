@@ -17,23 +17,50 @@ class _ChatOneScreenState extends State<ChatOneScreen> {
   Widget build(BuildContext context) {
     var currTheme = Theme.of(context);
     return Scaffold(
-      backgroundColor: currTheme.scaffoldBackgroundColor,
       appBar: AppBar(
-        iconTheme: currTheme.iconTheme,
-        scrolledUnderElevation: 0.0,
-        backgroundColor: currTheme.appBarTheme.backgroundColor,
-        automaticallyImplyLeading: true,
+        actions: [
+          IconButton(
+            icon: Icon(Iconsax.more),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return Container(
+                    color: currTheme.scaffoldBackgroundColor,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: Icon(Iconsax.text_block),
+                          title: Text("Block"),
+                        ),
+                        ListTile(
+                          leading: Icon(Iconsax.trash),
+                          title: Text("Delete"),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ],
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage(widget.user.pfpUrl ?? ''),
+              radius: 15,
+            ),
+            SizedBox(width: 16),
             Text(
-              "UserName",
+              widget.user.fullName ?? '',
               style: TextStyle(
-                color: currTheme.textTheme.headlineMedium!.color,
+                color:
+                    currTheme.textTheme.headlineMedium!.color!.withOpacity(0.8),
               ),
             ),
-            SizedBox(width: 4),
-            Icon(CupertinoIcons.chevron_forward, size: 16),
           ],
         ),
       ),
