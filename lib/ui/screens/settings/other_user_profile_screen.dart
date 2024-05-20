@@ -3,6 +3,7 @@ import 'package:closet_app/models/app_user_model.dart';
 import 'package:closet_app/providers/user_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -17,9 +18,9 @@ class OtherUserProfileScreen extends StatefulWidget {
 }
 
 class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
-  late bool alreadyFollowing;
+  bool? alreadyFollowing;
   showPostsChecker() {
-    if (!alreadyFollowing) {
+    if (!(alreadyFollowing ?? false)) {
       return Center(
         child: Column(
           children: [
@@ -44,17 +45,16 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
         ),
       );
     } else {
-      return Expanded(
-        child: GridView.count(
-          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 30),
-          crossAxisCount: 3,
-          shrinkWrap: true,
-          crossAxisSpacing: 4,
-          mainAxisSpacing: 4,
-          children: List.generate(13, (index) {
-            return Image.network("https://picsum.photos/300");
-          }),
-        ),
+      return GridView.count(
+        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 30),
+        crossAxisCount: 3,
+        shrinkWrap: true,
+        crossAxisSpacing: 4,
+        mainAxisSpacing: 4,
+        physics: NeverScrollableScrollPhysics(),
+        children: List.generate(13, (index) {
+          return Image.network("https://picsum.photos/300");
+        }),
       );
     }
   }
@@ -94,11 +94,65 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
       ),
       body: ListView(
         children: [
-          SizedBox(height: 16.0),
           _buildHeaderProfileInfo(context),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Theme.of(context).scaffoldBackgroundColor,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 30,
+                  offset: const Offset(0, 3),
+                  color: Colors.black.withOpacity(0.05),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildStatsTile(
+                  '100',
+                  'Followers',
+                ),
+                Container(
+                  width: 1,
+                  height: 40,
+                  color: Colors.grey.shade200,
+                ),
+                _buildStatsTile(
+                  '100',
+                  'Following',
+                ),
+                Container(
+                  width: 1,
+                  height: 40,
+                  color: Colors.grey.shade200,
+                ),
+                _buildStatsTile(
+                  '100',
+                  'Posts',
+                ),
+              ],
+            ),
+          ),
           showPostsChecker()
         ],
       ),
+    );
+  }
+
+  Widget _buildStatsTile(String value, String title) {
+    return Column(
+      children: [
+        Text(
+          value,
+        ),
+        Text(
+          title,
+        )
+      ],
     );
   }
 
@@ -114,8 +168,9 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: CircleAvatar(
-              backgroundImage: NetworkImage("https://picsum.photos/300"),
-              radius: 70,
+              backgroundImage: NetworkImage(
+                  widget.user.pfpUrl ?? 'https://picsum.photos/120'),
+              radius: 53,
             ),
           ),
           Expanded(
@@ -124,61 +179,74 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Vaibhav Kukreti',
+                Text(widget.user.fullName,
                     style: TextStyle(
                         fontSize: 18.0, fontWeight: FontWeight.normal)),
-                Text(context.read<UserProvider>().appUser!.email,
+                Text(widget.user.email,
                     style: TextStyle(
-                        fontSize: 14.0, fontWeight: FontWeight.normal)),
+                        fontSize: 12.0, fontWeight: FontWeight.normal)),
                 SizedBox(
                   height: 8.0,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          '100',
-                        ),
-                        Text(
-                          'Followers',
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      width: 40.0,
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          '80',
-                        ),
-                        Text(
-                          'Following',
-                        )
-                      ],
-                    )
-                  ],
-                ),
                 SizedBox(height: 8),
                 ZoomTapAnimation(
-                  onTap: () {},
-                  child: Container(
+                  onTap: () {
+                    if (alreadyFollowing == null) return;
+                    if (alreadyFollowing!) {
+                      FirebaseFirestore.instance
+                          .collection(FirestoreConstants.USER_COLLECTION)
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .collection('followers')
+                          .doc(widget.user.id)
+                          .delete();
+                      FirebaseFirestore.instance
+                          .collection(FirestoreConstants.USER_COLLECTION)
+                          .doc(widget.user.id)
+                          .collection('following')
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .delete();
+                    } else {
+                      FirebaseFirestore.instance
+                          .collection(FirestoreConstants.USER_COLLECTION)
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .collection('followers')
+                          .doc(widget.user.id)
+                          .set({});
+                      FirebaseFirestore.instance
+                          .collection(FirestoreConstants.USER_COLLECTION)
+                          .doc(widget.user.id)
+                          .collection('following')
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .set({});
+                    }
+                    setState(() {
+                      alreadyFollowing = !alreadyFollowing!;
+                    });
+                  },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 150),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue,
+                      color: ((alreadyFollowing == null) || (alreadyFollowing!))
+                          ? kSecondaryColor.withOpacity(0.3)
+                          : kSecondaryColor,
                     ),
+                    height: 44,
                     padding: EdgeInsets.symmetric(horizontal: 64, vertical: 10),
                     child: Center(
-                      child: Text(
-                        alreadyFollowing ? "Unfollow" : "Follow",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      child: alreadyFollowing == null
+                          ? CupertinoActivityIndicator()
+                          : Text(
+                              alreadyFollowing! ? "Unfollow" : "Follow",
+                              style: TextStyle(
+                                color: ((alreadyFollowing == null) ||
+                                        (alreadyFollowing!))
+                                    ? Colors.grey.shade900.withOpacity(0.2)
+                                    : Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                     ),
                   ),
                 )

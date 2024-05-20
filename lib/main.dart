@@ -4,6 +4,7 @@ import 'package:closet_app/firebase_options.dart';
 import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/services/auth/auth_functions.dart';
 import 'package:closet_app/services/favorites/favorites_provider.dart';
+import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_options_screen.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:closet_app/services/local_storage/theme_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,6 +70,6 @@ class AuthGate extends StatelessWidget {
   Widget build(BuildContext context) {
     User? firebaseUser = Provider.of<User?>(context);
     bool loggedIn = firebaseUser != null;
-    return loggedIn ? const App() : const SignInScreen();
+    return loggedIn ? const App() : const SignInOptionsScreen();
   }
 }

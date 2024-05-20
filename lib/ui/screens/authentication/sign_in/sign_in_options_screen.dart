@@ -16,54 +16,73 @@ class _SignInOptionsScreenState extends State<SignInOptionsScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 14.0),
+          margin: EdgeInsets.symmetric(horizontal: 16),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Expanded(
-                child: Center(
-                  child: Text('Welcome Back to My Closet App!',
-                    style: TextStyle(
-                        fontSize: 54.0,
-                        fontFamily: 'Philosopher'
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+              UserLoginSignupMethodTile(
+                organisationIcon: Icons.apple,
+                organisationName: 'Apple',
+                methodName: 'Sign In',
+                organisationIconColor: Colors.black,
+                isGoogle: false,
               ),
-              Expanded(
-                child: Column(
-                  children: [
-                    UserLoginSignupMethodTile(organisationIcon: Icons.apple, organisationName: 'Apple', methodName: 'Sign In',organisationIconColor: Colors.black,isGoogle: false,),
-                    Spacer(),
-                    UserLoginSignupMethodTile(organisationIcon: Icons.facebook, organisationName: 'Facebook', methodName: 'Sign In',organisationIconColor: Colors.blue.shade800,isGoogle: false,),
-                    Spacer(),
-                    UserLoginSignupMethodTile(organisationIcon: Icons.report_gmailerrorred, organisationName: 'Google', methodName: 'Sign In',organisationIconColor: Colors.red,isGoogle: true,),
-                    Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(child: Divider(color: Colors.grey.shade400,thickness: 1.0)),
-                        Text(' OR ',style: TextStyle(color: Colors.grey.shade800,fontWeight: FontWeight.w600),),
-                        Expanded(child: Divider(color: Colors.grey.shade400,thickness: 1.0)),
-                      ],
-                    ),
-                    Spacer(),
-                    GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
-                        },
-                        child: UserLoginSignupMethodTile(organisationIcon: Icons.email_outlined, organisationName: 'your Email', methodName: 'Sign In',organisationIconColor: Colors.black,isGoogle: false,)
-                    ),
-                    Spacer(flex: 7),
-                    GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpOptionsScreen()));
-                        },
-                        child: Text('New User ? Click here to sign up.',style: TextStyle(fontSize: 16.0,color: Colors.black),)
-                    )
-                  ],
-                ),
-              )
+              UserLoginSignupMethodTile(
+                organisationIcon: Icons.facebook,
+                organisationName: 'Facebook',
+                methodName: 'Sign In',
+                organisationIconColor: Colors.blue.shade800,
+                isGoogle: false,
+              ),
+              UserLoginSignupMethodTile(
+                organisationIcon: Icons.report_gmailerrorred,
+                organisationName: 'Google',
+                methodName: 'Sign In',
+                organisationIconColor: Colors.red,
+                isGoogle: true,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                      child:
+                          Divider(color: Colors.grey.shade400, thickness: 1.0)),
+                  Text(
+                    ' OR ',
+                    style: TextStyle(
+                        color: Colors.grey.shade800,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Expanded(
+                      child:
+                          Divider(color: Colors.grey.shade400, thickness: 1.0)),
+                ],
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignInScreen()));
+                  },
+                  child: UserLoginSignupMethodTile(
+                    organisationIcon: Icons.email_outlined,
+                    organisationName: 'your Email',
+                    methodName: 'Sign In',
+                    organisationIconColor: Colors.black,
+                    isGoogle: false,
+                  )),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignUpOptionsScreen()));
+                  },
+                  child: Text(
+                    'New User ? Click here to sign up.',
+                    style: TextStyle(fontSize: 16.0, color: Colors.black),
+                  ))
             ],
           ),
         ),

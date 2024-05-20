@@ -1,5 +1,6 @@
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_options_screen.dart';
 import 'package:closet_app/services/local_storage/theme_manager.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../navigation/widget/profile_entry_tile.dart';
@@ -36,10 +37,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 padding: EdgeInsets.only(right: 8.0),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    FirebaseAuth.instance.signOut();
+                    Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SignInOptionsScreen()));
+                            builder: (context) => SignInOptionsScreen()),
+                        (route) => false);
                   },
                   child: Icon(
                     Icons.power_settings_new,

@@ -1,7 +1,10 @@
 import 'package:closet_app/constants.dart';
 import 'package:closet_app/models/app_user_model.dart';
+import 'package:closet_app/ui/screens/settings/other_user_profile_screen.dart';
+import 'package:closet_app/ui/user_profile/user_profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -49,9 +52,19 @@ class _ChatOneScreenState extends State<ChatOneScreen> {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(widget.user.pfpUrl ?? ''),
-              radius: 15,
+            ZoomTapAnimation(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return OtherUserProfileScreen(
+                    user: widget.user,
+                  );
+                }));
+              },
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(widget.user.pfpUrl ?? ''),
+                radius: 15,
+              ),
             ),
             SizedBox(width: 16),
             Text(

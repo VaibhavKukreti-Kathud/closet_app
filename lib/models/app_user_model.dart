@@ -1,7 +1,7 @@
 class AppUser {
   final String id;
   final String? pfpUrl;
-  final String? fullName;
+  final String fullName;
   final String email;
   final String? gender;
   final String? dob;
@@ -33,7 +33,7 @@ class AppUser {
     return AppUser(
       id: json['id'],
       pfpUrl: json['pfpUrl'],
-      fullName: json['fullName'],
+      fullName: json['fullName'] ?? 'User',
       email: json['email'],
       gender: json['gender'],
       dob: json['dob'],
