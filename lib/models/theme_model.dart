@@ -40,7 +40,7 @@ class ThemeModel {
     dividerColor: Colors.grey.shade200,
     appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.dark,
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Color(0xffFEEDDB),
         surfaceTintColor: kSecondaryColor,
         titleTextStyle: TextStyle(
           fontSize: 20,
@@ -52,8 +52,9 @@ class ThemeModel {
       unselectedItemColor: Colors.black.withOpacity(0.5),
     ),
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey).copyWith(
-      background: Colors.white,
+      background: Color(0xffFEEDDB),
       brightness: Brightness.light,
+      secondary: Color(0xffBF9370),
     ),
   );
 }

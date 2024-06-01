@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:animations/animations.dart';
 import 'package:closet_app/constants.dart';
 import 'package:closet_app/providers/user_provider.dart';
@@ -31,9 +32,16 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   int _selectedIndex = 0;
   bool reverse = false;
-  static const double _iconSize = 27.0;
+  static const double? _iconSize = null;
 
   get kBottomNavbarHeight => 58;
+  late NotchBottomBarController notchBottomBarController;
+
+  @override
+  void initState() {
+    super.initState();
+    notchBottomBarController = NotchBottomBarController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,72 +134,104 @@ class _NavigationScreenState extends State<NavigationScreen> {
         ),
       ),
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: Skeletonizer(
-        enabled: !loggedin,
-        child: Container(
-          height: Platform.isIOS ? 84 : kBottomNavbarHeight,
-          padding: Platform.isIOS
-              ? EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width / 7.7,
-                  right: MediaQuery.of(context).size.width / 7.7,
-                  bottom: 20)
-              : EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width / 7.2),
-          decoration: BoxDecoration(
-            boxShadow: [s.kSubtleShadow],
-            border: Border(top: BorderSide.none),
-            color: Theme.of(context).scaffoldBackgroundColor,
+      // bottomNavigationBar: Skeletonizer(
+      //   enabled: !loggedin,
+      //   child: Container(
+      //     height: Platform.isIOS ? 84 : kBottomNavbarHeight,
+      //     padding: Platform.isIOS
+      //         ? EdgeInsets.only(
+      //             left: MediaQuery.of(context).size.width / 7.7,
+      //             right: MediaQuery.of(context).size.width / 7.7,
+      //             bottom: 20)
+      //         : EdgeInsets.symmetric(
+      //             horizontal: MediaQuery.of(context).size.width / 7.2),
+      //     decoration: BoxDecoration(
+      //       boxShadow: [s.kSubtleShadow],
+      //       border: Border(top: BorderSide.none),
+      //       color: Theme.of(context).scaffoldBackgroundColor,
+      //     ),
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //       children: [
+      //         GestureDetector(
+      //           onTap: () => setState(() {
+      //             reverse = false;
+      //             _selectedIndex = 0;
+      //           }),
+      //           child: Icon(
+      //             Iconsax.discover,
+      //             size: _iconSize,
+      //             color: _selectedIndex == 0 ? selectedColor : unselectedColor,
+      //           ),
+      //         ),
+      //         GestureDetector(
+      //           onTap: () => setState(() {
+      //             reverse = _selectedIndex < 1 ? true : false;
+      //             _selectedIndex = 1;
+      //           }),
+      //           child: Icon(
+      //             Iconsax.messages,
+      //             size: _iconSize,
+      //             color: _selectedIndex == 1 ? selectedColor : unselectedColor,
+      //           ),
+      //         ),
+      //         GestureDetector(
+      //           onTap: () => setState(() {
+      //             reverse = _selectedIndex < 2 ? true : false;
+      //             _selectedIndex = 2;
+      //           }),
+      //           child: Icon(
+      //             Iconsax.heart,
+      //             size: _iconSize,
+      //             color: _selectedIndex == 2 ? selectedColor : unselectedColor,
+      //           ),
+      //         ),
+      //         GestureDetector(
+      //           onTap: () => setState(() {
+      //             reverse = _selectedIndex < 3 ? true : false;
+      //             _selectedIndex = 3;
+      //           }),
+      //           child: Icon(
+      //             Iconsax.profile_circle,
+      //             size: _iconSize,
+      //             color: _selectedIndex == 3 ? selectedColor : unselectedColor,
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
+      bottomNavigationBar: AnimatedNotchBottomBar(
+        notchBottomBarController: notchBottomBarController,
+        bottomBarItems: <BottomBarItem>[
+          BottomBarItem(
+            inActiveItem: Icon(Iconsax.discover, size: _iconSize),
+            activeItem: Icon(Iconsax.discover, size: _iconSize),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () => setState(() {
-                  reverse = false;
-                  _selectedIndex = 0;
-                }),
-                child: Icon(
-                  Iconsax.discover,
-                  size: _iconSize,
-                  color: _selectedIndex == 0 ? selectedColor : unselectedColor,
-                ),
-              ),
-              GestureDetector(
-                onTap: () => setState(() {
-                  reverse = _selectedIndex < 1 ? true : false;
-                  _selectedIndex = 1;
-                }),
-                child: Icon(
-                  Iconsax.messages,
-                  size: _iconSize,
-                  color: _selectedIndex == 1 ? selectedColor : unselectedColor,
-                ),
-              ),
-              GestureDetector(
-                onTap: () => setState(() {
-                  reverse = _selectedIndex < 2 ? true : false;
-                  _selectedIndex = 2;
-                }),
-                child: Icon(
-                  Iconsax.heart,
-                  size: _iconSize,
-                  color: _selectedIndex == 2 ? selectedColor : unselectedColor,
-                ),
-              ),
-              GestureDetector(
-                onTap: () => setState(() {
-                  reverse = _selectedIndex < 3 ? true : false;
-                  _selectedIndex = 3;
-                }),
-                child: Icon(
-                  Iconsax.profile_circle,
-                  size: _iconSize,
-                  color: _selectedIndex == 3 ? selectedColor : unselectedColor,
-                ),
-              ),
-            ],
+          BottomBarItem(
+            inActiveItem: Icon(Iconsax.messages, size: _iconSize),
+            activeItem: Icon(Iconsax.messages, size: _iconSize),
           ),
-        ),
+          BottomBarItem(
+            inActiveItem: Icon(Iconsax.heart, size: _iconSize),
+            activeItem: Icon(Iconsax.heart, size: _iconSize),
+          ),
+          BottomBarItem(
+            inActiveItem: Icon(Iconsax.profile_circle, size: _iconSize),
+            activeItem: Icon(Iconsax.profile_circle, size: _iconSize),
+          ),
+        ],
+        onTap: (index) {
+          setState(() {
+            reverse = _selectedIndex < index;
+            _selectedIndex = index;
+          });
+        },
+        kIconSize: _iconSize ?? 25,
+        kBottomRadius: 30,
+        shadowElevation: 0,
+        color: kSecondaryColor,
+        notchColor: Colors.transparent,
       ),
       body: Stack(
         alignment: Alignment.bottomCenter,

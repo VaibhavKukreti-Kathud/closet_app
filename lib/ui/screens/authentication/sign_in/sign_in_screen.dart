@@ -9,6 +9,7 @@ import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/screens/authentication/sign_up/sign_up_screen.dart';
 import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
@@ -33,214 +34,35 @@ class _SignInScreenState extends State<SignInScreen> {
   bool mailFilled = false;
   bool passwordFilled = false;
   bool loading = false;
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+  bool isFocused = false;
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   body: Padding(
-    //     padding: const EdgeInsets.all(20.0),
-    //     child: SafeArea(
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           Spacer(),
-    //           Row(
-    //             children: [
-    //               Expanded(
-    //                 child: SizedBox(
-    //                   width: double.maxFinite,
-    //                   height: 32,
-    //                   child: FlutterLogo(
-    //                     style: FlutterLogoStyle.horizontal,
-    //                   ),
-    //                 ),
-    //               ),
-    //               Spacer(flex: 2),
-    //             ],
-    //           ),
-    //           Spacer(flex: 4),
-    //           Form(
-    //             key: _formKey,
-    //             child: Column(
-    //               children: <Widget>[
-    //                 ClipRRect(
-    //                   borderRadius: BorderRadius.circular(kBorderRadius),
-    //                   child: TextFormField(
-    //                     focusNode: _emailFocusNode,
-    //                     key: ValueKey('email'),
-    //                     keyboardType: TextInputType.emailAddress,
-    //                     controller: _emailController,
-    //                     validator: (value) => EmailValidator.validate(value!)
-    //                         ? null
-    //                         : 'Invalid email',
-    //                     decoration: InputDecoration(
-    //                       contentPadding: EdgeInsets.symmetric(
-    //                           horizontal: 24, vertical: 12),
-    //                       labelText: 'Email',
-    //                       labelStyle: TextStyle(
-    //                         fontSize: 16.0,
-    //                       ),
-    //                       filled: true,
-    //                       fillColor: Colors.grey[100],
-    //                       border: InputBorder.none,
-    //                       enabledBorder: InputBorder.none,
-    //                       focusedBorder: InputBorder.none,
-    //                     ),
-    //                   ),
-    //                 ),
-    //                 SizedBox(height: 8),
-    //                 ClipRRect(
-    //                   borderRadius: BorderRadius.circular(kBorderRadius),
-    //                   child: TextFormField(
-    //                     focusNode: _passwordFocusNode,
-    //                     key: ValueKey('password'),
-    //                     obscureText: true,
-    //                     controller: _passwordController,
-    //                     validator: (value) =>
-    //                         value!.isEmpty ? 'Password cannot be empty' : null,
-    //                     decoration: InputDecoration(
-    //                         labelText: 'Password',
-    //                         filled: true,
-    //                         contentPadding: EdgeInsets.symmetric(
-    //                             horizontal: 24, vertical: 12),
-    //                         fillColor: Colors.grey[100],
-    //                         labelStyle: TextStyle(
-    //                           fontSize: 16.0,
-    //                         ),
-    //                         border: InputBorder.none,
-    //                         enabledBorder: InputBorder.none,
-    //                         focusedBorder: InputBorder.none),
-    //                   ),
-    //                 ),
-    //                 Align(
-    //                   alignment: Alignment.centerRight,
-    //                   child: TextButton(
-    //                     onPressed: () {},
-    //                     child: Text('Forgot Password?'),
-    //                   ),
-    //                 ),
-    //                 SizedBox(height: 16),
-    //                 ZoomTapAnimation(
-    //                   onTap: () {
-    //                     if (_formKey.currentState!.validate()) {
-    //                       _formKey.currentState!.save();
-    //                       try {
-    //                         context
-    //                             .read<UserProvider>()
-    //                             .signInWithMailAndPassword(
-    //                               email: _email,
-    //                               password: _password,
-    //                             )
-    //                             .whenComplete(() => Navigator.pushReplacement(
-    //                                 context,
-    //                                 MaterialPageRoute(
-    //                                     builder: (context) =>
-    //                                         NavigationScreen())))
-    //                             .onError(
-    //                           (error, stackTrace) {
-    //                             throw error!;
-    //                           },
-    //                         );
-    //                       } catch (e) {
-    //                         log(e.toString());
-    //                       }
-    //                     }
-    //                   },
-    //                   child: Container(
-    //                     padding: EdgeInsets.symmetric(vertical: 16),
-    //                     decoration: BoxDecoration(
-    //                       color: kAccentColor,
-    //                       borderRadius: BorderRadius.circular(kBorderRadius),
-    //                     ),
-    //                     child: Center(
-    //                       child: Row(
-    //                         crossAxisAlignment: CrossAxisAlignment.center,
-    //                         mainAxisSize: MainAxisSize.min,
-    //                         children: [
-    //                           Icon(
-    //                             Icons.lock_outline,
-    //                             size: 16,
-    //                             color:
-    //                                 Theme.of(context).scaffoldBackgroundColor,
-    //                           ),
-    //                           SizedBox(width: 4),
-    //                           Text(
-    //                             "Sign in",
-    //                             style: TextStyle(
-    //                               color:
-    //                                   Theme.of(context).scaffoldBackgroundColor,
-    //                             ),
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ),
-    //                 SizedBox(height: 10),
-    //                 ZoomTapAnimation(
-    //                   child: Container(
-    //                     padding: EdgeInsets.symmetric(vertical: 16),
-    //                     decoration: BoxDecoration(
-    //                       border: Border.all(color: kAccentColor),
-    //                       borderRadius: BorderRadius.circular(kBorderRadius),
-    //                     ),
-    //                     child: Center(
-    //                       child: Row(
-    //                         crossAxisAlignment: CrossAxisAlignment.center,
-    //                         mainAxisSize: MainAxisSize.min,
-    //                         children: [
-    //                           Icon(
-    //                             Icons.person_outline_rounded,
-    //                             size: 16,
-    //                             color: kAccentColor,
-    //                           ),
-    //                           SizedBox(width: 4),
-    //                           Text(
-    //                             "Create an account",
-    //                             style: TextStyle(color: kAccentColor),
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     ),
-    //                   ),
-    //                   onTap: () {
-    //                     Navigator.of(context).push(
-    //                       MaterialPageRoute(
-    //                         builder: (context) => SignUpScreen(),
-    //                       ),
-    //                     );
-    //                   },
-    //                 ),
-    //                 SizedBox(height: 4),
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
     return Scaffold(
       body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: SafeArea(
-              child: SvgPicture.asset(
-                'assets/logo_black.svg',
-                fit: BoxFit.cover,
-                height: 40,
-              ),
-            ),
-          ),
           Container(
             padding: EdgeInsets.only(right: 16, left: 16),
-            child: Column(
+            child: ListView(
               children: [
-                Spacer(),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: IntroBranding(),
+                ),
+                SizedBox(height: 64),
+                Text('Login',
+                    style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500)),
+                SizedBox(height: 32),
+                Text('Email'),
+                SizedBox(height: 4),
                 CustomField(
                   controller: _mailController,
-                  hintText: 'Email',
+                  hintText: 'xyz@mail.com',
                   onEdit: (v) {
                     setState(() {
                       mailFilled = true;
@@ -250,9 +72,11 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 10,
                 ),
+                Text('Password'),
+                SizedBox(height: 4),
                 CustomField(
                     controller: _passwordController,
-                    hintText: 'Password',
+                    hintText: 'minimum 8 characters',
                     obscured: true,
                     onEdit: (v) {
                       setState(() {
@@ -274,7 +98,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 16,
                 ),
                 CustomButton(
                   disabled: !mailFilled || !passwordFilled || loading,
@@ -284,58 +108,33 @@ class _SignInScreenState extends State<SignInScreen> {
                           setState(() {
                             loading = true;
                           });
-                          if (_mailController.text == '') {
-                            showSnackbar(
-                                context, 'Please enter your mail address');
-                          } else if (_passwordController.text == '') {
-                            showSnackbar(context, 'Please enter the password');
-                          } else {
-                            String res = await AuthFunctions(
-                                    firebaseAuth: FirebaseAuth.instance,
-                                    prefs: Provider.of<SharedPreferences>(
-                                        context,
-                                        listen: false)!)
-                                .handleSignIn(_mailController.text,
-                                    _passwordController.text, null, null)
-                                .onError((error, stackTrace) {
-                              setState(() {
-                                loading = false;
-                              });
-                              return showSnackbar(context, error.toString());
+                          String res = await AuthFunctions(
+                                  firebaseAuth: FirebaseAuth.instance,
+                                  prefs: Provider.of<SharedPreferences>(context,
+                                      listen: false))
+                              .handleSignIn(_mailController.text,
+                                  _passwordController.text, null, null)
+                              .onError((error, stackTrace) {
+                            setState(() {
+                              loading = false;
                             });
-                            res != FUNCTION_SUCCESSFUL
-                                ? showSnackbar(context, res)
-                                : () {};
-                          }
+                            return showSnackbar(context, error.toString());
+                          });
+                          res != FUNCTION_SUCCESSFUL
+                              ? showSnackbar(context, res)
+                              : () {};
                         },
-                  text: 'Login',
+                  text: 'Sign in',
                 ),
-                SizedBox(height: 5),
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Text(
-                    'If you dont have an account,',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xff4c505b),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => SignUpScreen()));
-                    },
-                    child: const Text(
-                      'click here',
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 14,
-                        color: Color(0xff4c505b),
-                      ),
-                    ),
-                  ),
-                ]),
-                SizedBox(height: 15),
+                SizedBox(height: 12),
+                SecondaryCustomButton(
+                  disabled: false,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'Create an account',
+                ),
+                SizedBox(height: 32),
               ],
             ),
           ),
@@ -360,6 +159,38 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 }
 
+class IntroBranding extends StatelessWidget {
+  const IntroBranding({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 64),
+      child: SafeArea(
+        child: Column(
+          children: [
+            Hero(
+              tag: 'intro_branding',
+              child: SvgPicture.asset(
+                'assets/logo_black.svg',
+                fit: BoxFit.cover,
+                height: 85,
+              ),
+            ),
+            Text('Adding moments to Styles',
+                style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.black.withOpacity(0.8),
+                    fontWeight: FontWeight.w100)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class CustomButton extends StatelessWidget {
   CustomButton(
       {super.key,
@@ -378,30 +209,41 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: disabled ? () {} : onPressed,
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
-        height: 56,
-        decoration: BoxDecoration(
-            boxShadow: disabled
-                ? []
-                : [
-                    BoxShadow(
-                      blurRadius: 30,
-                      spreadRadius: -20,
-                      offset: Offset(0, 20),
-                      color: kButtonShadowColor,
-                    )
-                  ],
-            color: disabled
-                ? Theme.of(context).disabledColor
-                : Theme.of(context).colorScheme.secondary,
-            borderRadius: BorderRadius.circular(10)),
-        child: Center(
-            child: icon ??
-                Text(
-                  text,
-                  style: TextStyle(color: Colors.white),
-                )),
-      ),
+          duration: Duration(milliseconds: 300),
+          height: 48,
+          decoration: BoxDecoration(
+              boxShadow: disabled
+                  ? []
+                  : [
+                      // BoxShadow(
+                      //   blurRadius: 30,
+                      //   spreadRadius: -20,
+                      //   offset: Offset(0, 20),
+                      //   color: kButtonShadowColor,
+                      // )
+                    ],
+              color: disabled
+                  ? Theme.of(context).disabledColor
+                  : Theme.of(context).colorScheme.secondary,
+              borderRadius: BorderRadius.circular(kBorderRadius)),
+          child: Center(
+            child: icon == null
+                ? Text(
+                    text,
+                    style: TextStyle(color: Colors.white),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      icon!,
+                      SizedBox(width: 4),
+                      Text(
+                        text,
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ),
+          )),
     );
   }
 }
@@ -411,6 +253,7 @@ class CustomField extends StatefulWidget {
     Key? key,
     required this.controller,
     required this.hintText,
+    this.focusNode,
     this.obscured = false,
     this.onTap,
     this.onEdit,
@@ -420,6 +263,7 @@ class CustomField extends StatefulWidget {
   final TextEditingController controller;
   final bool obscured;
   final String hintText;
+  final FocusNode? focusNode;
   var onTap;
   var onEdit;
   Icon? prefixIcon;
@@ -438,6 +282,8 @@ class _CustomFieldState extends State<CustomField> {
       height: 56,
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
+          border:
+              Border.all(color: Color.fromARGB(255, 182, 182, 182), width: 1),
           color: kBGFieldColor,
           borderRadius: BorderRadius.circular(kBorderRadius2)),
       child: Center(
@@ -445,6 +291,7 @@ class _CustomFieldState extends State<CustomField> {
           children: [
             Expanded(
               child: TextFormField(
+                focusNode: widget.focusNode,
                 controller: widget.controller,
                 obscureText: showing,
                 onChanged: widget.onEdit,
@@ -483,6 +330,41 @@ class _CustomFieldState extends State<CustomField> {
                 : Container(),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SecondaryCustomButton extends StatelessWidget {
+  SecondaryCustomButton(
+      {super.key,
+      required this.onPressed,
+      this.text = '',
+      this.icon,
+      this.disabled = false});
+
+  final Function() onPressed;
+  final String text;
+  bool disabled;
+  final Widget? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: disabled ? () {} : onPressed,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        height: 48,
+        decoration: BoxDecoration(
+            color: Colors.transparent,
+            border: Border.all(color: Color(0xffBF9370), width: 1),
+            borderRadius: BorderRadius.circular(kBorderRadius)),
+        child: Center(
+            child: icon ??
+                Text(
+                  text,
+                  style: TextStyle(color: Color(0xffBF9370)),
+                )),
       ),
     );
   }

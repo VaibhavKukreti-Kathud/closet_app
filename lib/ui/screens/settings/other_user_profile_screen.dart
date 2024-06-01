@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:closet_app/constants.dart';
 import 'package:closet_app/models/app_user_model.dart';
 import 'package:closet_app/providers/user_provider.dart';
@@ -5,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -19,6 +22,9 @@ class OtherUserProfileScreen extends StatefulWidget {
 
 class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
   bool? alreadyFollowing;
+  int followers = 0;
+  int following = 0;
+
   showPostsChecker() {
     if (!(alreadyFollowing ?? false)) {
       return Center(
@@ -82,7 +88,36 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
         });
       }
     });
+
+    fetchFollowersCount();
+    fetchFollowingCount();
     super.initState();
+  }
+
+  void fetchFollowingCount() {
+    FirebaseFirestore.instance
+        .collection(FirestoreConstants.USER_COLLECTION)
+        .doc(widget.user.id)
+        .collection('following')
+        .get()
+        .then((value) {
+      setState(() {
+        following = value.docs.length;
+      });
+    });
+  }
+
+  void fetchFollowersCount() {
+    FirebaseFirestore.instance
+        .collection(FirestoreConstants.USER_COLLECTION)
+        .doc(widget.user.id)
+        .collection('followers')
+        .get()
+        .then((value) {
+      setState(() {
+        followers = value.docs.length;
+      });
+    });
   }
 
   @override
@@ -112,28 +147,47 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildStatsTile(
-                  '100',
-                  'Followers',
-                ),
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection(FirestoreConstants.USER_COLLECTION)
+                        .doc(widget.user.id)
+                        .collection('followers')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text('');
+                      }
+                      return _buildStatsTile(
+                        snapshot.data!.docs.length.toString(),
+                        'Followers',
+                      );
+                    }),
                 Container(
                   width: 1,
                   height: 40,
                   color: Colors.grey.shade200,
                 ),
-                _buildStatsTile(
-                  '100',
-                  'Following',
-                ),
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection(FirestoreConstants.USER_COLLECTION)
+                        .doc(widget.user.id)
+                        .collection('following')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text('');
+                      }
+                      return _buildStatsTile(
+                        '0',
+                        'Following',
+                      );
+                    }),
                 Container(
                   width: 1,
                   height: 40,
                   color: Colors.grey.shade200,
                 ),
-                _buildStatsTile(
-                  '100',
-                  'Posts',
-                ),
+                _buildStatsTile('13', 'Posts'),
               ],
             ),
           ),

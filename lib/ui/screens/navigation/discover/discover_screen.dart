@@ -37,12 +37,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     var currTheme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Iconsax.menu_1),
-          onPressed: () {
-            navScaffoldKey.currentState!.openDrawer();
-          },
-        ),
         iconTheme: currTheme.iconTheme,
         centerTitle: false,
         title: InkWell(
@@ -53,15 +47,17 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               SvgPicture.asset('assets/logo_peach.svg', width: 100, height: 30),
         ),
         actions: [
-          GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SearchScreen()));
-              },
-              child: Padding(
-                padding: EdgeInsets.only(right: 8.0),
-                child: Icon(Iconsax.search_normal),
-              ))
+          IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SearchScreen()));
+            },
+            icon: Icon(Iconsax.search_normal),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Iconsax.notification),
+          ),
         ],
       ),
 
@@ -128,56 +124,44 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   return Column(
                     children: [
                       i == 0
-                          ? ZoomTapAnimation(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => StoriesScreen()));
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 16),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 16),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    // color: Colors.grey.shade200,
-
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        kSecondaryColor,
-                                        kDisabledColor,
-                                      ],
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.circular(kBorderRadius)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                          ? Column(
+                              children: [
+                                SizedBox(height: 8),
+                                Row(
                                   children: [
-                                    Text(
-                                      'Outfit of the day',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white),
+                                    SizedBox(width: 16),
+                                    Chip(
+                                      label: Text('All'),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            kBorderRadius),
+                                      ),
                                     ),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.white,
-                                      size: 18,
+                                    SizedBox(width: 8),
+                                    Chip(
+                                      label: Text('Male'),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            kBorderRadius),
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Chip(
+                                      label: Text('Female'),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            kBorderRadius),
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
+                                SizedBox(height: 12),
+                              ],
                             )
                           : SizedBox(),
                       Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 0),
+                              horizontal: 12, vertical: 0),
                           child: PostWidget(
                             post: post,
                           )),

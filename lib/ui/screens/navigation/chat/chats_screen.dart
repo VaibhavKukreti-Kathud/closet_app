@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:avatar_stack/avatar_stack.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:closet_app/constants.dart';
 import 'package:closet_app/models/app_user_model.dart';
@@ -188,40 +189,61 @@ class _ChatsScreenState extends State<ChatsScreen>
                     }),
                 Scaffold(
                   body: ListView.builder(
-                    itemCount: 8,
+                    itemCount: 1,
                     controller: _groupController,
                     itemBuilder: (context, index) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ListTile(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => GroupChatScreen()));
-                            },
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage("https://picsum.photos/300"),
-                              radius: MediaQuery.of(context).size.width / 16,
-                            ),
-                            title: Text(
-                              'Birthday party 🎊',
-                              style: TextStyle(
-                                  color: currTheme.textTheme.bodyMedium!.color),
-                            ),
-                            subtitle: Text(
-                              'Vaibhav: Hey!',
-                              style: TextStyle(
-                                  color: currTheme.textTheme.bodyMedium!.color),
-                            ),
-                            trailing: Text(
-                              '12:00pm',
-                              style: TextStyle(
-                                  color: currTheme.textTheme.bodyMedium!.color),
-                            ),
-                          ),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            GroupChatScreen()));
+                              },
+                              leading: CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage("https://picsum.photos/300"),
+                                radius: MediaQuery.of(context).size.width / 16,
+                              ),
+                              title: Text(
+                                'Group chat test',
+                                style: TextStyle(
+                                    color:
+                                        currTheme.textTheme.bodyMedium!.color),
+                              ),
+                              subtitle: Text(
+                                'User: Hey!',
+                                style: TextStyle(
+                                    color:
+                                        currTheme.textTheme.bodyMedium!.color),
+                              ),
+                              trailing: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    '12:00pm',
+                                    style: TextStyle(
+                                        color: currTheme
+                                            .textTheme.bodyMedium!.color),
+                                  ),
+                                  AvatarStack(
+                                    width: 65,
+                                    height: 28,
+                                    borderWidth: 5,
+                                    borderColor: Colors.white,
+                                    avatars: [
+                                      NetworkImage("https://picsum.photos/30"),
+                                      NetworkImage("https://picsum.photos/30"),
+                                      NetworkImage("https://picsum.photos/30"),
+                                    ],
+                                  ),
+                                ],
+                              )),
                           Container(
                             height: 0.5,
                             margin: EdgeInsets.symmetric(horizontal: 80),

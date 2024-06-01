@@ -1,4 +1,5 @@
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
+import 'package:closet_app/ui/screens/authentication/sign_up/sign_up_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:closet_app/ui/widgets/user_signin_signup_method_tile.dart';
 import 'package:closet_app/ui/screens/authentication/sign_up/sign_up_options_screen.dart';
@@ -11,80 +12,139 @@ class SignInOptionsScreen extends StatefulWidget {
 }
 
 class _SignInOptionsScreenState extends State<SignInOptionsScreen> {
+  TextEditingController _mailController = TextEditingController();
+  bool mailFilled = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              UserLoginSignupMethodTile(
-                organisationIcon: Icons.apple,
-                organisationName: 'Apple',
-                methodName: 'Sign In',
-                organisationIconColor: Colors.black,
-                isGoogle: false,
-              ),
-              UserLoginSignupMethodTile(
-                organisationIcon: Icons.facebook,
-                organisationName: 'Facebook',
-                methodName: 'Sign In',
-                organisationIconColor: Colors.blue.shade800,
-                isGoogle: false,
-              ),
-              UserLoginSignupMethodTile(
-                organisationIcon: Icons.report_gmailerrorred,
-                organisationName: 'Google',
-                methodName: 'Sign In',
-                organisationIconColor: Colors.red,
-                isGoogle: true,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
+          children: [
+            Center(child: IntroBranding()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                      child:
-                          Divider(color: Colors.grey.shade400, thickness: 1.0)),
-                  Text(
-                    ' OR ',
-                    style: TextStyle(
-                        color: Colors.grey.shade800,
-                        fontWeight: FontWeight.w600),
+                  Text('Sign up',
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500)),
+                  SizedBox(height: 32),
+                  Text('Email'),
+                  SizedBox(height: 4),
+                  CustomField(
+                    controller: _mailController,
+                    hintText: 'xyz@mail.com',
+                    onEdit: (v) {
+                      setState(() {
+                        mailFilled = true;
+                      });
+                    },
                   ),
-                  Expanded(
-                      child:
-                          Divider(color: Colors.grey.shade400, thickness: 1.0)),
+                  SizedBox(height: 24),
+                  CustomButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignUpDetailsScreen(
+                                  email: _mailController.text)));
+                    },
+                    text: 'Continue',
+                  ),
+                  SizedBox(height: 16),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignInScreen()));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Already have an account?',
+                          style: TextStyle(fontSize: 16.0, color: Colors.black),
+                        ),
+                        Text(
+                          ' Login',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Theme.of(context).colorScheme.secondary,
+                            decoration: TextDecoration.underline,
+                            decorationColor:
+                                Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 32),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                            child: Divider(
+                                color: Theme.of(context).colorScheme.secondary,
+                                thickness: 1.0)),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                            'Or',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        Expanded(
+                            child: Divider(
+                                color: Theme.of(context).colorScheme.secondary,
+                                thickness: 1.0)),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 32),
+                  CustomButton(
+                    disabled: false,
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.facebook,
+                      color: Colors.white,
+                    ),
+                    text: 'Sign in with Facebook',
+                  ),
+                  SizedBox(height: 16),
+                  CustomButton(
+                    disabled: false,
+                    onPressed: () {},
+                    icon: Image.asset(
+                      'images/google_icon.png',
+                      height: 28,
+                    ),
+                    text: 'Sign in with Google',
+                  ),
+                  SizedBox(height: 16),
+                  CustomButton(
+                    disabled: false,
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.apple,
+                      color: Colors.white,
+                    ),
+                    text: 'Sign in with Apple',
+                  ),
                 ],
               ),
-              GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SignInScreen()));
-                  },
-                  child: UserLoginSignupMethodTile(
-                    organisationIcon: Icons.email_outlined,
-                    organisationName: 'your Email',
-                    methodName: 'Sign In',
-                    organisationIconColor: Colors.black,
-                    isGoogle: false,
-                  )),
-              GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SignUpOptionsScreen()));
-                  },
-                  child: Text(
-                    'New User ? Click here to sign up.',
-                    style: TextStyle(fontSize: 16.0, color: Colors.black),
-                  ))
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

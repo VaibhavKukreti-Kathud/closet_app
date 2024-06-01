@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 // import 'package:closet_app/models/wardrobe_category_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:closet_app/constants.dart';
 import 'package:closet_app/models/app_user_model.dart';
 import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/all_posts_screen.dart';
@@ -16,7 +17,7 @@ import 'package:closet_app/ui/constants/style_constants.dart';
 // import 'package:closet_app/ui/screens/navigation/my_closet/categories_grid.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/categories_screen.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/widgets/posts_list.dart';
-import 'package:closet_app/ui/screens/settings/profile_settings_screen.dart';
+import 'package:closet_app/ui/screens/settings/settings_screen.dart';
 // import 'package:closet_app/ui/screens/navigation/widget/post_widget.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -281,125 +282,205 @@ class _MyClosetScreenState extends State<MyClosetScreen>
     );
   }
 
-  Container _buildHeaderProfileInfo(BuildContext context) {
+  Widget _buildHeaderProfileInfo(BuildContext context) {
     var currTheme = Theme.of(context);
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    XFile? image = await ImagePicker()
-                        .pickImage(source: ImageSource.gallery);
-                    if (image != null) {}
-                  },
-                  child: CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(
-                        context.read<UserProvider>().appUser!.pfpUrl ??
-                            'https://www.picsum.photos/300'),
-                    radius: MediaQuery.of(context).size.width / 8,
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        XFile? image = await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
+                        if (image != null) {}
+                      },
+                      child: CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(
+                            context.read<UserProvider>().appUser!.pfpUrl ??
+                                'https://www.picsum.photos/300'),
+                        radius: MediaQuery.of(context).size.width / 8,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Theme.of(context).colorScheme.secondary,
+                          border: Border.all(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            width: 3,
+                          ),
+                        ),
+                        padding: EdgeInsets.all(6),
+                        child:
+                            Icon(Iconsax.edit_2, size: 14, color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Skeletonizer(
+                  enabled: currentAppUser == null,
+                  textBoneBorderRadius:
+                      TextBoneBorderRadius(BorderRadius.circular(5)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        currentAppUser!.fullName ?? 'User',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.normal,
+                          color: currTheme.textTheme.bodyMedium!.color,
+                        ),
+                      ),
+                      Text(
+                        currentAppUser!.email,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                          color: currTheme.textTheme.bodyMedium!.color
+                              ?.withOpacity(0.6),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      ZoomTapAnimation(
+                        onTap: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const AddPostScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: currTheme.dialogBackgroundColor,
+                          ),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 0.5),
+                                  child: Icon(
+                                    Iconsax.add,
+                                    size: 18,
+                                    color: currTheme.iconTheme.color,
+                                  ),
+                                ),
+                                SizedBox(width: 2),
+                                Text(
+                                  "Add post",
+                                  style: TextStyle(
+                                    color:
+                                        currTheme.textTheme.bodyMedium!.color,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    await ImagePicker().pickImage(source: ImageSource.gallery);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).colorScheme.secondary,
-                      border: Border.all(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        width: 3,
-                      ),
-                    ),
-                    padding: EdgeInsets.all(6),
-                    child: Icon(Iconsax.edit_2, size: 14, color: Colors.white),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Expanded(
-            child: Skeletonizer(
-              enabled: currentAppUser == null,
-              textBoneBorderRadius:
-                  TextBoneBorderRadius(BorderRadius.circular(5)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    currentAppUser!.fullName ?? 'User',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      color: currTheme.textTheme.bodyMedium!.color,
-                    ),
-                  ),
-                  Text(
-                    currentAppUser!.email,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal,
-                      color: currTheme.textTheme.bodyMedium!.color
-                          ?.withOpacity(0.6),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  ZoomTapAnimation(
-                    onTap: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const AddPostScreen(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: currTheme.dialogBackgroundColor,
-                      ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 0.5),
-                              child: Icon(
-                                Iconsax.add,
-                                size: 18,
-                                color: currTheme.iconTheme.color,
-                              ),
-                            ),
-                            SizedBox(width: 2),
-                            Text(
-                              "Add post",
-                              style: TextStyle(
-                                color: currTheme.textTheme.bodyMedium!.color,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ],
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 24),
+        FutureBuilder(
+            future: _firestore
+                .collection(FirestoreConstants.USER_COLLECTION)
+                .doc(currentAppUser!.id)
+                .get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text("Error: ${snapshot.error}");
+              }
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        '6',
+                        style: TextStyle(
+                          color: currTheme.textTheme.bodyMedium!.color,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        'Posts',
+                        style: TextStyle(
+                          color: currTheme.textTheme.bodyMedium!.color,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        '0',
+                        style: TextStyle(
+                          color: currTheme.textTheme.bodyMedium!.color,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        'Followers',
+                        style: TextStyle(
+                          color: currTheme.textTheme.bodyMedium!.color,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        '0',
+                        style: TextStyle(
+                          color: currTheme.textTheme.bodyMedium!.color,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        'Following',
+                        style: TextStyle(
+                          color: currTheme.textTheme.bodyMedium!.color,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            }),
+      ],
     );
   }
 }

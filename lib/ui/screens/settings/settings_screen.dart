@@ -1,5 +1,6 @@
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_options_screen.dart';
 import 'package:closet_app/services/local_storage/theme_manager.dart';
+import 'package:closet_app/ui/screens/onboarding/getting_started_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         appBar: AppBar(
             scrolledUnderElevation: 0.0,
             backgroundColor: currTheme.appBarTheme.backgroundColor,
-            title: Text('My Profile'),
+            title: Text('Settings'),
             leading: Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: Switch(
@@ -41,7 +42,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SignInOptionsScreen()),
+                            builder: (context) => GettingStartedScreen()),
                         (route) => false);
                   },
                   child: Icon(
@@ -71,17 +72,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       fontSize: 20.0,
                       color: currTheme.textTheme.bodyMedium!.color),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '100 Followers | 80 Following',
-                    style: TextStyle(
-                        fontSize: 17.0,
-                        color: currTheme.textTheme.bodyMedium!.color),
-                  )
-                ],
               ),
               SizedBox(
                 height: 16.0,

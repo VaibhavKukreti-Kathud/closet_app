@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-const double kBorderRadius = 20;
+const double kBorderRadius = 24;
 const Color kPrimaryColor = Color.fromARGB(255, 255, 255, 255);
 const Color kButtonShadowColor = Color.fromARGB(255, 236, 128, 70);
 const Color kSecondaryColor = Color(0xFFedbea2);
 const Color kDisabledColor = Color(0xffd9c7bd);
-const Color kBGFieldColor = Color.fromARGB(255, 239, 247, 255);
+const Color kBGFieldColor = Color.fromARGB(255, 255, 255, 255);
 const String FUNCTION_SUCCESSFUL = 'Success';
 
 class FirestoreConstants {
