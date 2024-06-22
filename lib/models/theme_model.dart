@@ -38,10 +38,14 @@ class ThemeModel {
         buttonColor: kSecondaryColor, textTheme: ButtonTextTheme.normal),
     textTheme: GoogleFonts.poppinsTextTheme(),
     dividerColor: Colors.grey.shade200,
+    progressIndicatorTheme: ProgressIndicatorThemeData().copyWith(
+        color: Color(0xffBF9370),
+        linearTrackColor: Color(0xffBF9370).withOpacity(0.3)),
     appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.dark,
-        backgroundColor: Color(0xffFEEDDB),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         surfaceTintColor: kSecondaryColor,
+        centerTitle: false,
         titleTextStyle: TextStyle(
           fontSize: 20,
           color: Colors.black,
@@ -52,9 +56,10 @@ class ThemeModel {
       unselectedItemColor: Colors.black.withOpacity(0.5),
     ),
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey).copyWith(
-      background: Color(0xffFEEDDB),
-      brightness: Brightness.light,
-      secondary: Color(0xffBF9370),
-    ),
+        background: Color.fromARGB(255, 255, 255, 255),
+        primary: Colors.white,
+        brightness: Brightness.light,
+        secondary: Color(0xffFEEDDB),
+        tertiary: kSecondaryColor),
   );
 }

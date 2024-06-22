@@ -2,7 +2,7 @@ import 'package:closet_app/constants.dart';
 import 'package:closet_app/models/app_user_model.dart';
 import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/services/chat/chat_functions.dart';
-import 'package:closet_app/ui/screens/navigation/chat/widgets/chat_bubble.dart';
+import 'package:closet_app/ui/screens/navigation/widgets/chat_bubble.dart';
 import 'package:closet_app/ui/screens/settings/other_user_profile_screen.dart';
 import 'package:closet_app/ui/user_profile/user_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

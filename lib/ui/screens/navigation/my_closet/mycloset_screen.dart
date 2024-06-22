@@ -208,75 +208,90 @@ class _MyClosetScreenState extends State<MyClosetScreen>
           SizedBox(height: 16),
           _buildHeaderProfileInfo(context),
           SizedBox(height: 4),
-          TabBar(
-              onTap: (value) {
-                _previousScreen = _currentScreen.value;
-                _currentScreen.value = value;
-              },
-              indicatorSize: TabBarIndicatorSize.tab,
-              labelColor: currTheme.textTheme.bodyMedium!.color,
-              unselectedLabelColor: currTheme.textTheme.bodyMedium!.color,
-              // dividerColor: Colors.redAccent,
-              dividerColor: currTheme.dividerColor,
-              indicator: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                color: currTheme.colorScheme.secondary,
-                width: 2,
-              ))),
-              tabs: [
-                Tab(
-                  text: "Posts",
-                ),
-                Tab(
-                  text: "Categories",
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Private posts',
+                  style: TextStyle(
+                    color: currTheme.textTheme.bodyMedium!.color,
+                    fontSize: 16,
+                  ),
                 ),
               ],
-              controller: tabController),
-          ValueListenableBuilder<int>(
-              valueListenable: _currentScreen,
-              builder: (context, screen, child) {
-                return AnimatedSwitcher(
-                  duration: Duration(milliseconds: 50),
-                  switchInCurve: Curves.easeOutCubic,
-                  switchOutCurve: Curves.easeInCubic,
-                  transitionBuilder:
-                      (Widget child, Animation<double> animation) {
-                    final inAnimation =
-                        Tween<double>(begin: 0, end: 1).animate(animation);
-                    final outAnimation =
-                        Tween<double>(begin: 0, end: 1).animate(animation);
+            ),
+          ),
+          // TabBar(
+          //     onTap: (value) {
+          //       _previousScreen = _currentScreen.value;
+          //       _currentScreen.value = value;
+          //     },
+          //     indicatorSize: TabBarIndicatorSize.tab,
+          //     labelColor: currTheme.textTheme.bodyMedium!.color,
+          //     unselectedLabelColor: currTheme.textTheme.bodyMedium!.color,
+          //     // dividerColor: Colors.redAccent,
+          //     dividerColor: currTheme.dividerColor,
+          //     indicator: BoxDecoration(
+          //         border: Border(
+          //             bottom: BorderSide(
+          //       color: currTheme.colorScheme.secondary,
+          //       width: 2,
+          //     ))),
+          //     tabs: [
+          //       Tab(
+          //         text: "Posts",
+          //       ),
+          //       Tab(
+          //         text: "Categories",
+          //       ),
+          //     ],
+          //     controller: tabController),
+          // ValueListenableBuilder<int>(
+          //     valueListenable: _currentScreen,
+          //     builder: (context, screen, child) {
+          //       return AnimatedSwitcher(
+          //         duration: Duration(milliseconds: 50),
+          //         switchInCurve: Curves.easeOutCubic,
+          //         switchOutCurve: Curves.easeInCubic,
+          //         transitionBuilder:
+          //             (Widget child, Animation<double> animation) {
+          //           final inAnimation =
+          //               Tween<double>(begin: 0, end: 1).animate(animation);
+          //           final outAnimation =
+          //               Tween<double>(begin: 0, end: 1).animate(animation);
 
-                    final Widget inTransition = ClipRect(
-                      child: FadeTransition(
-                        opacity: inAnimation,
-                        child: child,
-                      ),
-                    );
+          //           final Widget inTransition = ClipRect(
+          //             child: FadeTransition(
+          //               opacity: inAnimation,
+          //               child: child,
+          //             ),
+          //           );
 
-                    final Widget outTransition = ClipRect(
-                      child: FadeTransition(
-                        opacity: outAnimation,
-                        child: child,
-                      ),
-                    );
+          //           final Widget outTransition = ClipRect(
+          //             child: FadeTransition(
+          //               opacity: outAnimation,
+          //               child: child,
+          //             ),
+          //           );
 
-                    // Transition for three screens
-                    if (child.key == ValueKey<int>(1)) {
-                      if (_previousScreen == 0 ||
-                          _previousScreen == 1 && screen != 2)
-                        return inTransition;
-                      return outTransition;
-                    } else if (child.key == ValueKey<int>(2)) {
-                      return inTransition;
-                    } else {
-                      return outTransition;
-                    }
-                  },
-                  child: _returnTab(screen),
-                );
-              }),
-          SizedBox(height: 40),
+          //           // Transition for three screens
+          //           if (child.key == ValueKey<int>(1)) {
+          //             if (_previousScreen == 0 ||
+          //                 _previousScreen == 1 && screen != 2)
+          //               return inTransition;
+          //             return outTransition;
+          //           } else if (child.key == ValueKey<int>(2)) {
+          //             return inTransition;
+          //           } else {
+          //             return outTransition;
+          //           }
+          //         },
+          //         child: _returnTab(screen),
+          //       );
+          //     }),
+          // SizedBox(height: 40),
         ],
       ),
     );
@@ -289,197 +304,142 @@ class _MyClosetScreenState extends State<MyClosetScreen>
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        XFile? image = await ImagePicker()
-                            .pickImage(source: ImageSource.gallery);
-                        if (image != null) {}
-                      },
-                      child: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(
-                            context.read<UserProvider>().appUser!.pfpUrl ??
-                                'https://www.picsum.photos/300'),
-                        radius: MediaQuery.of(context).size.width / 8,
-                      ),
+              Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      XFile? image = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+                      if (image != null) {}
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: CachedNetworkImageProvider(
+                          context.read<UserProvider>().appUser!.pfpUrl ??
+                              'https://www.picsum.photos/300'),
+                      radius: MediaQuery.of(context).size.width / 8,
                     ),
-                    GestureDetector(
-                      onTap: () async {
-                        await ImagePicker()
-                            .pickImage(source: ImageSource.gallery);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Theme.of(context).colorScheme.secondary,
-                          border: Border.all(
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            width: 3,
-                          ),
-                        ),
-                        padding: EdgeInsets.all(6),
-                        child:
-                            Icon(Iconsax.edit_2, size: 14, color: Colors.white),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Skeletonizer(
-                  enabled: currentAppUser == null,
-                  textBoneBorderRadius:
-                      TextBoneBorderRadius(BorderRadius.circular(5)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        currentAppUser!.fullName ?? 'User',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
-                          color: currTheme.textTheme.bodyMedium!.color,
-                        ),
-                      ),
-                      Text(
-                        currentAppUser!.email,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          color: currTheme.textTheme.bodyMedium!.color
-                              ?.withOpacity(0.6),
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      ZoomTapAnimation(
-                        onTap: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const AddPostScreen(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: currTheme.dialogBackgroundColor,
-                          ),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 0.5),
-                                  child: Icon(
-                                    Iconsax.add,
-                                    size: 18,
-                                    color: currTheme.iconTheme.color,
-                                  ),
-                                ),
-                                SizedBox(width: 2),
-                                Text(
-                                  "Add post",
-                                  style: TextStyle(
-                                    color:
-                                        currTheme.textTheme.bodyMedium!.color,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
-                ),
+                  GestureDetector(
+                    onTap: () async {
+                      await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Theme.of(context).colorScheme.secondary,
+                        border: Border.all(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          width: 3,
+                        ),
+                      ),
+                      padding: EdgeInsets.all(6),
+                      child:
+                          Icon(Iconsax.edit_2, size: 14, color: Colors.white),
+                    ),
+                  )
+                ],
               ),
             ],
           ),
         ),
+        SizedBox(height: 8),
+        Text(
+          currentAppUser!.fullName,
+          style: TextStyle(
+            color: currTheme.textTheme.bodyMedium!.color,
+            fontSize: 16,
+          ),
+        ),
+        Text(
+          '@${currentAppUser!.email.split('@').first}',
+          style: TextStyle(
+            color: currTheme.textTheme.bodyMedium!.color!.withOpacity(0.6),
+            fontSize: 14,
+          ),
+        ),
         SizedBox(height: 24),
-        FutureBuilder(
-            future: _firestore
-                .collection(FirestoreConstants.USER_COLLECTION)
-                .doc(currentAppUser!.id)
-                .get(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text("Error: ${snapshot.error}");
-              }
+        // FutureBuilder(
+        //     future: _firestore
+        //         .collection(FirestoreConstants.USER_COLLECTION)
+        //         .doc(currentAppUser!.id)
+        //         .get(),
+        //     builder: (context, snapshot) {
+        //       if (snapshot.connectionState == ConnectionState.waiting) {
+        //         return CircularProgressIndicator();
+        //       } else if (snapshot.hasError) {
+        //         return Text("Error: ${snapshot.error}");
+        //       }
 
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        '6',
-                        style: TextStyle(
-                          color: currTheme.textTheme.bodyMedium!.color,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'Posts',
-                        style: TextStyle(
-                          color: currTheme.textTheme.bodyMedium!.color,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        '0',
-                        style: TextStyle(
-                          color: currTheme.textTheme.bodyMedium!.color,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'Followers',
-                        style: TextStyle(
-                          color: currTheme.textTheme.bodyMedium!.color,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        '0',
-                        style: TextStyle(
-                          color: currTheme.textTheme.bodyMedium!.color,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'Following',
-                        style: TextStyle(
-                          color: currTheme.textTheme.bodyMedium!.color,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            }),
+        //       return Row(
+        //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //         children: [
+        //           Expanded(
+        //             child: Column(
+        //               children: [
+        //                 Text(
+        //                   '6',
+        //                   style: TextStyle(
+        //                     color: currTheme.textTheme.bodyMedium!.color,
+        //                     fontSize: 16,
+        //                   ),
+        //                 ),
+        //                 Text(
+        //                   'Posts',
+        //                   style: TextStyle(
+        //                     color: currTheme.textTheme.bodyMedium!.color,
+        //                     fontSize: 12,
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //           Expanded(
+        //             child: Column(
+        //               children: [
+        //                 Text(
+        //                   '0',
+        //                   style: TextStyle(
+        //                     color: currTheme.textTheme.bodyMedium!.color,
+        //                     fontSize: 16,
+        //                   ),
+        //                 ),
+        //                 Text(
+        //                   'Followers',
+        //                   style: TextStyle(
+        //                     color: currTheme.textTheme.bodyMedium!.color,
+        //                     fontSize: 12,
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //           Expanded(
+        //             child: Column(
+        //               children: [
+        //                 Text(
+        //                   '0',
+        //                   style: TextStyle(
+        //                     color: currTheme.textTheme.bodyMedium!.color,
+        //                     fontSize: 16,
+        //                   ),
+        //                 ),
+        //                 Text(
+        //                   'Following',
+        //                   style: TextStyle(
+        //                     color: currTheme.textTheme.bodyMedium!.color,
+        //                     fontSize: 12,
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         ],
+        //       );
+        //     }),
       ],
     );
   }

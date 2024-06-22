@@ -2,12 +2,18 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:animations/animations.dart';
+import 'package:avatar_stack/avatar_stack.dart';
+import 'package:closet_app/app.dart';
 import 'package:closet_app/constants.dart';
 import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart' as s;
-import 'package:closet_app/ui/screens/navigation/chat/chats_screen.dart';
+import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
+import 'package:closet_app/ui/screens/navigation/add_post/add_product_screen.dart';
+import 'package:closet_app/ui/screens/chat/chats_screen.dart';
+import 'package:closet_app/ui/screens/navigation/groups/create_group_screen.dart';
 import 'package:closet_app/ui/screens/navigation/discover/discover_screen.dart';
 import 'package:closet_app/ui/screens/navigation/favorites/favorite_screen.dart';
+import 'package:closet_app/ui/screens/navigation/groups/group_home_screen.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/mycloset_screen.dart';
 import 'package:closet_app/ui/screens/social/followers_screen.dart';
 import 'package:closet_app/ui/screens/social/following_screen.dart';
@@ -32,7 +38,7 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   int _selectedIndex = 0;
   bool reverse = false;
-  static const double? _iconSize = null;
+  static const double? _iconSize = 20;
 
   get kBottomNavbarHeight => 58;
   late NotchBottomBarController notchBottomBarController;
@@ -45,15 +51,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool loggedin = context.watch<UserProvider>().appUser != null;
-    final List<Widget> _pages = [
-      DiscoverScreen(),
-      ChatsScreen(),
-      FavoriteScreen(),
-      MyClosetScreen(),
+    final List<Widget> pages = [
+      const DiscoverScreen(),
+      const GroupsListScreen(),
+      const AddProductScreen(),
+      const FavoriteScreen(),
+      const MyClosetScreen(),
     ];
-    final Color selectedColor = kButtonShadowColor.withOpacity(0.8);
-    final Color unselectedColor = kDisabledColor.withOpacity(0.9);
 
     return Scaffold(
       key: navScaffoldKey,
@@ -134,6 +138,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
         ),
       ),
       resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       // bottomNavigationBar: Skeletonizer(
       //   enabled: !loggedin,
       //   child: Container(
@@ -203,22 +209,53 @@ class _NavigationScreenState extends State<NavigationScreen> {
       // ),
       bottomNavigationBar: AnimatedNotchBottomBar(
         notchBottomBarController: notchBottomBarController,
-        bottomBarItems: <BottomBarItem>[
+        bottomBarItems: const <BottomBarItem>[
           BottomBarItem(
-            inActiveItem: Icon(Iconsax.discover, size: _iconSize),
-            activeItem: Icon(Iconsax.discover, size: _iconSize),
+            inActiveItem: Icon(
+              Iconsax.discover,
+              size: _iconSize,
+              color: Colors.black,
+            ),
+            activeItem: Icon(
+              Iconsax.discover,
+              size: _iconSize,
+              color: Colors.white,
+            ),
           ),
           BottomBarItem(
-            inActiveItem: Icon(Iconsax.messages, size: _iconSize),
-            activeItem: Icon(Iconsax.messages, size: _iconSize),
+            inActiveItem: Icon(
+              Iconsax.profile_2user,
+              size: _iconSize,
+              color: Colors.black,
+            ),
+            activeItem: Icon(Iconsax.profile_2user,
+                size: _iconSize, color: Colors.white),
           ),
           BottomBarItem(
-            inActiveItem: Icon(Iconsax.heart, size: _iconSize),
-            activeItem: Icon(Iconsax.heart, size: _iconSize),
+            inActiveItem: Icon(
+              Iconsax.add,
+              size: _iconSize,
+              color: Colors.black,
+            ),
+            activeItem: Icon(Iconsax.add, size: _iconSize, color: Colors.white),
           ),
           BottomBarItem(
-            inActiveItem: Icon(Iconsax.profile_circle, size: _iconSize),
-            activeItem: Icon(Iconsax.profile_circle, size: _iconSize),
+            inActiveItem: Icon(
+              Icons.bookmark_outline,
+              size: _iconSize,
+              color: Colors.black,
+            ),
+            activeItem: Icon(Icons.bookmark_outline,
+                size: _iconSize, color: Colors.white),
+          ),
+          BottomBarItem(
+            inActiveItem: Icon(
+              Iconsax.profile_circle,
+              size: _iconSize,
+              color: Colors.black,
+            ),
+            activeItem: Icon(Iconsax.profile_circle,
+                size: _iconSize, color: Colors.white),
           ),
         ],
         onTap: (index) {
@@ -230,8 +267,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
         kIconSize: _iconSize ?? 25,
         kBottomRadius: 30,
         shadowElevation: 0,
-        color: kSecondaryColor,
-        notchColor: Colors.transparent,
+        color: Theme.of(context).colorScheme.secondary,
+        notchColor: Colors.black,
       ),
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -251,9 +288,202 @@ class _NavigationScreenState extends State<NavigationScreen> {
             },
             child: Container(
               key: ValueKey(_selectedIndex),
-              child: _pages[_selectedIndex],
+              child: pages[_selectedIndex],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class GroupsListScreen extends StatefulWidget {
+  const GroupsListScreen({
+    super.key,
+  });
+
+  @override
+  State<GroupsListScreen> createState() => _GroupsListScreenState();
+}
+
+class _GroupsListScreenState extends State<GroupsListScreen> {
+  final TextEditingController controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          title: Text("Groups"),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateGroupScreen()));
+                },
+                padding: EdgeInsets.zero,
+                icon: Container(
+                  padding: const EdgeInsets.all(10),
+                  margin: EdgeInsets.only(right: 16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: Colors.black.withOpacity(0.1),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Iconsax.add_square, size: 20),
+                      SizedBox(width: 6),
+                      Text('New'),
+                    ],
+                  ),
+                )),
+          ],
+        ),
+        body: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                if (index == 0)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: CustomSearchField(
+                      controller: controller,
+                      hintText: 'Search',
+                    ),
+                  ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: ListTile(
+                    tileColor: Color(0xffEDCEBC),
+                    minVerticalPadding: 20,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    leading: CircleAvatar(
+                      radius: 20,
+                      backgroundImage:
+                          NetworkImage("https://picsum.photos/200"),
+                    ),
+                    title: Text("Group $index"),
+                    trailing: AvatarStack(
+                        width: 56,
+                        height: 20,
+                        borderColor: Color(0xffEDCEBC),
+                        avatars: [
+                          NetworkImage("https://picsum.photos/200"),
+                          NetworkImage("https://picsum.photos/200"),
+                          NetworkImage("https://picsum.photos/200"),
+                          NetworkImage("https://picsum.photos/200"),
+                        ]),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return GroupHomeScreen();
+                      }));
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        ));
+  }
+}
+
+class CustomSearchField extends StatefulWidget {
+  CustomSearchField({
+    Key? key,
+    required this.controller,
+    required this.hintText,
+    this.focusNode,
+    this.obscured = false,
+    this.onTap,
+    this.onEdit,
+    this.prefixIcon,
+  }) : super(key: key);
+
+  final TextEditingController controller;
+  final bool obscured;
+  final String hintText;
+  final FocusNode? focusNode;
+  var onTap;
+  var onEdit;
+  Icon? prefixIcon;
+
+  @override
+  State<CustomSearchField> createState() => _CustomSearchFieldState();
+}
+
+class _CustomSearchFieldState extends State<CustomSearchField> {
+  @override
+  Widget build(BuildContext context) {
+    bool showing = widget.obscured;
+
+    var kBorderRadius2 = 10.0;
+    return Container(
+      height: 56,
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      decoration: BoxDecoration(
+          border:
+              Border.all(color: Color.fromARGB(255, 182, 182, 182), width: 1),
+          color: kBGFieldColor,
+          borderRadius: BorderRadius.circular(30)),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.search,
+            color: Colors.grey.shade600,
+          ),
+          SizedBox(width: 12),
+          Expanded(
+            child: TextFormField(
+              focusNode: widget.focusNode,
+              controller: widget.controller,
+              obscureText: showing,
+              onChanged: widget.onEdit,
+              onTap: widget.onTap,
+              decoration: InputDecoration(
+                  prefixIcon: widget.prefixIcon,
+                  constraints: BoxConstraints(maxHeight: 56, minHeight: 56),
+                  hintText: widget.hintText,
+
+                  // fillColor: Colors.red,
+                  // filled: true,
+                  hintStyle: TextStyle(
+                      fontSize: 17, color: Colors.black.withOpacity(0.35)),
+                  contentPadding: EdgeInsets.symmetric(),
+                  border: InputBorder.none),
+            ),
+          ),
+          widget.obscured
+              ? SizedBox(
+                  width: 30,
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        showing = !showing;
+                      });
+                    },
+                    icon: Icon(
+                      !showing
+                          ? Icons.visibility_off_rounded
+                          : Icons.visibility,
+                      color: Colors.black54,
+                      size: 17,
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );

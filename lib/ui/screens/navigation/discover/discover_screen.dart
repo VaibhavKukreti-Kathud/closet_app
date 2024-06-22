@@ -56,7 +56,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           ),
           IconButton(
             onPressed: () {},
-            icon: Icon(Iconsax.notification),
+            icon: Icon(Iconsax.message),
           ),
         ],
       ),
@@ -132,27 +132,55 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                     SizedBox(width: 16),
                                     Chip(
                                       label: Text('All'),
+                                      backgroundColor: Colors.white,
                                       shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Colors.grey.shade400),
                                         borderRadius: BorderRadius.circular(
-                                            kBorderRadius),
+                                          kBorderRadius,
+                                        ),
                                       ),
                                     ),
                                     SizedBox(width: 8),
                                     Chip(
                                       label: Text('Male'),
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                       shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
                                         borderRadius: BorderRadius.circular(
-                                            kBorderRadius),
+                                          kBorderRadius,
+                                        ),
                                       ),
                                     ),
                                     SizedBox(width: 8),
                                     Chip(
                                       label: Text('Female'),
+                                      backgroundColor: Colors.white,
                                       shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Colors.grey.shade400),
                                         borderRadius: BorderRadius.circular(
-                                            kBorderRadius),
+                                          kBorderRadius,
+                                        ),
                                       ),
                                     ),
+                                    Spacer(),
+                                    Chip(
+                                      label: Icon(Icons.menu_book_rounded),
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Colors.grey.shade400),
+                                        borderRadius: BorderRadius.circular(
+                                          kBorderRadius,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 16),
                                   ],
                                 ),
                                 SizedBox(height: 12),

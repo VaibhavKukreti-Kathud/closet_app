@@ -1,23 +1,11 @@
-import 'dart:developer';
 import 'dart:ui';
-
 import 'package:closet_app/constants.dart';
-import 'package:closet_app/main.dart';
-import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/services/snackbar.dart';
-import 'package:closet_app/ui/constants/style_constants.dart';
-import 'package:closet_app/ui/screens/authentication/sign_up/sign_up_screen.dart';
-import 'package:closet_app/ui/screens/navigation/navigation_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:svg_flutter/svg.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import 'package:closet_app/services/auth/auth_functions.dart';
 
 class SignInScreen extends StatefulWidget {

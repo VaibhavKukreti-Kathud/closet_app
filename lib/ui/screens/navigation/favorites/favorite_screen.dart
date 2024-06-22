@@ -26,16 +26,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     context.read<FavoritesProvider>().getFavorites();
-    List<Future<Post>> wardrobeItems =
-        context.watch<FavoritesProvider>().favorites.map(
-      (e) async {
-        Map<String, dynamic> data = await FirebaseFirestore.instance
-            .collection(FirestoreConstants.POSTS_COLLECTION)
-            .doc(e)
-            .get() as Map<String, dynamic>;
-        return Post.fromMap(data);
-      },
-    ).toList();
+
     var currTheme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -169,136 +160,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       //     );
       //   },
       // ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        children: wardrobeItems.map((e) {
-          return FutureBuilder<Post>(
-            future: e,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting ||
-                  !snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
-              }
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              FullPostScreen(post: snapshot.data!)));
-                },
-                child: Container(
-                  margin: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [kSubtleShadow],
-                    borderRadius: BorderRadius.circular(kBorderRadius),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: double.maxFinite,
-                            child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.circular(kBorderRadius - 3),
-                              child: Image.network(
-                                snapshot.data!.imageUrl,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 8, left: 8, right: 8),
-                        child: Text(
-                          snapshot.data!.postedByName,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 2, 8, 12),
-                        child: Text(
-                          "${snapshot.data!.caption}",
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-        }).toList(),
-        // children: wardrobeItems.map((item) {
-        //   return GestureDetector(
-        //     onTap: () {
-        //       Navigator.push(
-        //           context,
-        //           MaterialPageRoute(
-        //               builder: (context) => ExpandedStoryScreen(
-        //                   username: 'vkukreti07',
-        //                   userImageURL:
-        //                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5PkW4fJsvhTn3s9hnv2nSU7a5jkGYsUH9Zl7YOHZKeA&s',
-        //                   storyImageURL: item.imageUrl,
-        //                   likes: 10,
-        //                   comments: 5)));
-        //     },
-        //     child: Container(
-        //       margin: const EdgeInsets.all(8),
-        //       decoration: BoxDecoration(
-        //         color: Colors.white,
-        //         boxShadow: [kSubtleShadow],
-        //         borderRadius: BorderRadius.circular(kBorderRadius),
-        //       ),
-        //       child: Column(
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: [
-        //           Expanded(
-        //             child: Padding(
-        //               padding: const EdgeInsets.all(8.0),
-        //               child: SizedBox(
-        //                 width: double.maxFinite,
-        //                 child: ClipRRect(
-        //                   borderRadius:
-        //                       BorderRadius.circular(kBorderRadius - 3),
-        //                   child: Image.network(
-        //                     item.imageUrl,
-        //                     fit: BoxFit.cover,
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //           Padding(
-        //             padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-        //             child: Text(
-        //               item.postedByName,
-        //               style: TextStyle(
-        //                 color: Colors.black,
-        //                 fontWeight: FontWeight.bold,
-        //               ),
-        //             ),
-        //           ),
-        //           Padding(
-        //             padding: const EdgeInsets.fromLTRB(8, 2, 8, 12),
-        //             child: Text(
-        //               "${item.caption}",
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   );
-        // }).toList(),
-      ),
+      body: Container(),
     );
   }
 }

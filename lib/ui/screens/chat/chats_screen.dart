@@ -4,8 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:closet_app/constants.dart';
 import 'package:closet_app/models/app_user_model.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
-import 'package:closet_app/ui/screens/navigation/chat/contact_search_screen.dart';
-import 'package:closet_app/ui/screens/navigation/chat/group_chat.dart';
+import 'package:closet_app/ui/screens/chat/contact_search_screen.dart';
+import 'package:closet_app/ui/screens/navigation/groups/group_home_screen.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -201,7 +201,7 @@ class _ChatsScreenState extends State<ChatsScreen>
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            GroupChatScreen()));
+                                            GroupHomeScreen()));
                               },
                               leading: CircleAvatar(
                                 backgroundImage:
