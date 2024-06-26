@@ -55,6 +55,9 @@ class ThemeModel {
       selectedItemColor: kSecondaryColor,
       unselectedItemColor: Colors.black.withOpacity(0.5),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+    ),
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey).copyWith(
         background: Color.fromARGB(255, 255, 255, 255),
         primary: Colors.white,

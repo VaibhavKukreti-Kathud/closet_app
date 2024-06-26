@@ -17,6 +17,7 @@ import 'package:closet_app/ui/screens/navigation/groups/group_home_screen.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/mycloset_screen.dart';
 import 'package:closet_app/ui/screens/social/followers_screen.dart';
 import 'package:closet_app/ui/screens/social/following_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
@@ -207,68 +208,92 @@ class _NavigationScreenState extends State<NavigationScreen> {
       //     ),
       //   ),
       // ),
-      bottomNavigationBar: AnimatedNotchBottomBar(
-        notchBottomBarController: notchBottomBarController,
-        bottomBarItems: const <BottomBarItem>[
-          BottomBarItem(
-            inActiveItem: Icon(
-              Iconsax.discover,
-              size: _iconSize,
-              color: Colors.black,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Stack(
+          children: [
+            Positioned(
+              left: 24,
+              right: 24,
+              top: 21.9,
+              child: ClipRRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    height: 56,
+                    color: Theme.of(context)
+                        .scaffoldBackgroundColor
+                        .withOpacity(0.8),
+                  ),
+                ),
+              ),
             ),
-            activeItem: Icon(
-              Iconsax.discover,
-              size: _iconSize,
-              color: Colors.white,
+            AnimatedNotchBottomBar(
+              notchBottomBarController: notchBottomBarController,
+              bottomBarItems: const <BottomBarItem>[
+                BottomBarItem(
+                  inActiveItem: Icon(
+                    Iconsax.discover,
+                    size: _iconSize,
+                    color: Colors.black,
+                  ),
+                  activeItem: Icon(
+                    Iconsax.discover,
+                    size: _iconSize,
+                    color: Colors.white,
+                  ),
+                ),
+                BottomBarItem(
+                  inActiveItem: Icon(
+                    Iconsax.profile_2user,
+                    size: _iconSize,
+                    color: Colors.black,
+                  ),
+                  activeItem: Icon(Iconsax.profile_2user,
+                      size: _iconSize, color: Colors.white),
+                ),
+                BottomBarItem(
+                  inActiveItem: Icon(
+                    Iconsax.add,
+                    size: _iconSize,
+                    color: Colors.black,
+                  ),
+                  activeItem:
+                      Icon(Iconsax.add, size: _iconSize, color: Colors.white),
+                ),
+                BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.bookmark_outline,
+                    size: _iconSize,
+                    color: Colors.black,
+                  ),
+                  activeItem: Icon(Icons.bookmark_outline,
+                      size: _iconSize, color: Colors.white),
+                ),
+                BottomBarItem(
+                  inActiveItem: Icon(
+                    Iconsax.profile_circle,
+                    size: _iconSize,
+                    color: Colors.black,
+                  ),
+                  activeItem: Icon(Iconsax.profile_circle,
+                      size: _iconSize, color: Colors.white),
+                ),
+              ],
+              onTap: (index) {
+                setState(() {
+                  reverse = _selectedIndex < index;
+                  _selectedIndex = index;
+                });
+              },
+              kIconSize: _iconSize ?? 25,
+              kBottomRadius: 30,
+              shadowElevation: 0,
+              color: Theme.of(context).colorScheme.secondary,
+              notchColor: Colors.black,
             ),
-          ),
-          BottomBarItem(
-            inActiveItem: Icon(
-              Iconsax.profile_2user,
-              size: _iconSize,
-              color: Colors.black,
-            ),
-            activeItem: Icon(Iconsax.profile_2user,
-                size: _iconSize, color: Colors.white),
-          ),
-          BottomBarItem(
-            inActiveItem: Icon(
-              Iconsax.add,
-              size: _iconSize,
-              color: Colors.black,
-            ),
-            activeItem: Icon(Iconsax.add, size: _iconSize, color: Colors.white),
-          ),
-          BottomBarItem(
-            inActiveItem: Icon(
-              Icons.bookmark_outline,
-              size: _iconSize,
-              color: Colors.black,
-            ),
-            activeItem: Icon(Icons.bookmark_outline,
-                size: _iconSize, color: Colors.white),
-          ),
-          BottomBarItem(
-            inActiveItem: Icon(
-              Iconsax.profile_circle,
-              size: _iconSize,
-              color: Colors.black,
-            ),
-            activeItem: Icon(Iconsax.profile_circle,
-                size: _iconSize, color: Colors.white),
-          ),
-        ],
-        onTap: (index) {
-          setState(() {
-            reverse = _selectedIndex < index;
-            _selectedIndex = index;
-          });
-        },
-        kIconSize: _iconSize ?? 25,
-        kBottomRadius: 30,
-        shadowElevation: 0,
-        color: Theme.of(context).colorScheme.secondary,
-        notchColor: Colors.black,
+          ],
+        ),
       ),
       body: Stack(
         alignment: Alignment.bottomCenter,

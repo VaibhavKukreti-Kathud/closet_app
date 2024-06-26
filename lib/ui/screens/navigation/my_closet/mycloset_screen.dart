@@ -25,6 +25,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:solar_icons/solar_icons.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -197,7 +198,7 @@ class _MyClosetScreenState extends State<MyClosetScreen>
                         builder: (context) => ProfileSettingsScreen()));
               },
               child: Icon(
-                Icons.settings,
+                SolarIconsOutline.settings,
               ),
             ),
           )
@@ -214,13 +215,124 @@ class _MyClosetScreenState extends State<MyClosetScreen>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Private posts',
-                  style: TextStyle(
-                    color: currTheme.textTheme.bodyMedium!.color,
-                    fontSize: 16,
-                  ),
+                  'Discovery uploads',
+                  style: kSubHeadStyle.copyWith(fontWeight: FontWeight.w600),
                 ),
+                Icon(Icons.arrow_forward_ios_outlined, size: 16),
               ],
+            ),
+          ),
+          SizedBox(height: 24),
+          //scrollable row of private posts
+          SizedBox(
+            height: 217,
+            child: ListView.builder(
+              itemCount: 5,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding:
+                      EdgeInsets.only(right: 12, left: index == 0 ? 16 : 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 160,
+                        width: 160,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(kBorderRadius),
+                          image: DecorationImage(
+                            image: CachedNetworkImageProvider(
+                                'https://www.picsum.photos/200'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      Text('White T-shirt'),
+                      Row(
+                        children: [
+                          Text(
+                            'Size - ',
+                            style: TextStyle(color: Colors.grey.shade600),
+                          ),
+                          SizedBox(width: 4),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Theme.of(context).dividerColor),
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
+                            child: Text(
+                              '12',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ),
+                          SizedBox(width: 6),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Theme.of(context).dividerColor),
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
+                            child: Text(
+                              'XXL',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 32),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Private uploads',
+                  style: kSubHeadStyle.copyWith(fontWeight: FontWeight.w600),
+                ),
+                Icon(Icons.arrow_forward_ios_outlined, size: 16),
+              ],
+            ),
+          ),
+          SizedBox(height: 24),
+          //scrollable row of private posts
+          SizedBox(
+            height: 160,
+            child: ListView.builder(
+              itemCount: 5,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding:
+                      EdgeInsets.only(right: 12, left: index == 0 ? 16 : 0),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(kBorderRadius),
+                        image: DecorationImage(
+                          image: CachedNetworkImageProvider(
+                              'https://www.picsum.photos/200'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           // TabBar(
@@ -299,148 +411,158 @@ class _MyClosetScreenState extends State<MyClosetScreen>
 
   Widget _buildHeaderProfileInfo(BuildContext context) {
     var currTheme = Theme.of(context);
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
+    return Skeletonizer(
+      enabled: currentAppUser == null,
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    XFile? image = await ImagePicker()
+                        .pickImage(source: ImageSource.gallery);
+                    if (image != null) {}
+                  },
+                  child: CircleAvatar(
+                    backgroundImage: CachedNetworkImageProvider(
+                        context.read<UserProvider>().appUser!.pfpUrl ??
+                            'https://www.picsum.photos/300'),
+                    radius: MediaQuery.of(context).size.width / 8,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 16),
+          Text(
+            currentAppUser != null ? currentAppUser!.fullName : 'User',
+            style: TextStyle(
+              color: currTheme.textTheme.bodyMedium!.color,
+              fontSize: 16,
+            ),
+          ),
+          Text(
+            currentAppUser != null
+                ? '@${currentAppUser!.email.split('@').first}'
+                : "@user",
+            style: TextStyle(
+              color: currTheme.textTheme.bodyMedium!.color!.withOpacity(0.6),
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: 16),
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      XFile? image = await ImagePicker()
-                          .pickImage(source: ImageSource.gallery);
-                      if (image != null) {}
-                    },
-                    child: CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(
-                          context.read<UserProvider>().appUser!.pfpUrl ??
-                              'https://www.picsum.photos/300'),
-                      radius: MediaQuery.of(context).size.width / 8,
-                    ),
+              ZoomTapAnimation(
+                onTap: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(kBorderRadius),
+                    color: currTheme.colorScheme.secondary,
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      await ImagePicker()
-                          .pickImage(source: ImageSource.gallery);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Theme.of(context).colorScheme.secondary,
-                        border: Border.all(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          width: 3,
-                        ),
-                      ),
-                      padding: EdgeInsets.all(6),
-                      child:
-                          Icon(Iconsax.edit_2, size: 14, color: Colors.white),
-                    ),
-                  )
-                ],
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Text('Edit profile'),
+                ),
+              ),
+              SizedBox(width: 12),
+              ZoomTapAnimation(
+                onTap: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(kBorderRadius),
+                    color: currTheme.colorScheme.secondary,
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Text('Share profile'),
+                ),
               ),
             ],
           ),
-        ),
-        SizedBox(height: 8),
-        Text(
-          currentAppUser!.fullName,
-          style: TextStyle(
-            color: currTheme.textTheme.bodyMedium!.color,
-            fontSize: 16,
-          ),
-        ),
-        Text(
-          '@${currentAppUser!.email.split('@').first}',
-          style: TextStyle(
-            color: currTheme.textTheme.bodyMedium!.color!.withOpacity(0.6),
-            fontSize: 14,
-          ),
-        ),
-        SizedBox(height: 24),
-        // FutureBuilder(
-        //     future: _firestore
-        //         .collection(FirestoreConstants.USER_COLLECTION)
-        //         .doc(currentAppUser!.id)
-        //         .get(),
-        //     builder: (context, snapshot) {
-        //       if (snapshot.connectionState == ConnectionState.waiting) {
-        //         return CircularProgressIndicator();
-        //       } else if (snapshot.hasError) {
-        //         return Text("Error: ${snapshot.error}");
-        //       }
+          SizedBox(height: 24),
+          // FutureBuilder(
+          //     future: _firestore
+          //         .collection(FirestoreConstants.USER_COLLECTION)
+          //         .doc(currentAppUser!.id)
+          //         .get(),
+          //     builder: (context, snapshot) {
+          //       if (snapshot.connectionState == ConnectionState.waiting) {
+          //         return CircularProgressIndicator();
+          //       } else if (snapshot.hasError) {
+          //         return Text("Error: ${snapshot.error}");
+          //       }
 
-        //       return Row(
-        //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //         children: [
-        //           Expanded(
-        //             child: Column(
-        //               children: [
-        //                 Text(
-        //                   '6',
-        //                   style: TextStyle(
-        //                     color: currTheme.textTheme.bodyMedium!.color,
-        //                     fontSize: 16,
-        //                   ),
-        //                 ),
-        //                 Text(
-        //                   'Posts',
-        //                   style: TextStyle(
-        //                     color: currTheme.textTheme.bodyMedium!.color,
-        //                     fontSize: 12,
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //           ),
-        //           Expanded(
-        //             child: Column(
-        //               children: [
-        //                 Text(
-        //                   '0',
-        //                   style: TextStyle(
-        //                     color: currTheme.textTheme.bodyMedium!.color,
-        //                     fontSize: 16,
-        //                   ),
-        //                 ),
-        //                 Text(
-        //                   'Followers',
-        //                   style: TextStyle(
-        //                     color: currTheme.textTheme.bodyMedium!.color,
-        //                     fontSize: 12,
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //           ),
-        //           Expanded(
-        //             child: Column(
-        //               children: [
-        //                 Text(
-        //                   '0',
-        //                   style: TextStyle(
-        //                     color: currTheme.textTheme.bodyMedium!.color,
-        //                     fontSize: 16,
-        //                   ),
-        //                 ),
-        //                 Text(
-        //                   'Following',
-        //                   style: TextStyle(
-        //                     color: currTheme.textTheme.bodyMedium!.color,
-        //                     fontSize: 12,
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //           ),
-        //         ],
-        //       );
-        //     }),
-      ],
+          //       return Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //         children: [
+          //           Expanded(
+          //             child: Column(
+          //               children: [
+          //                 Text(
+          //                   '6',
+          //                   style: TextStyle(
+          //                     color: currTheme.textTheme.bodyMedium!.color,
+          //                     fontSize: 16,
+          //                   ),
+          //                 ),
+          //                 Text(
+          //                   'Posts',
+          //                   style: TextStyle(
+          //                     color: currTheme.textTheme.bodyMedium!.color,
+          //                     fontSize: 12,
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //           Expanded(
+          //             child: Column(
+          //               children: [
+          //                 Text(
+          //                   '0',
+          //                   style: TextStyle(
+          //                     color: currTheme.textTheme.bodyMedium!.color,
+          //                     fontSize: 16,
+          //                   ),
+          //                 ),
+          //                 Text(
+          //                   'Followers',
+          //                   style: TextStyle(
+          //                     color: currTheme.textTheme.bodyMedium!.color,
+          //                     fontSize: 12,
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //           Expanded(
+          //             child: Column(
+          //               children: [
+          //                 Text(
+          //                   '0',
+          //                   style: TextStyle(
+          //                     color: currTheme.textTheme.bodyMedium!.color,
+          //                     fontSize: 16,
+          //                   ),
+          //                 ),
+          //                 Text(
+          //                   'Following',
+          //                   style: TextStyle(
+          //                     color: currTheme.textTheme.bodyMedium!.color,
+          //                     fontSize: 12,
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ],
+          //       );
+          //     }),
+        ],
+      ),
     );
   }
 }

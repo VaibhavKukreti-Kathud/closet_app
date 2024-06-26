@@ -117,7 +117,7 @@ class _SignInOptionsScreenState extends State<SignInOptionsScreen> {
                     onPressed: () {},
                     icon: Icon(
                       Icons.facebook,
-                      color: Colors.white,
+                      // color: Colors.white,
                     ),
                     text: 'Sign in with Facebook',
                   ),
@@ -137,7 +137,7 @@ class _SignInOptionsScreenState extends State<SignInOptionsScreen> {
                     onPressed: () {},
                     icon: Icon(
                       Icons.apple,
-                      color: Colors.white,
+                      // color: Colors.white,
                     ),
                     text: 'Sign in with Apple',
                   ),

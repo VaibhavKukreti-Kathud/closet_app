@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const double kBorderRadius = 24;
+const double kBorderRadius = 16;
 const Color kPrimaryColor = Color.fromARGB(255, 255, 255, 255);
 const Color kButtonShadowColor = Color.fromARGB(255, 236, 128, 70);
 const Color kSecondaryColor = Color(0xFFedbea2);

@@ -218,7 +218,6 @@ class CustomButton extends StatelessWidget {
             child: icon == null
                 ? Text(
                     text,
-                    style: TextStyle(color: Colors.white),
                   )
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -227,7 +226,6 @@ class CustomButton extends StatelessWidget {
                       SizedBox(width: 4),
                       Text(
                         text,
-                        style: TextStyle(color: Colors.white),
                       )
                     ],
                   ),
