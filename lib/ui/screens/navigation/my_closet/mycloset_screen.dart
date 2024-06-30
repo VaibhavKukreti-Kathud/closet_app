@@ -5,9 +5,11 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:closet_app/constants.dart';
 import 'package:closet_app/models/app_user_model.dart';
+import 'package:closet_app/models/post_model.dart';
 import 'package:closet_app/providers/user_provider.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/all_posts_screen.dart';
 import 'package:closet_app/ui/post/add_post_screen.dart';
+import 'package:closet_app/ui/screens/settings/settings_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +19,7 @@ import 'package:closet_app/ui/constants/style_constants.dart';
 // import 'package:closet_app/ui/screens/navigation/my_closet/categories_grid.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/categories_screen.dart';
 import 'package:closet_app/ui/screens/navigation/my_closet/widgets/posts_list.dart';
-import 'package:closet_app/ui/screens/settings/settings_screen.dart';
+import 'package:closet_app/ui/user_profile/edit_profile_screen.dart';
 // import 'package:closet_app/ui/screens/navigation/widget/post_widget.dart';
 import 'package:closet_app/ui/widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -192,10 +194,8 @@ class _MyClosetScreenState extends State<MyClosetScreen>
             padding: EdgeInsets.only(right: 8.0),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProfileSettingsScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsScreen()));
               },
               child: Icon(
                 SolarIconsOutline.settings,
@@ -233,61 +233,21 @@ class _MyClosetScreenState extends State<MyClosetScreen>
                 return Padding(
                   padding:
                       EdgeInsets.only(right: 12, left: index == 0 ? 16 : 0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 160,
-                        width: 160,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(kBorderRadius),
-                          image: DecorationImage(
-                            image: CachedNetworkImageProvider(
-                                'https://www.picsum.photos/200'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Text('White T-shirt'),
-                      Row(
-                        children: [
-                          Text(
-                            'Size - ',
-                            style: TextStyle(color: Colors.grey.shade600),
-                          ),
-                          SizedBox(width: 4),
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Theme.of(context).dividerColor),
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 3),
-                            child: Text(
-                              '12',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ),
-                          SizedBox(width: 6),
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Theme.of(context).dividerColor),
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 3),
-                            child: Text(
-                              'XXL',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                  child: PostCompactTile(
+                    post: Post(
+                      postId: '1',
+                      imageUrl: 'https://www.picsum.photos/200',
+                      color: 'White',
+                      size: 'XXL',
+                      sizeNumber: 12,
+                      category: 'T-shirt',
+                      caption: 'Something cool',
+                      postedAt: Timestamp.now(),
+                      postedById: currentAppUser!.id,
+                      postedByName: currentAppUser!.fullName ?? 'User',
+                      profilePfp: currentAppUser!.pfpUrl ??
+                          'https://www.picsum.photos/80',
+                    ),
                   ),
                 );
               },
@@ -563,6 +523,69 @@ class _MyClosetScreenState extends State<MyClosetScreen>
           //     }),
         ],
       ),
+    );
+  }
+}
+
+class PostCompactTile extends StatelessWidget {
+  const PostCompactTile({
+    super.key,
+    required post,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: 160,
+          width: 160,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(kBorderRadius),
+            image: DecorationImage(
+              image:
+                  CachedNetworkImageProvider('https://www.picsum.photos/200'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        SizedBox(height: 12),
+        Text('White T-shirt'),
+        Row(
+          children: [
+            Text(
+              'Size - ',
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
+            SizedBox(width: 4),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).dividerColor),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              child: Text(
+                '12',
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
+            SizedBox(width: 6),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).dividerColor),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              child: Text(
+                'XXL',
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

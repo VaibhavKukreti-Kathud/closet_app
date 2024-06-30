@@ -160,7 +160,100 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       //     );
       //   },
       // ),
-      body: Container(),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Discovery',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        side: BorderSide(color: kSeperatorColor),
+                        elevation: 0,
+                        backgroundColor: kPrimaryColor),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Groups',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: GridView.builder(
+              padding: EdgeInsets.all(8.0),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+                childAspectRatio: 0.75,
+              ),
+              itemCount: 7,
+              itemBuilder: (context, index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image:
+                                    NetworkImage('https://picsum.photos/200'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 8.0,
+                            right: 8.0,
+                            child: Icon(Icons.bookmark_border),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    Text(
+                      '@amandachrisperry',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 4.0),
+                    Row(
+                      children: [
+                        Text('Size - '),
+                        Text('12',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(' XXS',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

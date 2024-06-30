@@ -90,7 +90,7 @@ class _CategoricPostsScreenState extends State<CategoricPostsScreen> {
                                       postModel.postedByName,
                                       style: TextStyle(
                                           color: currTheme
-                                              .textTheme.bodyText1!.color,
+                                              .textTheme.bodySmall!.color,
                                           fontSize: 18),
                                     ),
                                   ],
@@ -109,7 +109,7 @@ class _CategoricPostsScreenState extends State<CategoricPostsScreen> {
                                   postModel.caption ?? '',
                                   style: TextStyle(
                                       color:
-                                          currTheme.textTheme.bodyText1!.color,
+                                          currTheme.textTheme.bodySmall!.color,
                                       fontSize: 18),
                                 ),
                               ),
@@ -128,7 +128,7 @@ class _CategoricPostsScreenState extends State<CategoricPostsScreen> {
                                       postModel.likedBy.toString(),
                                       style: TextStyle(
                                           color: currTheme
-                                              .textTheme.bodyText1!.color,
+                                              .textTheme.bodySmall!.color,
                                           fontSize: 18),
                                     ),
                                     SizedBox(
@@ -145,7 +145,7 @@ class _CategoricPostsScreenState extends State<CategoricPostsScreen> {
                                       postModel.comments!.length.toString(),
                                       style: TextStyle(
                                           color: currTheme
-                                              .textTheme.bodyText1!.color,
+                                              .textTheme.bodySmall!.color,
                                           fontSize: 18),
                                     ),
                                   ],

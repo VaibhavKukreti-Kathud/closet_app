@@ -7,7 +7,7 @@ import 'package:closet_app/services/auth/auth_functions.dart';
 import 'package:closet_app/services/favorites/favorites_provider.dart';
 import 'package:closet_app/ui/constants/style_constants.dart';
 import 'package:closet_app/ui/post/full_post_screen.dart';
-import 'package:closet_app/ui/screens/settings/other_user_profile_screen.dart';
+import 'package:closet_app/ui/user_profile/other_user_profile_screen.dart';
 import 'package:closet_app/ui/user_profile/user_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -229,6 +229,34 @@ class _PostWidgetState extends State<PostWidget> {
                               child: IconButton(
                                 icon: Icon(
                                   Iconsax.message,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return FullPostScreen(post: widget.post);
+                                  }));
+                                },
+                              ),
+                            ),
+                            // Text(
+                            //   (widget.post.comments ?? []).length.toString(),
+                            //   style: TextStyle(color: Colors.white),
+                            // ),
+                          ],
+                        ),
+                        SizedBox(width: 8),
+                        Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(color: Colors.white),
+                              ),
+                              child: IconButton(
+                                icon: Icon(
+                                  Iconsax.link,
                                   color: Colors.white,
                                 ),
                                 onPressed: () {

@@ -9,6 +9,9 @@ class Post {
   final String postedByName;
   final String? category;
   final String profilePfp;
+  final String? color;
+  final String? size;
+  final int? sizeNumber;
   final List<dynamic>? likedBy;
   final List<dynamic>? comments;
 
@@ -21,6 +24,9 @@ class Post {
     required this.postedByName,
     required this.category,
     required this.profilePfp,
+    this.color,
+    this.size,
+    this.sizeNumber,
     this.likedBy,
     this.comments,
   });
@@ -34,6 +40,9 @@ class Post {
       postedById: data['postedById'],
       postedByName: data['postedByName'],
       profilePfp: data['profilePfp'],
+      color: data['color'] ?? '',
+      sizeNumber: data['sizeNumber'] ?? 0,
+      size: data['size'] ?? '',
       likedBy: data['likedBy'] ?? [],
       comments: data['comments'] ?? [],
       category: data['category'],
@@ -47,6 +56,9 @@ class Post {
       'imageUrl': imageUrl,
       'postedAt': postedAt,
       'postedById': postedById,
+      'sizeNumber': sizeNumber,
+      'color': color,
+      'size': size,
       'postedByName': postedByName,
       'profilePfp': profilePfp,
       'likedBy': likedBy,

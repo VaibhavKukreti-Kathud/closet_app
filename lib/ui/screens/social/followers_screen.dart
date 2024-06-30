@@ -28,7 +28,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
             title: Text(
               'Followers',
               style: TextStyle(
-                  color: currTheme.textTheme.bodyText1!.color, fontSize: 26),
+                  color: currTheme.textTheme.bodyLarge!.color, fontSize: 26),
             )),
         body: Column(
           children: [

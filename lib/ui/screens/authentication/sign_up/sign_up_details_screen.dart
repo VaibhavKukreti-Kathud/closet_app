@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:closet_app/models/app_user_model.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_options_screen.dart';
 import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +31,7 @@ class _SignUpDetailsScreenState extends State<SignUpDetailsScreen> {
         children: [
           Center(child: IntroBranding()),
           SizedBox(height: 32),
-          Text('Signup',
+          Text('Sign Up',
               style: TextStyle(
                   fontSize: 24,
                   color: Colors.black,
@@ -77,6 +79,8 @@ class _SignUpDetailsScreenState extends State<SignUpDetailsScreen> {
           ),
           SizedBox(height: 32),
           CustomButton(
+            disabled:
+                acceptTerms && _nameFilled && passwordFilled ? false : true,
             onPressed: () {
               try {
                 log(widget.email + _passwordController.text);
@@ -84,9 +88,25 @@ class _SignUpDetailsScreenState extends State<SignUpDetailsScreen> {
                     .createUserWithEmailAndPassword(
                         email: widget.email, password: _passwordController.text)
                     .whenComplete(
-                      () =>
-                          Navigator.popUntil(context, (route) => route.isFirst),
-                    );
+                  () async {
+                    await FirebaseFirestore.instance.collection('users').add(
+                        AppUser(
+                            id: FirebaseAuth.instance.currentUser!.uid,
+                            pfpUrl: null,
+                            fullName: _nameController.text,
+                            email: widget.email,
+                            gender: null,
+                            dob: null,
+                            exactLocation: [],
+                            approxLocation: '',
+                            followers: [],
+                            following: [],
+                            posts: [],
+                            savedPosts: [],
+                            likedPosts: []).toJson());
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                  },
+                );
               } catch (e) {
                 print(e);
               }

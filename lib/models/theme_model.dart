@@ -15,6 +15,7 @@ class ThemeModel {
     dividerColor: Colors.white,
     appBarTheme: AppBarTheme(
         color: Colors.grey.shade600,
+        titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         systemOverlayStyle: SystemUiOverlayStyle.dark),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.grey.shade700,
@@ -49,6 +50,7 @@ class ThemeModel {
         titleTextStyle: TextStyle(
           fontSize: 20,
           color: Colors.black,
+          fontWeight: FontWeight.w600,
         )),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: kPrimaryColor,

@@ -221,9 +221,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                   child: Container(
                     height: 56,
-                    color: Theme.of(context)
-                        .scaffoldBackgroundColor
-                        .withOpacity(0.8),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .scaffoldBackgroundColor
+                            .withOpacity(0.8),
+                        boxShadow: []),
                   ),
                 ),
               ),

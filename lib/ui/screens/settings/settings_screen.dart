@@ -1,168 +1,94 @@
-import 'package:closet_app/ui/screens/authentication/sign_in/sign_in_options_screen.dart';
-import 'package:closet_app/services/local_storage/theme_manager.dart';
-import 'package:closet_app/ui/screens/onboarding/getting_started_screen.dart';
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../navigation/widget/profile_entry_tile.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:solar_icons/solar_icons.dart';
 
-class ProfileSettingsScreen extends StatefulWidget {
-  const ProfileSettingsScreen({super.key});
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
-  @override
-  State<ProfileSettingsScreen> createState() => _ProfileSettingsScreenState();
-}
-
-class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    var currTheme = Theme.of(context);
-    return Consumer<ThemeNotifier>(
-      builder: (context, theme, child) => Scaffold(
-        backgroundColor: currTheme.scaffoldBackgroundColor,
-        appBar: AppBar(
-            scrolledUnderElevation: 0.0,
-            backgroundColor: currTheme.appBarTheme.backgroundColor,
-            title: Text('Settings'),
-            leading: Padding(
-              padding: EdgeInsets.only(left: 8.0),
-              child: Switch(
-                value: currTheme.brightness == Brightness.dark,
-                onChanged: (bool value) {
-                  value ? theme.setDarkMode() : theme.setLightMode();
-                },
-              ),
-            ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(right: 8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GettingStartedScreen()),
-                        (route) => false);
-                  },
-                  child: Icon(
-                    Icons.power_settings_new,
-                    color: Colors.red,
-                    size: 28.0,
-                  ),
-                ),
-              ),
-            ]),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
-          child: ListView(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg'),
-                radius: 54.0,
-              ),
-              SizedBox(
-                height: 16.0,
-              ),
-              Center(
-                child: Text(
-                  'eashan@02',
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: currTheme.textTheme.bodyMedium!.color),
-                ),
-              ),
-              SizedBox(
-                height: 16.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                      style: ButtonStyle(
-                        splashFactory: NoSplash.splashFactory,
-                        overlayColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                      ),
-                      onPressed: () {},
-                      child: Container(
-                          width: 150.0,
-                          height: 60.0,
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              border: Border.all(color: Colors.black)),
-                          child: Center(
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.male,
-                                color: Colors.white,
-                                size: 24.0,
-                              ),
-                              SizedBox(
-                                width: 8.0,
-                              ),
-                              Text(
-                                'Male',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 24.0),
-                              ),
-                            ],
-                          )))),
-                  TextButton(
-                      style: ButtonStyle(
-                        splashFactory: NoSplash.splashFactory,
-                        overlayColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                      ),
-                      onPressed: () {},
-                      child: Container(
-                          width: 150.0,
-                          height: 60.0,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black)),
-                          child: Center(
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.female,
-                                color: Colors.black,
-                                size: 24.0,
-                              ),
-                              SizedBox(
-                                width: 8.0,
-                              ),
-                              Text(
-                                'Female',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 24.0),
-                              ),
-                            ],
-                          )))),
-                ],
-              ),
-              SizedBox(
-                height: 16.0,
-              ),
-              ProfileEntryTile(heading: 'Name', value: 'Eashan Bhardwaj'),
-              ProfileEntryTile(
-                  heading: 'Email', value: 'eashanbhardwaj02@gmail.com'),
-              ProfileEntryTile(heading: 'DOB', value: '02/09/2003'),
-              ProfileEntryTile(
-                  heading: 'Mobile No.', value: '(+91) 7683043484'),
-              ProfileEntryTile(
-                  heading: 'Address', value: ('This is my address ' * 4)),
-              ProfileEntryTile(
-                  heading: 'Country', value: 'United States (USA)'),
-              ProfileEntryTile(heading: 'Language', value: 'English'),
-              ProfileEntryTile(heading: 'Account Type', value: 'Public')
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Settings',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
           ),
         ),
+      ),
+      body: ListView(
+        children: [
+          ListTile(
+            title: Text('Email'),
+            leading: Icon(SolarIconsOutline.letter),
+            onTap: () {
+              Navigator.pushNamed(context, '/email');
+            },
+          ),
+          ListTile(
+            title: Text('Password'),
+            leading: Icon(SolarIconsOutline.password),
+            onTap: () {
+              Navigator.pushNamed(context, '/password');
+            },
+          ),
+          ListTile(
+            title: Text('Location'),
+            leading: Icon(SolarIconsOutline.pointOnMap),
+            onTap: () {
+              Navigator.pushNamed(context, '/location');
+            },
+          ),
+          ListTile(
+            title: Text('Language'),
+            leading: Icon(LineIcons.globeWithAfricaShown),
+            onTap: () {
+              Navigator.pushNamed(context, '/language');
+            },
+          ),
+          ListTile(
+            title: Text('Log out'),
+            leading: Icon(LineIcons.alternateSignOut),
+            onTap: () async {
+              showCupertinoDialog(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                  title: Text('Log out?'),
+                  content: Text(
+                      'Are you sure you want to log out of the application?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/login', (route) => false);
+                      },
+                      child: Text(
+                        'Yes',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

@@ -11,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:solar_icons/solar_icons.dart';
 import 'package:svg_flutter/svg.dart';
 import '../stories_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -171,7 +172,15 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                     ),
                                     Spacer(),
                                     Chip(
-                                      label: Icon(Icons.menu_book_rounded),
+                                      label: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 0, vertical: 2),
+                                        child: Icon(
+                                          SolarIconsOutline.tuning_2,
+                                          size: 17,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                       shape: RoundedRectangleBorder(
                                         side: BorderSide(
                                             color: Colors.grey.shade400),
